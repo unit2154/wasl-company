@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wasl_company_app/core/constants/images.dart';
+import 'package:wasl_company_app/core/widgets/submit_button.dart';
+import 'package:wasl_company_app/core/widgets/text_input.dart';
 import 'package:wasl_company_app/features/auth/presentation_layer/providers/cubit/auth_cubit.dart';
 
 class VerifyOtpScreen extends StatelessWidget {
@@ -10,42 +13,47 @@ class VerifyOtpScreen extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(title: const Text('التحقق من الرمز')),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 20,
-            children: [
-              Text(
-                "التحقق من الرمز",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              TextFormField(
-                controller: context.read<AuthCubit>().otpController,
-                decoration: InputDecoration(
-                  labelText: 'الرمز',
-                  border: OutlineInputBorder(),
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Center(
+                child: Column(
+                  spacing: constraints.maxHeight * 0.028,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // logo
+                    SizedBox(
+                      height: constraints.maxWidth * 0.42,
+                      width: constraints.maxWidth * 0.42,
+                      child: Image.asset(Images.logo),
+                    ),
+
+                    // OTP number
+                    TextInput(
+                      label: 'ادخل الكود',
+                      prefixIcon: Icons.lock,
+                      keyboardType: TextInputType.number,
+                      controller: context.read<AuthCubit>().otpController,
+                      constraints: constraints,
+                    ),
+
+                    // space
+                    SizedBox(height: constraints.maxHeight * 0.048),
+
+                    // verify button
+                    SubmitButton(
+                      constraints: constraints,
+                      text: 'تحقق',
+                      onPressed: () {
+                        context.read<AuthCubit>().verifyOtp();
+                      },
+                    ),
+                  ],
                 ),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  context.read<AuthCubit>().verifyOtp();
-                },
-                child: context.read<AuthCubit>().state is Loading
-                    ? const CircularProgressIndicator()
-                    : Text('التحقق من الرمز'),
-              ),
-              context.read<AuthCubit>().state is VerifyOtpSuccess
-                  ? ElevatedButton(
-                      onPressed: () {
-                        context.read<AuthCubit>().logout();
-                      },
-                      child: Text('تسجيل الخروج'),
-                    )
-                  : const SizedBox.shrink(),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
