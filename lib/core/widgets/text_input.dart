@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
 
 class TextInput extends StatelessWidget {
   final String label;
-  final IconData prefixIcon;
+  final String prefixIcon;
   final TextInputType? keyboardType;
   final TextEditingController controller;
   final BoxConstraints constraints;
@@ -40,7 +41,13 @@ class TextInput extends StatelessWidget {
               color: AppColors.iconBackground,
               borderRadius: BorderRadius.circular(50),
             ),
-            child: Icon(prefixIcon, color: AppColors.primary),
+            child: SvgPicture.asset(
+              prefixIcon,
+              colorFilter: const ColorFilter.mode(
+                AppColors.primary,
+                BlendMode.srcIn,
+              ),
+            ),
           ),
         ),
         prefixIconColor: AppColors.primary,

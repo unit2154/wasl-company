@@ -3,14 +3,16 @@ class AppImages {
 }
 
 class AppIcons {
-  static const String home = 'assets/icons/home.png';
-  static const String orders = 'assets/icons/orders.png';
-  static const String offers = 'assets/icons/offers.png';
-  static const String inventory = 'assets/icons/inventory.png';
-  static const String deals = 'assets/icons/deals.png';
-  static const String homeActive = 'assets/icons/home_active.png';
-  static const String ordersActive = 'assets/icons/orders_active.png';
-  static const String offersActive = 'assets/icons/offers_active.png';
-  static const String inventoryActive = 'assets/icons/inventory_active.png';
-  static const String dealsActive = 'assets/icons/deals_active.png';
+  static const String home = 'assets/icons/Home.svg';
+  static const String orders = 'assets/icons/List.svg';
+  static const String offers = 'assets/icons/Tag.svg';
+  static const String inventory = 'assets/icons/Box.svg';
+  static const String deals = 'assets/icons/Bag.svg';
+  static const String homeActive = 'assets/icons/Home-Active.svg';
+  static const String ordersActive = 'assets/icons/List-Active.svg';
+  static const String offersActive = 'assets/icons/Tag-Active.svg';
+  static const String inventoryActive = 'assets/icons/Box-Active.svg';
+  static const String dealsActive = 'assets/icons/Bag-Active.svg';
+  static const String phone = 'assets/icons/Phone.svg';
+  static const String lock = 'assets/icons/Lock.svg';
 }

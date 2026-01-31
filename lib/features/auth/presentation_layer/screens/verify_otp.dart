@@ -32,7 +32,7 @@ class VerifyOtpScreen extends StatelessWidget {
                     // OTP number
                     TextInput(
                       label: 'ادخل الكود',
-                      prefixIcon: Icons.lock,
+                      prefixIcon: AppIcons.lock,
                       keyboardType: TextInputType.number,
                       controller: context.read<AuthCubit>().otpController,
                       constraints: constraints,

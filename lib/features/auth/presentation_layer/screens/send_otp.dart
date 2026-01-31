@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/core/widgets/submit_button.dart';
 import 'package:wasl_company_app/core/widgets/text_input.dart';
@@ -32,7 +34,7 @@ class SendOtpScreen extends StatelessWidget {
                     // phone number
                     TextInput(
                       label: 'رقم الجوال',
-                      prefixIcon: Icons.phone,
+                      prefixIcon: AppIcons.phone,
                       keyboardType: TextInputType.phone,
                       controller: context.read<AuthCubit>().phoneController,
                       constraints: constraints,

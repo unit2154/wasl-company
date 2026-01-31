@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
+import 'package:wasl_company_app/features/dashboard/presentation_layer/widgets/bottom_nav_bar.dart';
+import 'package:wasl_company_app/features/dashboard/presentation_layer/widgets/side_menu.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -10,31 +12,18 @@ class DashboardScreen extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: AppBar(title: const Text('الرئيسية')),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 2,
-          onTap: (index) {},
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.list_alt),
-              label: 'الطلبات',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.local_offer),
-              label: 'العروض',
-            ),
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'الرئيسية'),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.inventory),
-              label: 'البضاعة',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.cabin),
-              label: 'التعاملات',
-            ),
+        drawer: SideMenu(),
+        bottomNavigationBar: BottomNavBar(currentIndex: 2, onTap: (index) {}),
+        body: IndexedStack(
+          index: 1,
+          children: [
+            const Center(child: Text('الرئيسية')),
+            const Center(child: Text('الطلبات')),
+            const Center(child: Text('العروض')),
+            const Center(child: Text('البضاعة')),
+            const Center(child: Text('التعاملات')),
           ],
-          type: BottomNavigationBarType.fixed,
         ),
-        body: const Center(child: Text('الرئيسية')),
       ),
     );
   }
