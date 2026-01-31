@@ -26,7 +26,7 @@ class SendOtpScreen extends StatelessWidget {
                     SizedBox(
                       height: constraints.maxWidth * 0.42,
                       width: constraints.maxWidth * 0.42,
-                      child: Image.asset(Images.logo),
+                      child: Image.asset(AppImages.logo),
                     ),
 
                     // phone number
@@ -43,6 +43,7 @@ class SendOtpScreen extends StatelessWidget {
 
                     // send button
                     SubmitButton(
+                      isLoading: context.watch<AuthCubit>().state is Loading,
                       constraints: constraints,
                       text: 'إرسال',
                       onPressed: () {

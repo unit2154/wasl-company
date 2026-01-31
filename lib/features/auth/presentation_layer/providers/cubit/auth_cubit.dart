@@ -9,6 +9,7 @@ import 'package:wasl_company_app/features/auth/domain_layer/entities/token_entit
 import 'package:wasl_company_app/core/error/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/entities/user_entity.dart';
+import 'package:wasl_company_app/features/auth/domain_layer/use_cases/get_token.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/use_cases/logout.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/use_cases/send_otp.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/use_cases/verify_otp.dart';
@@ -18,13 +19,28 @@ class AuthCubit extends Cubit<AuthState> {
   final SendOtp send_otp;
   final VerifyOtp verify_otp;
   final Logout log_out;
+  final GetToken get_token;
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController otpController = TextEditingController();
   AuthCubit({
     required this.send_otp,
     required this.verify_otp,
     required this.log_out,
+    required this.get_token,
   }) : super(AuthInitial());
+
+  Future<void> checkLogin() async {
+    emit(CheckAuth());
+    Either<Failure, TokenEntity> result = await get_token();
+    result.fold(
+      (failure) {
+        emit(AuthInitial());
+      },
+      (token) {
+        emit(VerifyOtpSuccess(token: token.token));
+      },
+    );
+  }
 
   Future<void> sendOtp() async {
     emit(Loading());

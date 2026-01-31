@@ -4,6 +4,7 @@ import 'package:wasl_company_app/core/dependencies/locator.dart';
 import 'package:wasl_company_app/features/auth/presentation_layer/providers/cubit/auth_cubit.dart';
 import 'package:wasl_company_app/features/auth/presentation_layer/screens/send_otp.dart';
 import 'package:wasl_company_app/features/auth/presentation_layer/screens/verify_otp.dart';
+import 'package:wasl_company_app/features/dashboard/presentation_layer/screens/dashboard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Almarai',
       ),
       home: BlocProvider(
-        create: (context) => getIt<AuthCubit>(),
+        create: (context) => getIt<AuthCubit>()..checkLogin(),
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             switch (state) {
@@ -46,6 +47,13 @@ class MyApp extends StatelessWidget {
                 ScaffoldMessenger.of(
                   context,
                 ).showSnackBar(SnackBar(content: Text(state.token)));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DashboardScreen(),
+                  ),
+                  (route) => false,
+                );
               case VerifyOtpError():
                 ScaffoldMessenger.of(
                   context,
@@ -67,6 +75,8 @@ class MyApp extends StatelessWidget {
                     state is VerifyOtpError ||
                     state is Loading
                 ? VerifyOtpScreen()
+                : state is CheckAuth
+                ? Scaffold(body: Center(child: CircularProgressIndicator()))
                 : SendOtpScreen();
           },
         ),

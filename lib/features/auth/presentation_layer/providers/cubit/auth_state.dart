@@ -5,6 +5,8 @@ sealed class AuthState {}
 
 final class AuthInitial extends AuthState {}
 
+final class CheckAuth extends AuthState {}
+
 final class Loading extends AuthState {}
 
 final class SendOtpSuccess extends AuthState {

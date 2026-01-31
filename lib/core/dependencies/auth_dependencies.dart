@@ -6,6 +6,7 @@ import 'package:wasl_company_app/core/network/dio_api_consumer.dart';
 import 'package:wasl_company_app/features/auth/data_layer/data_sources/auth_data_source.dart';
 import 'package:wasl_company_app/features/auth/data_layer/repo_impl/auth_repo_impl.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/repo/auth_repo.dart';
+import 'package:wasl_company_app/features/auth/domain_layer/use_cases/get_token.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/use_cases/logout.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/use_cases/send_otp.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/use_cases/verify_otp.dart';
@@ -20,6 +21,7 @@ Future<void> authDependencies() async {
       send_otp: getIt<SendOtp>(),
       verify_otp: getIt<VerifyOtp>(),
       log_out: getIt<Logout>(),
+      get_token: getIt<GetToken>(),
     ),
   );
   getIt.registerLazySingleton<SendOtp>(
@@ -30,6 +32,9 @@ Future<void> authDependencies() async {
   );
   getIt.registerLazySingleton<Logout>(
     () => Logout(authRepo: getIt<AuthRepo>()),
+  );
+  getIt.registerLazySingleton<GetToken>(
+    () => GetToken(authRepo: getIt<AuthRepo>()),
   );
   getIt.registerLazySingleton<AuthRepo>(
     () => AuthRepoImpl(authDataSource: getIt<AuthDataSource>()),

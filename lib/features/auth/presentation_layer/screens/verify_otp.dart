@@ -26,7 +26,7 @@ class VerifyOtpScreen extends StatelessWidget {
                     SizedBox(
                       height: constraints.maxWidth * 0.42,
                       width: constraints.maxWidth * 0.42,
-                      child: Image.asset(Images.logo),
+                      child: Image.asset(AppImages.logo),
                     ),
 
                     // OTP number
@@ -43,6 +43,7 @@ class VerifyOtpScreen extends StatelessWidget {
 
                     // verify button
                     SubmitButton(
+                      isLoading: context.watch<AuthCubit>().state is Loading,
                       constraints: constraints,
                       text: 'تحقق',
                       onPressed: () {
