@@ -10,7 +10,6 @@ abstract class AuthRepo {
   Future<Either<Failure, TokenEntity>> verifyOtp(String phone, String otp);
   Future<Either<Failure, void>> logout();
   Future<Either<Failure, ProfileEntity>> getProfile();
-  Future<Either<Failure, void>> removeProfile();
   Future<Either<Failure, TokenEntity>> getToken();
   Future<Either<Failure, void>> removeToken();
   Future<Either<Failure, UserEntity>> getUser();

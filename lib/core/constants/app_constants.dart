@@ -1,5 +1,5 @@
 class AppConstants {
-  static const String token = 'token';
-  static const String user = 'user';
-  static const String profile = 'profile';
+  static const String tokenBox = 'token';
+  static const String userBox = 'user';
+  static const String profileBox = 'profile';
 }

@@ -1,9 +1,16 @@
+import 'package:hive/hive.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/entities/token_entity.dart';
 
-class TokenModel extends TokenEntity {
-  TokenModel({required super.token});
+part "../../../../core/database/token_model.g.dart";
 
-  factory TokenModel.fromJson(Map<String, dynamic> json) {
+@HiveType(typeId: 1)
+class TokenModel extends TokenEntity {
+  TokenModel({@HiveField(0) required super.token});
+
+  factory TokenModel.fromJson(dynamic json) {
+    if (json is String) {
+      return TokenModel(token: json);
+    }
     return TokenModel(token: json['token']);
   }
 

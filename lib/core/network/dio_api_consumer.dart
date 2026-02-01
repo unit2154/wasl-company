@@ -11,8 +11,16 @@ class DioApiConsumer implements ApiConsumer {
   }
 
   @override
-  Future<dynamic> get(String path, {Map<String, dynamic>? queryParameters}) {
-    return dio.get(path, queryParameters: queryParameters);
+  Future<dynamic> get(
+    String path, {
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? headers,
+  }) {
+    return dio.get(
+      path,
+      queryParameters: data,
+      options: Options(headers: headers),
+    );
   }
 
   @override
@@ -48,7 +56,7 @@ class DioApiConsumer implements ApiConsumer {
   Future<dynamic> delete(
     String path, {
     Map<String, dynamic>? data,
-    Map<String, dynamic>? headers = const {},
+    Map<String, dynamic>? headers,
   }) {
     return dio.delete(
       path,

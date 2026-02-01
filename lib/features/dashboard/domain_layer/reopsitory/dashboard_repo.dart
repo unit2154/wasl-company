@@ -2,5 +2,4 @@ import 'package:wasl_company_app/features/dashboard/domain_layer/entities/widget
 
 abstract class DashboardRepo {
   List<DashboardEntity> getFeature();
-  void goToFeature(int index);
 }

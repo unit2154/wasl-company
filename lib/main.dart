@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wasl_company_app/core/database/hive_db.dart';
 import 'package:wasl_company_app/core/dependencies/locator.dart';
 import 'package:wasl_company_app/features/auth/presentation_layer/providers/cubit/auth_cubit.dart';
 import 'package:wasl_company_app/features/auth/presentation_layer/screens/send_otp.dart';
@@ -8,6 +9,7 @@ import 'package:wasl_company_app/features/dashboard/presentation_layer/screens/d
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initHive();
   await setup();
   runApp(const MyApp());
 }

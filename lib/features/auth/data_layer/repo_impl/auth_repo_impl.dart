@@ -94,14 +94,4 @@ class AuthRepoImpl implements AuthRepo {
       return Left(CacheFailure(message: e.toString()));
     }
   }
-
-  @override
-  Future<Either<Failure, void>> removeProfile() async {
-    try {
-      await authDataSource.removeProfile();
-      return Right(null);
-    } catch (e) {
-      return Left(CacheFailure(message: e.toString()));
-    }
-  }
 }

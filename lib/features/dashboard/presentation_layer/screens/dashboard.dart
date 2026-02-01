@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/features/dashboard/presentation_layer/widgets/bottom_nav_bar.dart';
 import 'package:wasl_company_app/features/dashboard/presentation_layer/widgets/side_menu.dart';
+import 'package:wasl_company_app/features/products/presentation_layer/screens/products_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -18,7 +19,7 @@ class DashboardScreen extends StatelessWidget {
           index: 1,
           children: [
             const Center(child: Text('الرئيسية')),
-            const Center(child: Text('الطلبات')),
+            const ProductsScreen(),
             const Center(child: Text('العروض')),
             const Center(child: Text('البضاعة')),
             const Center(child: Text('التعاملات')),
