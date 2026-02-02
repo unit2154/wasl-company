@@ -7,6 +7,7 @@ class SubmitButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isLoading;
   final bool outline;
+  final Widget? prefixIcon;
   const SubmitButton({
     super.key,
     required this.constraints,
@@ -14,6 +15,7 @@ class SubmitButton extends StatelessWidget {
     required this.onPressed,
     this.isLoading = false,
     this.outline = false,
+    this.prefixIcon,
   });
 
   @override
@@ -29,12 +31,18 @@ class SubmitButton extends StatelessWidget {
       ),
       child: isLoading
           ? const CircularProgressIndicator(color: Colors.white)
-          : Text(
-              text,
-              style: TextStyle(
-                fontSize: constraints.maxWidth * .046,
-                fontWeight: FontWeight.bold,
-              ),
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (prefixIcon != null) ...[prefixIcon!, SizedBox(width: 8)],
+                Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: constraints.maxWidth * .046,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
     );
   }

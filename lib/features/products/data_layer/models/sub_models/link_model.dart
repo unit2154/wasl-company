@@ -2,17 +2,17 @@ import 'package:wasl_company_app/features/products/domain_layer/entities/sub_ent
 
 class LinkModel extends LinkEntity {
   LinkModel({
-    required String? url,
-    required String label,
-    required int? page,
-    required bool active,
-  }) : super(url: url, label: label, page: page, active: active);
+    required super.url,
+    required super.label,
+    required super.page,
+    required super.active,
+  });
 
   factory LinkModel.fromJson(Map<String, dynamic> json) {
     return LinkModel(
-      url: json['url'],
+      url: json['url'] ?? "",
       label: json['label'],
-      page: json['page'],
+      page: json['page'] ?? 0,
       active: json['active'],
     );
   }

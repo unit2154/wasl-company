@@ -26,15 +26,16 @@ class ProductEntity {
   });
 
   Map<String, dynamic> toJson() => {
+    'customer_id': 1,
     'name': name,
     'description': description,
     'sku': sku,
     'price': price,
-    'stockQuantity': stockQuantity,
-    'availabilityStatus': availabilityStatus,
+    'stock_quantity': stockQuantity,
+    'availability_status': availabilityStatus,
     'images': images,
     'unit': unit,
-    'minOrderQuantity': minOrderQuantity,
-    'isActive': isActive,
+    'min_order_quantity': minOrderQuantity,
+    'is_active': isActive,
   };
 }

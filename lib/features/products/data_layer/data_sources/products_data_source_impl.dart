@@ -1,7 +1,8 @@
 import 'package:wasl_company_app/core/constants/endpoints.dart';
+import 'package:wasl_company_app/core/dependencies/locator.dart';
 import 'package:wasl_company_app/core/error/failure.dart';
 import 'package:wasl_company_app/core/network/dio_api_consumer.dart';
-import 'package:wasl_company_app/features/auth/domain_layer/repo/auth_repo.dart';
+import 'package:wasl_company_app/features/auth/domain_layer/entities/token_entity.dart';
 import 'package:wasl_company_app/features/products/data_layer/data_sources/products_data_source.dart';
 import 'package:wasl_company_app/features/products/data_layer/models/product_model.dart';
 import 'package:wasl_company_app/features/products/data_layer/models/products_list_model.dart';
@@ -9,8 +10,8 @@ import 'package:wasl_company_app/features/products/domain_layer/entities/product
 
 class ProductsDataSourceImpl implements ProductsDataSource {
   final DioApiConsumer dio;
-  final AuthRepo authRepo;
-  ProductsDataSourceImpl({required this.dio, required this.authRepo});
+  final TokenEntity token = getIt<TokenEntity>();
+  ProductsDataSourceImpl({required this.dio});
   @override
   Future<ProductModel> addProduct(ProductEntity product) async {
     try {
@@ -20,11 +21,13 @@ class ProductsDataSourceImpl implements ProductsDataSource {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${_getToken()}',
+          'Authorization': 'Bearer ${token.token}',
         },
       );
+      print(response.data);
       return ProductModel.fromJson(response.data);
     } catch (e) {
+      print(e);
       throw ServerFailure(message: e.toString());
     }
   }
@@ -38,7 +41,7 @@ class ProductsDataSourceImpl implements ProductsDataSource {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${_getToken()}',
+          'Authorization': 'Bearer ${token.token}',
         },
       );
     } catch (e) {
@@ -54,12 +57,13 @@ class ProductsDataSourceImpl implements ProductsDataSource {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${_getToken()}',
+          'Authorization': 'Bearer ${token.token}',
         },
+        data: {'page': 1, 'per_page': 100},
       );
       return ProductsListModel.fromJson(response.data);
     } catch (e) {
-      throw ServerFailure(message: e.toString());
+      throw ServerFailure(message: "$e");
     }
   }
 
@@ -71,7 +75,7 @@ class ProductsDataSourceImpl implements ProductsDataSource {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${_getToken()}',
+          'Authorization': 'Bearer ${token.token}',
         },
       );
       return ProductModel.fromJson(response.data);
@@ -89,17 +93,12 @@ class ProductsDataSourceImpl implements ProductsDataSource {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${_getToken()}',
+          'Authorization': 'Bearer ${token.token}',
         },
       );
       return ProductModel.fromJson(response.data);
     } catch (e) {
       throw ServerFailure(message: e.toString());
     }
-  }
-
-  Future<String> _getToken() async {
-    final token = await authRepo.getToken();
-    return token.fold((l) => '', (r) => r.token);
   }
 }

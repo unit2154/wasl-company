@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:wasl_company_app/core/dependencies/locator.dart';
 import 'package:wasl_company_app/core/message/message.dart';
 import 'package:wasl_company_app/features/auth/data_layer/model/sub_model/profile_model.dart';
 import 'package:wasl_company_app/features/auth/data_layer/model/token_model.dart';
@@ -37,6 +38,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthInitial());
       },
       (token) {
+        getIt.registerLazySingleton<TokenEntity>(() => token);
         emit(VerifyOtpSuccess(token: token.token));
       },
     );
@@ -66,6 +68,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(VerifyOtpError(message: failure.message));
       },
       (token) {
+        getIt.registerLazySingleton<TokenEntity>(() => token);
         emit(VerifyOtpSuccess(token: token.token));
       },
     );

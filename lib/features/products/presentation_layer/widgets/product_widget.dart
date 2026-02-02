@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/features/products/domain_layer/entities/product_entity.dart';
+import 'package:wasl_company_app/features/products/presentation_layer/widgets/sub_widgets/product_dialog.dart';
 
 class Product extends StatelessWidget {
   final ProductEntity product;
@@ -13,23 +15,13 @@ class Product extends StatelessWidget {
       onTap: () {
         showDialog(
           context: context,
-          builder: (context) {
-            return Container(
-              width: 219,
-              height: 174,
-              decoration: ShapeDecoration(
-                color: const Color(0xFFFEFEFE),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            );
-          },
+          builder: (context) =>
+              ProductDialog(constraints: constraints, product: product),
         );
       },
       child: Container(
         margin: EdgeInsets.all(6),
-        width: constraints.maxWidth * 0.428,
+        // width: constraints.maxWidth * 0.428,
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
             side: BorderSide(width: 1, color: AppColors.cardBorder),
@@ -53,6 +45,23 @@ class Product extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Center(
                         child: Image.asset("assets/images/item.png"),
+                      ),
+                    ),
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(color: AppColors.cardBorder),
+                        ),
+                        child: SvgPicture.asset(
+                          "assets/icons/Edit.svg",
+                          width: 16,
+                          height: 16,
+                        ),
                       ),
                     ),
                     product.images.isNotEmpty
@@ -93,6 +102,8 @@ class Product extends StatelessWidget {
                   children: [
                     Text(
                       product.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: AppColors.textPrimary,
                         fontSize: (constraints.maxWidth / 390) * 14,
@@ -102,6 +113,8 @@ class Product extends StatelessWidget {
                     SizedBox(height: 2),
                     Text(
                       product.description,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: (constraints.maxWidth / 390) * 12,
@@ -110,11 +123,11 @@ class Product extends StatelessWidget {
                     ),
                     SizedBox(height: 2),
                     Text(
-                      product.price.toString(),
+                      "${product.price} IQD",
                       style: TextStyle(
                         color: product.images.isNotEmpty
                             ? AppColors.textSecondary
-                            : AppColors.textPrimary,
+                            : AppColors.primary,
                       ),
                     ),
                     SizedBox(height: 2),

@@ -6,14 +6,14 @@ import 'package:wasl_company_app/features/products/domain_layer/entities/product
 import 'package:wasl_company_app/features/products/domain_layer/repository/products_repo.dart';
 
 class ProductsRepoImpl implements ProductsRepo {
-  final ProductsDataSource remoteDataSource;
+  final ProductsDataSource productsDataSource;
 
-  ProductsRepoImpl({required this.remoteDataSource});
+  ProductsRepoImpl({required this.productsDataSource});
 
   @override
   Future<Either<Failure, ProductsListEntity>> getProducts() async {
     try {
-      final products = await remoteDataSource.getProducts();
+      final products = await productsDataSource.getProducts();
       return Right(products);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -23,7 +23,7 @@ class ProductsRepoImpl implements ProductsRepo {
   @override
   Future<Either<Failure, ProductEntity>> getProductById(int id) async {
     try {
-      final product = await remoteDataSource.getProductById(id);
+      final product = await productsDataSource.getProductById(id);
       return Right(product);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -35,7 +35,7 @@ class ProductsRepoImpl implements ProductsRepo {
     ProductEntity product,
   ) async {
     try {
-      final addedProduct = await remoteDataSource.addProduct(product);
+      final addedProduct = await productsDataSource.addProduct(product);
       return Right(addedProduct);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -47,7 +47,7 @@ class ProductsRepoImpl implements ProductsRepo {
     ProductEntity product,
   ) async {
     try {
-      final updatedProduct = await remoteDataSource.updateProduct(product);
+      final updatedProduct = await productsDataSource.updateProduct(product);
       return Right(updatedProduct);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -57,7 +57,7 @@ class ProductsRepoImpl implements ProductsRepo {
   @override
   Future<Either<Failure, void>> deleteProduct(int id) async {
     try {
-      await remoteDataSource.deleteProduct(id);
+      await productsDataSource.deleteProduct(id);
       return Right(null);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));

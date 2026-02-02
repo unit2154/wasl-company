@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
+import 'package:wasl_company_app/core/dependencies/locator.dart';
 import 'package:wasl_company_app/core/widgets/submit_button.dart';
 import 'package:wasl_company_app/features/products/domain_layer/entities/product_entity.dart';
+import 'package:wasl_company_app/features/products/presentation_layer/providers/cubit/products_list_cubit.dart';
+import 'package:wasl_company_app/features/products/presentation_layer/screens/add_product_screen.dart';
 import 'package:wasl_company_app/features/products/presentation_layer/widgets/product_widget.dart';
 
 class ProductsScreen extends StatelessWidget {
@@ -9,72 +13,90 @@ class ProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Column(
-          children: [
-            SizedBox(
-              height: constraints.maxHeight * 0.9,
-              child: GridView.builder(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
-                ),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisExtent: 229,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  List<ProductEntity> products = [
-                    ProductEntity(
-                      id: 1,
-                      name: "اسم المنتج",
-                      description: "وصف مختصر",
-                      price: "100",
-                      images: "",
-                      sku: '',
-                      stockQuantity: 10,
-                      availabilityStatus: '',
-                      unit: '',
-                      minOrderQuantity: '',
-                      isActive: true,
-                    ),
-                    ProductEntity(
-                      id: 1,
-                      name: "معكرونة",
-                      description: "وصف مختصر",
-                      price: "200",
-                      images: "",
-                      sku: '',
-                      stockQuantity: 10,
-                      availabilityStatus: '',
-                      unit: '',
-                      minOrderQuantity: '',
-                      isActive: true,
-                    ),
-                  ];
-                  return Product(
-                    product: products[index],
-                    constraints: constraints,
-                  );
-                },
-              ),
+    return BlocProvider(
+      create: (context) => getIt<ProductsListCubit>()..getProducts(),
+      child: BlocBuilder<ProductsListCubit, ProductsListState>(
+        builder: (context, state) {
+          return switch (state) {
+            ProductsListInitial() => const Center(
+              child: CircularProgressIndicator(),
             ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: constraints.maxWidth * 0.85,
-              child: SubmitButton(
-                constraints: constraints,
-                text: "اضافة منتج جديد",
-                onPressed: () {},
-              ),
+            ProductsListLoading() => const Center(
+              child: CircularProgressIndicator(),
             ),
-          ],
-        );
-      },
+            ProductsListLoaded() => LayoutBuilder(
+              builder: (context, constraints) {
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: constraints.maxHeight * 0.9,
+                      child: state.productsList.isNotEmpty
+                          ? GridView.builder(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 10,
+                              ),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    // mainAxisExtent: 229,
+                                    childAspectRatio: 0.77,
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
+                                  ),
+                              itemCount: state.productsList.length,
+                              itemBuilder: (context, index) {
+                                return Product(
+                                  product: state.productsList[index],
+                                  constraints: constraints,
+                                );
+                              },
+                            )
+                          : const Center(
+                              child: Text(
+                                "لا يوجد منتجات",
+                                style: TextStyle(
+                                  color: AppColors.textSecondary,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      height: constraints.maxHeight * 0.07,
+                      width: constraints.maxWidth * 0.85,
+                      child: SubmitButton(
+                        constraints: constraints,
+                        prefixIcon: Icon(
+                          Icons.add,
+                          size: 25,
+                          color: Colors.white,
+                        ),
+                        text: "اضافة منتج",
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const AddProductScreen(),
+                            ),
+                          ).then((value) {
+                            getIt<ProductsListCubit>().updateProducts([value]);
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+            ProductsListError() => Center(child: Text(state.error)),
+            ProductsListUpdate() => Center(
+              child: const Text("تم تحديث المنتجات"),
+            ),
+          };
+        },
+      ),
     );
   }
 }
