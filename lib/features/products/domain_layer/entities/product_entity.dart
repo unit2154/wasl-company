@@ -32,10 +32,10 @@ class ProductEntity {
     'sku': sku,
     'price': price,
     'stock_quantity': stockQuantity,
-    'availability_status': availabilityStatus,
-    'images': images,
+    'availability_status': "available",
+    'images': [],
     'unit': unit,
     'min_order_quantity': minOrderQuantity,
-    'is_active': isActive,
+    'is_active': isActive ? 1 : 0,
   };
 }

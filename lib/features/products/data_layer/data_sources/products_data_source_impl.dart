@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:wasl_company_app/core/constants/endpoints.dart';
 import 'package:wasl_company_app/core/dependencies/locator.dart';
 import 'package:wasl_company_app/core/error/failure.dart';
@@ -26,8 +27,8 @@ class ProductsDataSourceImpl implements ProductsDataSource {
       );
       print(response.data);
       return ProductModel.fromJson(response.data);
-    } catch (e) {
-      print(e);
+    } on DioException catch (e) {
+      print(e.response?.data);
       throw ServerFailure(message: e.toString());
     }
   }
@@ -61,8 +62,10 @@ class ProductsDataSourceImpl implements ProductsDataSource {
         },
         data: {'page': 1, 'per_page': 100},
       );
+      print(response.data);
       return ProductsListModel.fromJson(response.data);
     } catch (e) {
+      print(e);
       throw ServerFailure(message: "$e");
     }
   }

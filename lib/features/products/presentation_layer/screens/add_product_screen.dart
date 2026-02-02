@@ -109,22 +109,24 @@ class AddProductScreen extends StatelessWidget {
                         const SizedBox(height: 10),
                         BlocConsumer<AddProductCubit, AddProductState>(
                           listener: (context, state) {
-                            switch (state.runtimeType) {
-                              case AddProductLoading:
+                            switch (state) {
+                              case AddProductLoading():
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text("جاري الحفظ")),
                                 );
                                 break;
-                              case AddProductSuccess:
+                              case AddProductSuccess():
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text("تم الحفظ")),
                                 );
                                 Navigator.pop(context);
                                 break;
-                              case AddProductError:
+                              case AddProductError():
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text("حدث خطأ")),
                                 );
+                                break;
+                              default:
                                 break;
                             }
                           },
