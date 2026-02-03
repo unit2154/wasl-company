@@ -2,7 +2,7 @@ class ProductEntity {
   int id;
   String name;
   String description;
-  String sku;
+  String? sku;
   String price;
   int stockQuantity;
   String availabilityStatus;
@@ -15,7 +15,7 @@ class ProductEntity {
     required this.id,
     required this.name,
     required this.description,
-    required this.sku,
+    this.sku,
     required this.price,
     required this.stockQuantity,
     required this.availabilityStatus,
@@ -26,7 +26,7 @@ class ProductEntity {
   });
 
   Map<String, dynamic> toJson() => {
-    'customer_id': 1,
+    'customer_id': "1",
     'name': name,
     'description': description,
     'sku': sku,

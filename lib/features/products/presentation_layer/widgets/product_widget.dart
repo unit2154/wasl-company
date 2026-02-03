@@ -2,21 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/features/products/domain_layer/entities/product_entity.dart';
-import 'package:wasl_company_app/features/products/presentation_layer/widgets/sub_widgets/product_dialog.dart';
+import 'package:wasl_company_app/features/products/presentation_layer/screens/products_screen.dart';
 
 class Product extends StatelessWidget {
   final ProductEntity product;
   final BoxConstraints constraints;
-  const Product({super.key, required this.product, required this.constraints});
+  final BuildContext cubitContext;
+  const Product({
+    super.key,
+    required this.product,
+    required this.constraints,
+    required this.cubitContext,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         showDialog(
-          context: context,
-          builder: (context) =>
-              ProductDialog(constraints: constraints, product: product),
+          context: cubitContext,
+          builder: (dialogContext) => ProductDialog(
+            constraints: constraints,
+            product: product,
+            cubitContext: cubitContext,
+          ),
         );
       },
       child: Container(
@@ -64,20 +73,20 @@ class Product extends StatelessWidget {
                         ),
                       ),
                     ),
-                    product.images.isNotEmpty
+                    product.availabilityStatus == "discontinued"
                         ? Positioned(
                             top: -3,
-                            left: -29,
+                            left: -32,
                             child: Transform.rotate(
                               angle: -0.8, // -45 degrees in radians
                               child: Container(
                                 padding: EdgeInsets.symmetric(
-                                  vertical: 6,
+                                  vertical: 7,
                                   horizontal: 30,
                                 ),
                                 color: Colors.red,
                                 child: Text(
-                                  "offer%",
+                                  "offer",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -125,8 +134,8 @@ class Product extends StatelessWidget {
                     Text(
                       "${product.price} IQD",
                       style: TextStyle(
-                        color: product.images.isNotEmpty
-                            ? AppColors.textSecondary
+                        color: product.availabilityStatus == "discontinued"
+                            ? Colors.red
                             : AppColors.primary,
                       ),
                     ),

@@ -25,10 +25,8 @@ class ProductsDataSourceImpl implements ProductsDataSource {
           'Authorization': 'Bearer ${token.token}',
         },
       );
-      print(response.data);
       return ProductModel.fromJson(response.data);
     } on DioException catch (e) {
-      print(e.response?.data);
       throw ServerFailure(message: e.toString());
     }
   }
@@ -62,10 +60,8 @@ class ProductsDataSourceImpl implements ProductsDataSource {
         },
         data: {'page': 1, 'per_page': 100},
       );
-      print(response.data);
       return ProductsListModel.fromJson(response.data);
     } catch (e) {
-      print(e);
       throw ServerFailure(message: "$e");
     }
   }
@@ -92,7 +88,11 @@ class ProductsDataSourceImpl implements ProductsDataSource {
     try {
       final response = await dio.put(
         '${Endpoints.products}/${product.id}',
-        data: product.toJson(),
+        data: {
+          "name": product.name,
+          "price": product.price,
+          "stock_quantity": product.stockQuantity,
+        },
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -100,7 +100,7 @@ class ProductsDataSourceImpl implements ProductsDataSource {
         },
       );
       return ProductModel.fromJson(response.data);
-    } catch (e) {
+    } on DioException catch (e) {
       throw ServerFailure(message: e.toString());
     }
   }

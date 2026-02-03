@@ -4,13 +4,13 @@ import 'package:wasl_company_app/features/products/domain_layer/entities/product
 class ProductModel extends ProductEntity {
   final String createdAt;
   final String updatedAt;
-  final String deletedAt;
+  final String? deletedAt;
   final ProfileModel profile;
   ProductModel({
     required super.id,
     required super.name,
     required super.description,
-    required super.sku,
+    super.sku,
     required super.price,
     required super.stockQuantity,
     required super.availabilityStatus,
@@ -39,11 +39,12 @@ class ProductModel extends ProductEntity {
       isActive: json['is_active'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
-      deletedAt: json['deleted_at'] ?? "",
+      deletedAt: json['deleted_at'],
       profile: ProfileModel.fromJson(json['customer']),
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,

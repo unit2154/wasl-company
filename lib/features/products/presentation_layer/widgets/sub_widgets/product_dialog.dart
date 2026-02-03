@@ -1,19 +1,13 @@
-import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wasl_company_app/core/constants/colors.dart';
-import 'package:wasl_company_app/core/dependencies/locator.dart';
-import 'package:wasl_company_app/features/dashboard/presentation_layer/screens/dashboard.dart';
-import 'package:wasl_company_app/features/products/domain_layer/entities/product_entity.dart';
-import 'package:wasl_company_app/features/products/presentation_layer/providers/cubit/products_list_cubit.dart';
-import 'package:wasl_company_app/features/products/presentation_layer/screens/add_product_screen.dart';
+part of "../../screens/products_screen.dart";
 
 class ProductDialog extends StatelessWidget {
   final ProductEntity product;
+  final BuildContext cubitContext;
   const ProductDialog({
     super.key,
     required this.constraints,
     required this.product,
+    required this.cubitContext,
   });
 
   final BoxConstraints constraints;
@@ -25,7 +19,7 @@ class ProductDialog extends StatelessWidget {
         width: 219,
         height: 174,
         decoration: ShapeDecoration(
-          color: const Color(0xFFFEFEFE),
+          color: AppColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -35,6 +29,9 @@ class ProductDialog extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () {
+                cubitContext.read<ProductsListCubit>().deleteProduct(
+                  product.id,
+                );
                 Navigator.pop(context);
               },
               child: Text(
@@ -67,12 +64,12 @@ class ProductDialog extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AddProductScreen(product: product),
+                    builder: (_) => BlocProvider.value(
+                      value: cubitContext.read<ProductsListCubit>(),
+                      child: AddProductScreen(product: product),
+                    ),
                   ),
-                ).then((value) {
-                  print("====================================");
-                });
-                getIt<ProductsListCubit>().updateProducts([]);
+                );
               },
               child: Text(
                 "تعديل معلومات المنتج",

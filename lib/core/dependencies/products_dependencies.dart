@@ -6,13 +6,19 @@ import 'package:wasl_company_app/features/products/data_layer/data_sources/produ
 import 'package:wasl_company_app/features/products/data_layer/repository/products_reop_impl.dart';
 import 'package:wasl_company_app/features/products/domain_layer/repository/products_repo.dart';
 import 'package:wasl_company_app/features/products/domain_layer/usecases/add_product.dart';
+import 'package:wasl_company_app/features/products/domain_layer/usecases/delete_product.dart';
 import 'package:wasl_company_app/features/products/domain_layer/usecases/get_products.dart';
-import 'package:wasl_company_app/features/products/presentation_layer/providers/cubit/add_product_cubit.dart';
+import 'package:wasl_company_app/features/products/domain_layer/usecases/update_product.dart';
 import 'package:wasl_company_app/features/products/presentation_layer/providers/cubit/products_list_cubit.dart';
 
 Future<void> productsDependencies() async {
   getIt.registerFactory<ProductsListCubit>(
-    () => ProductsListCubit(getIt<GetProductsUseCase>()),
+    () => ProductsListCubit(
+      getProductsUseCase: getIt<GetProductsUseCase>(),
+      addProductUseCase: getIt<AddProductUseCase>(),
+      updateProductUseCase: getIt<UpdateProductUseCase>(),
+      deleteProductUseCase: getIt<DeleteProductUseCase>(),
+    ),
   );
   getIt.registerLazySingleton<GetProductsUseCase>(
     () => GetProductsUseCase(getIt<ProductsRepo>()),
@@ -26,10 +32,13 @@ Future<void> productsDependencies() async {
   getIt.registerLazySingleton<DioApiConsumer>(
     () => DioApiConsumer(dio: getIt<Dio>()),
   );
-  getIt.registerFactory<AddProductCubit>(
-    () => AddProductCubit(getIt<AddProductUseCase>()),
-  );
   getIt.registerLazySingleton<AddProductUseCase>(
     () => AddProductUseCase(getIt<ProductsRepo>()),
+  );
+  getIt.registerLazySingleton<UpdateProductUseCase>(
+    () => UpdateProductUseCase(getIt<ProductsRepo>()),
+  );
+  getIt.registerLazySingleton<DeleteProductUseCase>(
+    () => DeleteProductUseCase(getIt<ProductsRepo>()),
   );
 }

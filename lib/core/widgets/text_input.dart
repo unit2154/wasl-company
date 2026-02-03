@@ -3,14 +3,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
 
 class TextInput extends StatelessWidget {
-  final String label;
+  final String? label;
   final String? prefixIcon;
   final TextInputType? keyboardType;
   final TextEditingController controller;
   final BoxConstraints constraints;
   const TextInput({
     super.key,
-    required this.label,
+    this.label,
     this.prefixIcon,
     this.keyboardType,
     required this.controller,

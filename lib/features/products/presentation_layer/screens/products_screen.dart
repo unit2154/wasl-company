@@ -8,6 +8,8 @@ import 'package:wasl_company_app/features/products/presentation_layer/providers/
 import 'package:wasl_company_app/features/products/presentation_layer/screens/add_product_screen.dart';
 import 'package:wasl_company_app/features/products/presentation_layer/widgets/product_widget.dart';
 
+part "../widgets/sub_widgets/product_dialog.dart";
+
 class ProductsScreen extends StatelessWidget {
   const ProductsScreen({super.key});
 
@@ -15,17 +17,30 @@ class ProductsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<ProductsListCubit>()..getProducts(),
-      child: BlocBuilder<ProductsListCubit, ProductsListState>(
+      child: BlocConsumer<ProductsListCubit, ProductsListState>(
+        listener: (context, state) {
+          if (state is DeleteProductLoading) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text("جاري حذف المنتج")));
+          } else if (state is DeleteProductSuccess) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text("تم حذف المنتج")));
+          } else if (state is DeleteProductError) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.error)));
+          }
+        },
         builder: (context, state) {
-          return switch (state) {
-            ProductsListInitial() => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            ProductsListLoading() => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            ProductsListLoaded() => LayoutBuilder(
-              builder: (context, constraints) {
+          if (state is ProductsListInitial) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is ProductsListLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is ProductsListLoaded) {
+            return LayoutBuilder(
+              builder: (_, constraints) {
                 return Column(
                   children: [
                     SizedBox(
@@ -45,10 +60,11 @@ class ProductsScreen extends StatelessWidget {
                                     mainAxisSpacing: 10,
                                   ),
                               itemCount: state.productsList.length,
-                              itemBuilder: (context, index) {
+                              itemBuilder: (_, index) {
                                 return Product(
                                   product: state.productsList[index],
                                   constraints: constraints,
+                                  cubitContext: context,
                                 );
                               },
                             )
@@ -78,23 +94,26 @@ class ProductsScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const AddProductScreen(),
+                              builder: (_) => BlocProvider.value(
+                                value: context.read<ProductsListCubit>(),
+                                child: const AddProductScreen(),
+                              ),
                             ),
-                          ).then((value) {
-                            getIt<ProductsListCubit>().updateProducts([value]);
-                          });
+                          );
                         },
                       ),
                     ),
                   ],
                 );
               },
-            ),
-            ProductsListError() => Center(child: Text(state.error)),
-            ProductsListUpdate() => Center(
-              child: const Text("تم تحديث المنتجات"),
-            ),
-          };
+            );
+          } else if (state is ProductsListError) {
+            return Center(child: Text(state.error));
+          } else if (state is ProductsListUpdate) {
+            return Center(child: const Text("تم تحديث المنتجات"));
+          } else {
+            return const SizedBox();
+          }
         },
       ),
     );
