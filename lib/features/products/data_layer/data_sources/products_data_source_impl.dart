@@ -14,6 +14,53 @@ class ProductsDataSourceImpl implements ProductsDataSource {
   final TokenEntity token = getIt<TokenEntity>();
   ProductsDataSourceImpl({required this.dio});
   @override
+  Future<ProductsListModel> getProducts() async {
+    try {
+      final response = await dio.get(
+        Endpoints.products,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${token.token}',
+        },
+        data: {'page': 1, 'per_page': 100},
+      );
+      return ProductsListModel.fromJson(response.data);
+    } on DioException catch (e) {
+      throw ServerFailure(
+        message:
+            e.response?.data['message'] ??
+            e.response?.data['error'] ??
+            e.response?.data.toString() ??
+            e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<ProductModel> getProductById(int id) async {
+    try {
+      final response = await dio.get(
+        '${Endpoints.products}/$id',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${token.token}',
+        },
+      );
+      return ProductModel.fromJson(response.data);
+    } on DioException catch (e) {
+      throw ServerFailure(
+        message:
+            e.response?.data['message'] ??
+            e.response?.data['error'] ??
+            e.response?.data.toString() ??
+            e.toString(),
+      );
+    }
+  }
+
+  @override
   Future<ProductModel> addProduct(ProductEntity product) async {
     try {
       final response = await dio.post(
@@ -35,51 +82,20 @@ class ProductsDataSourceImpl implements ProductsDataSource {
   Future<void> deleteProduct(int id) async {
     try {
       await dio.delete(
-        Endpoints.products,
-        data: {'id': id},
+        "${Endpoints.products}/$id",
         headers: {
-          'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer ${token.token}',
         },
       );
-    } catch (e) {
-      throw ServerFailure(message: e.toString());
-    }
-  }
-
-  @override
-  Future<ProductsListModel> getProducts() async {
-    try {
-      final response = await dio.get(
-        Endpoints.products,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${token.token}',
-        },
-        data: {'page': 1, 'per_page': 100},
+    } on DioException catch (e) {
+      throw ServerFailure(
+        message:
+            e.response?.data['message'] ??
+            e.response?.data['error'] ??
+            e.response?.data['errors'] ??
+            e.toString(),
       );
-      return ProductsListModel.fromJson(response.data);
-    } catch (e) {
-      throw ServerFailure(message: "$e");
-    }
-  }
-
-  @override
-  Future<ProductModel> getProductById(int id) async {
-    try {
-      final response = await dio.get(
-        '${Endpoints.products}/$id',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${token.token}',
-        },
-      );
-      return ProductModel.fromJson(response.data);
-    } catch (e) {
-      throw ServerFailure(message: e.toString());
     }
   }
 
@@ -101,7 +117,13 @@ class ProductsDataSourceImpl implements ProductsDataSource {
       );
       return ProductModel.fromJson(response.data);
     } on DioException catch (e) {
-      throw ServerFailure(message: e.toString());
+      throw ServerFailure(
+        message:
+            e.response?.data['message'] ??
+            e.response?.data['error'] ??
+            e.response?.data.toString() ??
+            e.toString(),
+      );
     }
   }
 }

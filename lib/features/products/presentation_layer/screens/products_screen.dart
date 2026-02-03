@@ -18,6 +18,8 @@ class ProductsScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<ProductsListCubit>()..getProducts(),
       child: BlocConsumer<ProductsListCubit, ProductsListState>(
+        listenWhen: (previous, current) =>
+            current is DeleteProductLoading || previous is DeleteProductLoading,
         listener: (context, state) {
           if (state is DeleteProductLoading) {
             ScaffoldMessenger.of(
@@ -33,6 +35,10 @@ class ProductsScreen extends StatelessWidget {
             ).showSnackBar(SnackBar(content: Text(state.error)));
           }
         },
+        buildWhen: (previous, current) =>
+            current is ProductsListLoading ||
+            previous is ProductsListLoading ||
+            previous is AddProductSuccess,
         builder: (context, state) {
           if (state is ProductsListInitial) {
             return const Center(child: CircularProgressIndicator());
@@ -54,8 +60,7 @@ class ProductsScreen extends StatelessWidget {
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
-                                    // mainAxisExtent: 229,
-                                    childAspectRatio: 0.77,
+                                    childAspectRatio: 0.8,
                                     crossAxisSpacing: 10,
                                     mainAxisSpacing: 10,
                                   ),

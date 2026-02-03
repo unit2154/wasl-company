@@ -76,15 +76,15 @@ class ProductsListCubit extends Cubit<ProductsListState> {
     final result = await updateProductUseCase(product);
     result.fold((l) => emit(AddProductError(l.message)), (r) {
       emit(AddProductSuccess());
-      // emit(ProductsListLoaded(products));
     });
   }
 
   Future<void> deleteProduct(int id) async {
-    emit(AddProductLoading());
+    print("deleting product with id : $id");
+    emit(DeleteProductLoading());
     final result = await deleteProductUseCase(id);
-    result.fold((l) => emit(AddProductError(l.message)), (r) {
-      emit(AddProductSuccess());
+    result.fold((l) => emit(DeleteProductError(l.message)), (r) {
+      emit(DeleteProductSuccess());
       getProducts();
     });
   }

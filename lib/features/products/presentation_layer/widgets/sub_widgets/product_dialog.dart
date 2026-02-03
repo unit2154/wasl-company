@@ -29,10 +29,10 @@ class ProductDialog extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () {
+                Navigator.pop(context);
                 cubitContext.read<ProductsListCubit>().deleteProduct(
                   product.id,
                 );
-                Navigator.pop(context);
               },
               child: Text(
                 "حذف المنتج",
