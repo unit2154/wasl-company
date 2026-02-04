@@ -1,14 +1,14 @@
-import 'package:wasl_company_app/features/products/domain_layer/entities/product_entity.dart';
 import 'package:wasl_company_app/core/entites/link_entity.dart';
+import 'package:wasl_company_app/features/ordres/domain_layer/entities/order_entity.dart';
 
-class ProductsListEntity {
+class OrdersListEntity {
   final int currentPage;
-  final List<ProductEntity> products;
+  final List<OrderEntity>? orders;
   final String firstPageUrl;
   final int? from;
   final int lastPage;
   final String lastPageUrl;
-  final List<LinkEntity> links;
+  final List<LinkEntity>? links;
   final String? nextPageUrl;
   final String path;
   final int perPage;
@@ -16,14 +16,14 @@ class ProductsListEntity {
   final int? to;
   final int total;
 
-  ProductsListEntity({
+  OrdersListEntity({
     required this.currentPage,
-    required this.products,
+    this.orders,
     required this.firstPageUrl,
     required this.from,
     required this.lastPage,
     required this.lastPageUrl,
-    required this.links,
+    this.links,
     required this.nextPageUrl,
     required this.path,
     required this.perPage,

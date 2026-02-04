@@ -5,7 +5,7 @@ class ProductModel extends ProductEntity {
   final String createdAt;
   final String updatedAt;
   final String? deletedAt;
-  final ProfileModel profile;
+  final ProfileModel? profile;
   ProductModel({
     required super.id,
     required super.name,
@@ -14,14 +14,14 @@ class ProductModel extends ProductEntity {
     required super.price,
     required super.stockQuantity,
     required super.availabilityStatus,
-    required super.images,
+    super.images,
     required super.unit,
     required super.minOrderQuantity,
     required super.isActive,
     required this.createdAt,
     required this.updatedAt,
     required this.deletedAt,
-    required this.profile,
+    this.profile,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -33,14 +33,16 @@ class ProductModel extends ProductEntity {
       price: json['price'],
       stockQuantity: json['stock_quantity'],
       availabilityStatus: json['availability_status'],
-      images: json['images'] ?? "",
+      images: json['images'] ?? [],
       unit: json['unit'],
       minOrderQuantity: json['min_order_quantity'],
       isActive: json['is_active'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
       deletedAt: json['deleted_at'],
-      profile: ProfileModel.fromJson(json['customer']),
+      profile: json['customer'] != null
+          ? ProfileModel.fromJson(json['customer'])
+          : null,
     );
   }
 
@@ -61,7 +63,7 @@ class ProductModel extends ProductEntity {
       'created_at': createdAt,
       'updated_at': updatedAt,
       'deleted_at': deletedAt,
-      'customer': profile.toJson(),
+      'customer': profile!.toJson(),
     };
   }
 }

@@ -1,16 +1,16 @@
-import 'package:wasl_company_app/features/products/data_layer/models/product_model.dart';
 import 'package:wasl_company_app/core/models/link_model.dart';
-import 'package:wasl_company_app/features/products/domain_layer/entities/products_list_entity.dart';
+import 'package:wasl_company_app/features/ordres/data_layer/models/order_model.dart';
+import 'package:wasl_company_app/features/ordres/domain_layer/entities/orders_list_entity.dart';
 
-class ProductsListModel extends ProductsListEntity {
-  ProductsListModel({
+class OrdersListModel extends OrdersListEntity {
+  OrdersListModel({
     required super.currentPage,
-    required List<ProductModel> super.products,
+    super.orders,
     required super.firstPageUrl,
     required super.from,
     required super.lastPage,
     required super.lastPageUrl,
-    required List<LinkModel> super.links,
+    super.links,
     required super.nextPageUrl,
     required super.path,
     required super.perPage,
@@ -19,17 +19,19 @@ class ProductsListModel extends ProductsListEntity {
     required super.total,
   });
 
-  factory ProductsListModel.fromJson(Map<String, dynamic> json) {
-    return ProductsListModel(
+  factory OrdersListModel.fromJson(Map<String, dynamic> json) {
+    return OrdersListModel(
       currentPage: json['current_page'],
-      products: (json['data'] as List)
-          .map((e) => ProductModel.fromJson(e))
+      orders: (json['data']! as List)
+          .map((e) => OrderModel.fromJson(e))
           .toList(),
       firstPageUrl: json['first_page_url'],
       from: json['from'] ?? 0,
       lastPage: json['last_page'],
       lastPageUrl: json['last_page_url'],
-      links: (json['links'] as List).map((e) => LinkModel.fromJson(e)).toList(),
+      links: (json['links']! as List)
+          .map((e) => LinkModel.fromJson(e))
+          .toList(),
       nextPageUrl: json['next_page_url'],
       path: json['path'],
       perPage: json['per_page'],

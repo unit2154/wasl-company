@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/features/dashboard/presentation_layer/widgets/bottom_nav_bar.dart';
-import 'package:wasl_company_app/features/dashboard/presentation_layer/widgets/side_menu.dart';
+import 'package:wasl_company_app/features/ordres/presentation_layer/screens/orders_screen.dart';
 import 'package:wasl_company_app/features/products/presentation_layer/screens/products_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -12,17 +11,15 @@ class DashboardScreen extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(title: const Text('الرئيسية')),
-        drawer: SideMenu(),
         bottomNavigationBar: BottomNavBar(currentIndex: 2, onTap: (index) {}),
         body: IndexedStack(
-          index: 1,
+          index: 4,
           children: [
             const Center(child: Text('الرئيسية')),
             const ProductsScreen(),
             const Center(child: Text('العروض')),
             const Center(child: Text('البضاعة')),
-            const Center(child: Text('التعاملات')),
+            const OrdersScreen(),
           ],
         ),
       ),

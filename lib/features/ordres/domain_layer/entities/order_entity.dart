@@ -1,259 +1,47 @@
+import 'package:wasl_company_app/features/ordres/domain_layer/entities/sub_entities/commission_entity.dart';
+import 'package:wasl_company_app/features/ordres/domain_layer/entities/sub_entities/customer_entity.dart';
+import 'package:wasl_company_app/features/ordres/domain_layer/entities/sub_entities/order_item_entity.dart';
+
 class OrderEntity {
-  
+  final int id;
+  final String orderNumber;
+  final int endCustomerId;
+  final int mainCustomerId;
+  final String status;
+  final String subtotal;
+  final String totalAmount;
+  final String commissionAmount;
+  final String? trackingNumber;
+  final String shippingAddress;
+  final String? notes;
+  final String? confirmedAt;
+  final String? shippedAt;
+  final String? deliveredAt;
+  final String createdAt;
+  final String? updatedAt;
+  final CustomerEntity? endCustomer;
+  final List<OrderItemEntity>? orderItems;
+  final CommissionEntity? commission;
 
-
-
-
-  {
-    "id": 1,
-    "order_number": "ORD-20260125-ECC80E",
-    "end_customer_id": 9,
-    "main_customer_id": 3,
-    "status": "reviewing",
-    "subtotal": "18009.88",
-    "total_amount": "18009.88",
-    "commission_amount": "276.81",
-    "tracking_number": null,
-    "shipping_address": "611 Bashirian Way Apt. 315\nEast Gerson, TN 86541",
-    "notes": null,
-    "confirmed_at": null,
-    "shipped_at": "2026-01-09T03:58:18.000000Z",
-    "delivered_at": "2026-01-10T20:07:26.000000Z",
-    "created_at": "2026-01-25T11:58:54.000000Z",
-    "updated_at": "2026-01-25T11:58:55.000000Z",
-    "deleted_at": null,
-    "end_customer": {
-        "id": 9,
-        "user_id": 10,
-        "type": "end_market",
-        "name": "Bartoletti-DuBuque Market",
-        "description": "Aperiam et voluptatum nam consequatur officia facilis quam. Hic sit atque deleniti cumque accusamus aspernatur. Ducimus in voluptate magni quidem quasi velit.",
-        "address": "4761 Palma Path",
-        "city": "Wuckertview",
-        "country": "Pakistan",
-        "phone": "11353657059",
-        "email": "rpurdy@koss.info",
-        "commission_settlement_type": "bulk",
-        "commission_rate": "12.86",
-        "is_active": true,
-        "created_at": "2026-01-25T11:58:52.000000Z",
-        "updated_at": "2026-01-25T11:58:52.000000Z",
-        "deleted_at": null
-    },
-    "main_customer": {
-        "id": 3,
-        "user_id": 4,
-        "type": "main_market",
-        "name": "Stamm-Dietrich Market",
-        "description": "Et cumque quia dolorem. Natus nisi autem accusamus ea excepturi qui. Velit distinctio corrupti perferendis facilis sed consequatur vero. Cupiditate esse repellendus consequatur doloremque accusamus aut quo.",
-        "address": "253 Collier Burgs",
-        "city": "Abrahamton",
-        "country": "Luxembourg",
-        "phone": "79161645767",
-        "email": "ybergnaum@stark.com",
-        "commission_settlement_type": "per_order",
-        "commission_rate": "9.08",
-        "is_active": true,
-        "created_at": "2026-01-25T11:58:52.000000Z",
-        "updated_at": "2026-01-25T11:58:52.000000Z",
-        "deleted_at": null
-    },
-    "order_items": [
-        {
-            "id": 1,
-            "order_id": 1,
-            "item_id": 41,
-            "ordered_quantity": 4,
-            "confirmed_quantity": 4,
-            "unit_price": "810.52",
-            "subtotal": "3242.08",
-            "notes": null,
-            "created_at": "2026-01-25T11:58:55.000000Z",
-            "updated_at": "2026-01-25T11:58:55.000000Z",
-            "item": {
-                "id": 41,
-                "customer_id": 3,
-                "name": "velit eum voluptas",
-                "description": "Officia voluptatibus perspiciatis nihil veritatis. Deserunt repudiandae assumenda vitae. Earum fuga repellat ullam et.",
-                "sku": "SKU-8929-mav",
-                "price": "810.52",
-                "stock_quantity": 821,
-                "availability_status": "discontinued",
-                "images": null,
-                "unit": "pack",
-                "min_order_quantity": "4.16",
-                "is_active": false,
-                "created_at": "2026-01-25T11:58:52.000000Z",
-                "updated_at": "2026-01-25T11:58:52.000000Z",
-                "deleted_at": null
-            }
-        },
-        {
-            "id": 2,
-            "order_id": 1,
-            "item_id": 43,
-            "ordered_quantity": 8,
-            "confirmed_quantity": 8,
-            "unit_price": "992.64",
-            "subtotal": "7941.12",
-            "notes": null,
-            "created_at": "2026-01-25T11:58:55.000000Z",
-            "updated_at": "2026-01-25T11:58:55.000000Z",
-            "item": {
-                "id": 43,
-                "customer_id": 3,
-                "name": "eligendi sapiente sunt",
-                "description": "Qui quia aliquam laudantium deleniti. Eaque dignissimos exercitationem temporibus sapiente sunt.",
-                "sku": "SKU-7770-mst",
-                "price": "992.64",
-                "stock_quantity": 513,
-                "availability_status": "discontinued",
-                "images": null,
-                "unit": "liter",
-                "min_order_quantity": "8.12",
-                "is_active": true,
-                "created_at": "2026-01-25T11:58:52.000000Z",
-                "updated_at": "2026-01-25T11:58:52.000000Z",
-                "deleted_at": null
-            }
-        },
-        {
-            "id": 3,
-            "order_id": 1,
-            "item_id": 45,
-            "ordered_quantity": 2,
-            "confirmed_quantity": 2,
-            "unit_price": "251.46",
-            "subtotal": "502.92",
-            "notes": null,
-            "created_at": "2026-01-25T11:58:55.000000Z",
-            "updated_at": "2026-01-25T11:58:55.000000Z",
-            "item": {
-                "id": 45,
-                "customer_id": 3,
-                "name": "et qui et",
-                "description": "Hic laborum reprehenderit eligendi fugit. Vel non laborum quis rerum voluptas ea atque. Recusandae laborum laudantium amet nam eius saepe eos laudantium.",
-                "sku": "SKU-7542-afa",
-                "price": "251.46",
-                "stock_quantity": 795,
-                "availability_status": "discontinued",
-                "images": null,
-                "unit": "piece",
-                "min_order_quantity": "6.22",
-                "is_active": true,
-                "created_at": "2026-01-25T11:58:52.000000Z",
-                "updated_at": "2026-01-25T11:58:52.000000Z",
-                "deleted_at": null
-            }
-        },
-        {
-            "id": 4,
-            "order_id": 1,
-            "item_id": 48,
-            "ordered_quantity": 9,
-            "confirmed_quantity": 9,
-            "unit_price": "131.17",
-            "subtotal": "1180.53",
-            "notes": "Sint quasi explicabo pariatur neque sunt recusandae qui.",
-            "created_at": "2026-01-25T11:58:55.000000Z",
-            "updated_at": "2026-01-25T11:58:55.000000Z",
-            "item": {
-                "id": 48,
-                "customer_id": 3,
-                "name": "neque deleniti eaque",
-                "description": "Tempora ut ut cum. Tenetur eos ut quidem et possimus. Ipsam omnis similique quo vitae soluta. Voluptatem veritatis non cupiditate aliquid.",
-                "sku": "SKU-9238-sms",
-                "price": "131.17",
-                "stock_quantity": 89,
-                "availability_status": "available",
-                "images": null,
-                "unit": "box",
-                "min_order_quantity": "8.10",
-                "is_active": true,
-                "created_at": "2026-01-25T11:58:53.000000Z",
-                "updated_at": "2026-01-25T11:58:53.000000Z",
-                "deleted_at": null
-            }
-        },
-        {
-            "id": 5,
-            "order_id": 1,
-            "item_id": 50,
-            "ordered_quantity": 9,
-            "confirmed_quantity": 9,
-            "unit_price": "571.47",
-            "subtotal": "5143.23",
-            "notes": "Hic magnam recusandae amet possimus commodi distinctio unde aut.",
-            "created_at": "2026-01-25T11:58:55.000000Z",
-            "updated_at": "2026-01-25T11:58:55.000000Z",
-            "item": {
-                "id": 50,
-                "customer_id": 3,
-                "name": "iste dolor est",
-                "description": "Hic omnis quae dolor eligendi. Ut rem ut totam. Quis laborum illo sunt expedita voluptates praesentium. Qui accusamus voluptas impedit enim temporibus est et. Quae doloribus unde alias fugiat perferendis.",
-                "sku": "SKU-9138-exx",
-                "price": "571.47",
-                "stock_quantity": 775,
-                "availability_status": "available",
-                "images": null,
-                "unit": "box",
-                "min_order_quantity": "9.74",
-                "is_active": false,
-                "created_at": "2026-01-25T11:58:53.000000Z",
-                "updated_at": "2026-01-25T11:58:53.000000Z",
-                "deleted_at": null
-            }
-        }
-    ],
-    "status_histories": [
-        {
-            "id": 1,
-            "order_id": 1,
-            "status": "pending",
-            "notes": null,
-            "changed_by": {
-                "id": 3,
-                "name": "Maryse VonRueden",
-                "email": "hschroeder@example.net",
-                "phone": "47148118140",
-                "type": "main_market",
-                "email_verified_at": "2026-01-25T11:58:52.000000Z",
-                "created_at": "2026-01-25T11:58:52.000000Z",
-                "updated_at": "2026-01-25T11:58:52.000000Z"
-            },
-            "created_at": "2026-01-25T11:58:54.000000Z",
-            "updated_at": "2026-01-25T11:58:55.000000Z"
-        },
-        {
-            "id": 2,
-            "order_id": 1,
-            "status": "reviewing",
-            "notes": null,
-            "changed_by": {
-                "id": 2,
-                "name": "Santos Hauck",
-                "email": "afay@example.org",
-                "phone": "07713955794",
-                "type": "main_market",
-                "email_verified_at": "2026-01-25T11:58:52.000000Z",
-                "created_at": "2026-01-25T11:58:52.000000Z",
-                "updated_at": "2026-01-25T12:09:11.000000Z"
-            },
-            "created_at": "2026-01-25T11:58:54.000000Z",
-            "updated_at": "2026-01-25T11:58:55.000000Z"
-        }
-    ],
-    "commission": {
-        "id": 1,
-        "order_id": 1,
-        "customer_id": 3,
-        "amount": "276.81",
-        "status": "settled",
-        "settlement_type": "bulk",
-        "settlement_id": null,
-        "settled_at": "2026-01-16T05:57:16.000000Z",
-        "created_at": "2026-01-25T11:58:56.000000Z",
-        "updated_at": "2026-01-25T11:58:56.000000Z"
-    },
-    "reviews": []
+  OrderEntity({
+    required this.id,
+    required this.orderNumber,
+    required this.endCustomerId,
+    required this.mainCustomerId,
+    required this.status,
+    required this.subtotal,
+    required this.totalAmount,
+    required this.commissionAmount,
+    this.trackingNumber,
+    required this.shippingAddress,
+    this.notes,
+    this.confirmedAt,
+    this.shippedAt,
+    this.deliveredAt,
+    required this.createdAt,
+    this.updatedAt,
+    this.endCustomer,
+    this.orderItems,
+    this.commission,
+  });
 }

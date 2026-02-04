@@ -46,7 +46,7 @@ class ProductsListCubit extends Cubit<ProductsListState> {
     emit(AddProductLoading());
     final product = ProductEntity(
       id: 1,
-      images: "",
+      images: [],
       name: nameController.text.toString(),
       sku: String.fromEnvironment("skuController.text"),
       availabilityStatus: "available",
@@ -80,7 +80,6 @@ class ProductsListCubit extends Cubit<ProductsListState> {
   }
 
   Future<void> deleteProduct(int id) async {
-    print("deleting product with id : $id");
     emit(DeleteProductLoading());
     final result = await deleteProductUseCase(id);
     result.fold((l) => emit(DeleteProductError(l.message)), (r) {

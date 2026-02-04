@@ -48,7 +48,7 @@ class Product extends StatelessWidget {
                   ),
                   child: Container(
                     width: double.infinity,
-                    height: cardHeight * 0.6,
+                    height: cardHeight * 0.58,
                     color: AppColors.cardBackground,
                     child: Stack(
                       children: [
@@ -106,7 +106,11 @@ class Product extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(
+                      top: 8.0,
+                      left: 8.0,
+                      right: 8.0,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -117,22 +121,24 @@ class Product extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: AppColors.textPrimary,
-                            fontSize: (constraints.maxWidth / 390) * 14,
+                            fontSize: (cardHeight / 208) * 14,
                             fontWeight: FontWeight.w700,
+                            height: cardHeight * 0.007,
                           ),
                         ),
-                        SizedBox(height: 2),
+                        SizedBox(height: cardHeight * 0.005),
                         Text(
                           product.description,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: AppColors.textSecondary,
-                            fontSize: (constraints.maxWidth / 390) * 12,
+                            fontSize: (cardHeight / 208) * 12,
                             fontWeight: FontWeight.w400,
+                            height: cardHeight * 0.007,
                           ),
                         ),
-                        SizedBox(height: 2),
+                        SizedBox(height: cardHeight * 0.005),
                         Text(
                           "${product.price} IQD",
                           style: TextStyle(
@@ -141,8 +147,8 @@ class Product extends StatelessWidget {
                                 : AppColors.primary,
                           ),
                         ),
-                        SizedBox(height: 2),
-                        product.images.isNotEmpty
+                        SizedBox(height: cardHeight * 0.005),
+                        product.images!.isNotEmpty
                             ? Text(
                                 (int.parse(product.price) -
                                         (int.parse(product.price) * (20 / 100)))
@@ -150,8 +156,9 @@ class Product extends StatelessWidget {
                                     .toString(),
                                 style: TextStyle(
                                   color: const Color(0xFFFF0000),
-                                  fontSize: (constraints.maxWidth / 390) * 14,
+                                  fontSize: (cardHeight / 208) * 14,
                                   fontWeight: FontWeight.w500,
+                                  height: cardHeight * 0.007,
                                 ),
                               )
                             : SizedBox.shrink(),

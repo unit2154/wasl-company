@@ -6,7 +6,7 @@ class ProductEntity {
   String price;
   int stockQuantity;
   String availabilityStatus;
-  String images;
+  List<String>? images;
   String unit;
   String minOrderQuantity;
   bool isActive;
@@ -19,7 +19,7 @@ class ProductEntity {
     required this.price,
     required this.stockQuantity,
     required this.availabilityStatus,
-    required this.images,
+    this.images,
     required this.unit,
     required this.minOrderQuantity,
     required this.isActive,
@@ -33,7 +33,7 @@ class ProductEntity {
     'price': price,
     'stock_quantity': stockQuantity,
     'availability_status': "available",
-    'images': [],
+    'images': images,
     'unit': unit,
     'min_order_quantity': minOrderQuantity,
     'is_active': isActive ? 1 : 0,

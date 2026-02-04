@@ -1,20 +1,4 @@
-import 'package:dio/dio.dart';
-import 'package:hive/hive.dart';
-import 'package:wasl_company_app/core/constants/app_constants.dart';
-import 'package:wasl_company_app/core/dependencies/locator.dart';
-import 'package:wasl_company_app/core/network/api_consumer.dart';
-import 'package:wasl_company_app/core/network/dio_api_consumer.dart';
-import 'package:wasl_company_app/features/auth/data_layer/data_sources/auth_data_source.dart';
-import 'package:wasl_company_app/features/auth/data_layer/data_sources/auth_data_source_impl.dart';
-import 'package:wasl_company_app/features/auth/data_layer/model/token_model.dart';
-import 'package:wasl_company_app/features/auth/data_layer/model/user_model.dart';
-import 'package:wasl_company_app/features/auth/data_layer/repo_impl/auth_repo_impl.dart';
-import 'package:wasl_company_app/features/auth/domain_layer/repo/auth_repo.dart';
-import 'package:wasl_company_app/features/auth/domain_layer/use_cases/get_token.dart';
-import 'package:wasl_company_app/features/auth/domain_layer/use_cases/logout.dart';
-import 'package:wasl_company_app/features/auth/domain_layer/use_cases/send_otp.dart';
-import 'package:wasl_company_app/features/auth/domain_layer/use_cases/verify_otp.dart';
-import 'package:wasl_company_app/features/auth/presentation_layer/providers/cubit/auth_cubit.dart';
+part of 'locator.dart';
 
 Future<void> authDependencies() async {
   // ======================= Auth =======================

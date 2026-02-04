@@ -1,4 +1,4 @@
-import 'package:wasl_company_app/features/products/domain_layer/entities/sub_entities/link_entity.dart';
+import 'package:wasl_company_app/core/entites/link_entity.dart';
 
 class LinkModel extends LinkEntity {
   LinkModel({
