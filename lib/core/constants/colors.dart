@@ -17,4 +17,5 @@ class AppColors {
   static const Color orderStateRejectedBackground = Color(0x19FF0000);
   static const Color orderStatePendingBackground = Color(0x19E86F00);
   static const Color orderStateCompletedBackground = Color(0x19199F59);
+  static const Color orderTotalBorder = Color(0xFF199F59);
 }

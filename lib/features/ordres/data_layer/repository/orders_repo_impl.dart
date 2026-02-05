@@ -26,12 +26,14 @@ class OrdersRepoImpl implements OrdersRepo {
   }
 
   @override
-  Future<Either<Failure, OrderEntity>> updateOrderStatus(
-    int id,
-    String status,
-  ) {
-    // TODO: implement updateOrderStatus
-    throw UnimplementedError();
+  Future<Either<Failure, void>> updateOrderStatus(int id, String status) async {
+    try {
+      await ordersDataSource.updateOrderState(id.toString(), status);
+      return Right(null);
+    } catch (e) {
+      // return Left(ServerFailure(message: e.toString()));
+      return Right(null);
+    }
   }
 
   @override

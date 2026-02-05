@@ -13,6 +13,8 @@ final class OrdersLoaded extends OrdersState {
   OrdersLoaded({required this.ordersListEntity});
 }
 
+final class OrderUpdated extends OrdersState {}
+
 final class OrdersError extends OrdersState {
   final String message;
 

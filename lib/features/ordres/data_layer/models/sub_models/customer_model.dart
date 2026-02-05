@@ -25,7 +25,6 @@ class CustomerModel extends CustomerEntity {
   });
 
   factory CustomerModel.fromJson(Map<String, dynamic> json) {
-    print(json);
     return CustomerModel(
       id: json['id'],
       userId: json['user_id'],

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:text_scroll/text_scroll.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/features/ordres/domain_layer/entities/order_entity.dart';
+import 'package:wasl_company_app/features/ordres/domain_layer/entities/sub_entities/order_item_entity.dart';
+import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/order_item_widget.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
   final OrderEntity order;
@@ -73,6 +77,7 @@ class OrderDetailsScreen extends StatelessWidget {
                           spacing: height * 0.01,
                           mainAxisAlignment: .spaceBetween,
                           children: [
+                            //? status and order number
                             Row(
                               mainAxisAlignment: .spaceBetween,
                               children: [
@@ -101,12 +106,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                           btext,
                                           style: TextStyle(
                                             color: color,
-                                            fontSize:
-                                                12 *
-                                                (MediaQuery.of(
-                                                      context,
-                                                    ).size.height /
-                                                    844),
+                                            fontSize: 12 * (height / 800),
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
@@ -114,39 +114,38 @@ class OrderDetailsScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                Text(
+                                TextScroll(
                                   DateTime.parse(
                                     order.createdAt,
                                   ).toLocal().toString(),
+                                  mode: TextScrollMode.bouncing,
+                                  velocity: Velocity(
+                                    pixelsPerSecond: Offset(150, 0),
+                                  ),
+                                  numberOfReps: 1,
                                   textDirection: TextDirection.ltr,
                                   style: TextStyle(
                                     color: const Color(0xFF646464),
-                                    fontSize:
-                                        14 *
-                                        (MediaQuery.of(context).size.height /
-                                            844),
+                                    fontSize: 14 * (height / 800),
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: height * 0.008,
-                              ),
-                              child: Container(
-                                width: width * .89,
-                                decoration: ShapeDecoration(
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      width: 1,
-                                      strokeAlign: BorderSide.strokeAlignCenter,
-                                      color: AppColors.cardBorder,
-                                    ),
+                            // Separator
+                            Container(
+                              width: width * .89,
+                              decoration: ShapeDecoration(
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    width: 1,
+                                    strokeAlign: BorderSide.strokeAlignCenter,
+                                    color: AppColors.cardBorder,
                                   ),
                                 ),
                               ),
                             ),
+                            // market name and order number
                             Container(
                               width: width * .89,
                               height: height * .05,
@@ -163,27 +162,37 @@ class OrderDetailsScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: width * .38,
-                                    child: Text(
+                                    width: width * .5,
+                                    child: TextScroll(
                                       order.endCustomer!.name,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                                      mode: TextScrollMode.bouncing,
+                                      velocity: Velocity(
+                                        pixelsPerSecond: Offset(20, 0),
+                                      ),
+                                      pauseBetween: Duration(microseconds: 50),
+                                      numberOfReps: 5,
+                                      textDirection: TextDirection.rtl,
                                       style: TextStyle(
                                         color: AppColors.textPrimary,
-                                        fontSize: 14 * (height / 844),
+                                        fontSize: 14 * (height / 800),
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
                                   ),
                                   SizedBox(
-                                    width: width * .4,
-                                    child: Text(
-                                      "رقم الطلب : ${order.orderNumber}",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                                    width: width * .275,
+                                    child: TextScroll(
+                                      "رقم الطلب : ${order.orderNumber.split("-")[2]}",
+                                      mode: TextScrollMode.bouncing,
+                                      velocity: Velocity(
+                                        pixelsPerSecond: Offset(20, 0),
+                                      ),
+                                      pauseBetween: Duration(microseconds: 50),
+                                      numberOfReps: 5,
+                                      textDirection: TextDirection.rtl,
                                       style: TextStyle(
                                         color: AppColors.textPrimary,
-                                        fontSize: 14 * (height / 844),
+                                        fontSize: 12 * (height / 800),
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -191,54 +200,33 @@ class OrderDetailsScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-
+                            // location
                             Row(
                               children: [
                                 SvgPicture.asset(AppIcons.location),
                                 SizedBox(width: width * 0.01),
-                                Text(
-                                  order.shippingAddress,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: AppColors.textSecondary,
-                                    fontSize: 14 * (height / 650),
-                                    fontWeight: FontWeight.w400,
+                                SizedBox(
+                                  width: width * .75,
+                                  height: height * .03,
+                                  child: TextScroll(
+                                    order.shippingAddress,
+                                    mode: TextScrollMode.bouncing,
+                                    velocity: Velocity(
+                                      pixelsPerSecond: Offset(20, 0),
+                                    ),
+                                    pauseBetween: Duration(microseconds: 50),
+                                    numberOfReps: 5,
+                                    textDirection: TextDirection.rtl,
+                                    style: TextStyle(
+                                      color: AppColors.textSecondary,
+                                      fontSize: 14 * (height / 650),
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  AppIcons.coins,
-                                  colorFilter: ColorFilter.mode(
-                                    AppColors.primary,
-                                    BlendMode.srcIn,
-                                  ),
-                                ),
-                                SizedBox(width: width * 0.01),
-                                Text(
-                                  "السعر الكلي",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14 * (height / 650),
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                Spacer(),
-                                Text(
-                                  "${order.totalAmount} دينار",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14 * (height / 650),
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: height * 0.02),
+                            SizedBox(height: height * 0.01),
                             Text(
                               "المشتريات",
                               style: TextStyle(
@@ -248,37 +236,68 @@ class OrderDetailsScreen extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              height: height * .2,
+                              height: height * .55,
                               child: ListView.builder(
                                 itemCount: order.orderItems!.length,
                                 itemBuilder: (context, index) {
-                                  return ListTile(
-                                    title: Text(
-                                      order.orderItems![index].item!.name!,
-                                    ),
-                                    subtitle: Text(
-                                      order.orderItems![index].item!.price!,
-                                    ),
+                                  if (order.orderItems![index].item == null) {
+                                    return const SizedBox.shrink();
+                                  }
+                                  return OrderItemWidget(
+                                    height: height,
+                                    width: width,
+                                    order: order.orderItems![index],
                                   );
                                 },
                               ),
                             ),
-                            SizedBox(height: height * 0.3),
-                            Text(
-                              "حالة الطلب",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14 * (height / 650),
-                                fontWeight: FontWeight.w700,
+                            SizedBox(height: height * 0.05),
+                            Container(
+                              width: width * .89,
+                              height: height * .06,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: width * .02,
                               ),
-                            ),
-                            SizedBox(height: height * 0.02),
-                            Text(
-                              order.status,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14 * (height / 650),
-                                fontWeight: FontWeight.w700,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: AppColors.orderTotalBorder,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Image.asset(
+                                        AppImages.coins,
+                                        width: width * 0.05,
+                                      ),
+                                      SizedBox(width: width * 0.01),
+                                      Text(
+                                        "مجموع الطلب",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: AppColors.orderTotalBorder,
+                                          fontSize: 16 * (height / 844),
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    "${order.totalAmount} دينار",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: AppColors.orderTotalBorder,
+                                      fontSize: 16 * (height / 844),
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],

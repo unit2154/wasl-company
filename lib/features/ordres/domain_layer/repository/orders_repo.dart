@@ -6,6 +6,6 @@ import 'package:wasl_company_app/features/ordres/domain_layer/entities/orders_li
 abstract class OrdersRepo {
   Future<Either<Failure, OrdersListEntity>> getOrders();
   Future<Either<Failure, OrderEntity>> getOrderById(int id);
-  Future<Either<Failure, OrderEntity>> updateOrderStatus(int id, String status);
+  Future<Either<Failure, void>> updateOrderStatus(int id, String status);
   Future<Either<Failure, OrderEntity>> editOrder(OrderEntity order);
 }

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/dependencies/locator.dart';
-import 'package:wasl_company_app/core/widgets/search_bar.dart';
 import 'package:wasl_company_app/core/widgets/side_menu.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/providers/cubit/orders_cubit.dart';
-import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/order_card_widget.dart';
+import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/order_list_widget.dart';
 
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});
@@ -41,19 +40,15 @@ class OrdersScreen extends StatelessWidget {
               return BlocConsumer<OrdersCubit, OrdersState>(
                 listener: (context, state) {
                   switch (state) {
-                    case OrdersLoading():
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Loading...')),
-                      );
-                      break;
                     case OrdersError():
                       ScaffoldMessenger.of(
                         context,
                       ).showSnackBar(SnackBar(content: Text(state.message)));
                       break;
-                    case OrdersLoaded():
+                    case OrderUpdated():
+                      context.read<OrdersCubit>().getOrders();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("تم استلام الطلبات")),
+                        const SnackBar(content: Text("تم تحديث الطلب")),
                       );
                       break;
                     default:
@@ -70,31 +65,39 @@ class OrdersScreen extends StatelessWidget {
                   if (state is OrdersLoaded) {
                     return TabBarView(
                       children: [
-                        Center(
-                          child: Column(
-                            children: [
-                              SearchInput(
-                                controller: TextEditingController(),
-                                height: constraints.maxHeight * 0.065,
-                              ),
-                              Expanded(
-                                child: ListView.builder(
-                                  itemCount:
-                                      state.ordersListEntity.orders!.length,
-                                  itemBuilder: (context, index) => OrderCard(
-                                    order:
-                                        state.ordersListEntity.orders![index],
-                                    constraints: constraints,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                        OrderListWidget(
+                          orders: state.ordersListEntity.orders!,
+                          constraints: constraints,
+                          cubitContext: context,
                         ),
-                        Center(child: Text('جديدة')),
-                        Center(child: Text('تامة')),
-                        Center(child: Text('قيد المراجعة')),
-                        Center(child: Text('مرفوضة')),
+                        OrderListWidget(
+                          orders: state.ordersListEntity.orders!
+                              .where((order) => order.status == "pending")
+                              .toList(),
+                          constraints: constraints,
+                          cubitContext: context,
+                        ),
+                        OrderListWidget(
+                          orders: state.ordersListEntity.orders!
+                              .where((order) => order.status == "delivered")
+                              .toList(),
+                          constraints: constraints,
+                          cubitContext: context,
+                        ),
+                        OrderListWidget(
+                          orders: state.ordersListEntity.orders!
+                              .where((order) => order.status == "processing")
+                              .toList(),
+                          constraints: constraints,
+                          cubitContext: context,
+                        ),
+                        OrderListWidget(
+                          orders: state.ordersListEntity.orders!
+                              .where((order) => order.status == "cancelled")
+                              .toList(),
+                          constraints: constraints,
+                          cubitContext: context,
+                        ),
                       ],
                     );
                   }

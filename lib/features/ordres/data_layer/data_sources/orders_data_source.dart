@@ -9,7 +9,7 @@ import 'package:wasl_company_app/features/ordres/data_layer/models/order_model.d
 
 abstract class OrdersDataSource {
   Future<OrdersListModel> getOrders();
-  Future<void> updateOrderState(String orderId, int state);
+  Future<void> updateOrderState(String orderId, String status);
   Future<void> editOrder(OrderModel order);
 }
 
@@ -40,9 +40,27 @@ class OrdersDataSourceImpl implements OrdersDataSource {
   }
 
   @override
-  Future<void> updateOrderState(String orderId, int state) {
-    // TODO: implement updateOrderState
-    throw UnimplementedError();
+  Future<void> updateOrderState(String orderId, String status) async {
+    try {
+      final response = await apiConsumer.put(
+        "${Endpoints.orders}/$orderId",
+        headers: <String, String>{
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${getIt<TokenEntity>().token}",
+        },
+        data: {"status": status, "notes": "", "tracking_number": ""},
+      );
+      print(response.data);
+    } on DioException catch (e) {
+      print(e.response?.data);
+      throw ServerException(
+        message:
+            e.response?.data['message'] ??
+            e.response?.data['error'] ??
+            e.toString(),
+      );
+    }
   }
 
   @override

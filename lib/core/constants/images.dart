@@ -1,5 +1,6 @@
 class AppImages {
   static const String logo = 'assets/images/logo.png';
+  static const String coins = 'assets/images/coins.png';
 }
 
 class AppIcons {
@@ -15,7 +16,6 @@ class AppIcons {
   static const String dealsActive = 'assets/icons/Bag-Active.svg';
   static const String phone = 'assets/icons/Phone.svg';
   static const String lock = 'assets/icons/Lock.svg';
-  static const String coins = 'assets/icons/Coins.svg';
   static const String search = 'assets/icons/Search.svg';
   static const String location = 'assets/icons/Location.svg';
 }
