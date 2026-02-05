@@ -4,6 +4,10 @@ import 'package:wasl_company_app/features/dashboard/domain_layer/entities/widget
 
 part 'dashboard_state.dart';
 
-class DashboardCubit extends Cubit<DashboardState> {
-  DashboardCubit() : super(DashboardInitial());
+class DashboardCubit extends Cubit<DashboardInitial> {
+  DashboardCubit() : super(DashboardInitial(currentIndex: 2, widgets: []));
+
+  void changeIndex(int index) {
+    emit(state.copyWith(currentIndex: index));
+  }
 }

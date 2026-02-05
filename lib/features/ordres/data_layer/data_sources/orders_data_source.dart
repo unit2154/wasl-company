@@ -51,9 +51,9 @@ class OrdersDataSourceImpl implements OrdersDataSource {
         },
         data: {"status": status, "notes": "", "tracking_number": ""},
       );
-      print(response.data);
+      print("Success: " + response.data);
     } on DioException catch (e) {
-      print(e.response?.data);
+      print("Error: " + e.response?.data);
       throw ServerException(
         message:
             e.response?.data['message'] ??

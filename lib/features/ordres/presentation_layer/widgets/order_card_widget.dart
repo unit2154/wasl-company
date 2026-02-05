@@ -7,6 +7,7 @@ import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/features/ordres/domain_layer/entities/order_entity.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/providers/cubit/orders_cubit.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/screens/order_details_screen.dart';
+import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/order_dialog.dart';
 
 class OrderCard extends StatelessWidget {
   final OrderEntity order;
@@ -68,68 +69,11 @@ class OrderCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              child: Column(
-                mainAxisSize: .min,
-                children: [
-                  TextButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => OrderDetailsScreen(order: order),
-                      ),
-                    ),
-                    child: Text(
-                      "عرض التفاصيل",
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontSize: height * 0.02,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    color: AppColors.primary,
-                    thickness: 1,
-                    height: 1,
-                    indent: width * 0.03,
-                    endIndent: width * 0.03,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      cubitContext.read<OrdersCubit>().confirmOrder(order.id);
-                    },
-                    child: Text(
-                      "تأكيد الطلب",
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontSize: height * 0.02,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    color: AppColors.primary,
-                    thickness: 1,
-                    height: 1,
-                    indent: width * 0.03,
-                    endIndent: width * 0.03,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      cubitContext.read<OrdersCubit>().rejectOrder(order.id);
-                    },
-                    child: Text(
-                      "رفض الطلب",
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontSize: height * 0.02,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
+              child: OrderDialog(
+                order: order,
+                height: height,
+                width: width,
+                cubitContext: cubitContext,
               ),
             ),
           ),
