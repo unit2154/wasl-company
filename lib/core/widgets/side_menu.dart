@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/core/dependencies/locator.dart';
+import 'package:wasl_company_app/core/theme/cubit/theme_cubit.dart';
 import 'package:wasl_company_app/features/auth/data_layer/model/user_model.dart';
 import 'package:wasl_company_app/features/auth/presentation_layer/providers/cubit/auth_cubit.dart';
 import 'package:wasl_company_app/features/auth/presentation_layer/screens/user_profile.dart';
@@ -96,11 +97,22 @@ class SideMenu extends StatelessWidget {
           ListTile(
             title: Row(
               children: [
-                Icon(Icons.settings),
+                Icon(Icons.dark_mode_outlined),
                 const SizedBox(width: 10),
-                const Text('الاعدادات'),
+                const Text('الوضع الليلي'),
                 Spacer(),
-                Icon(Icons.arrow_forward_ios),
+                BlocBuilder<ThemeCubit, ChangedThemeState>(
+                  builder: (context, state) {
+                    return Switch(
+                      value:
+                          context.read<ThemeCubit>().state.themeMode ==
+                          ThemeMode.dark,
+                      onChanged: (value) {
+                        context.read<ThemeCubit>().toggleTheme();
+                      },
+                    );
+                  },
+                ),
               ],
             ),
             onTap: () {
