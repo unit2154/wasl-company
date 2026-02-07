@@ -4,9 +4,7 @@ import 'package:text_scroll/text_scroll.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/features/ordres/domain_layer/entities/order_entity.dart';
-import 'package:wasl_company_app/features/ordres/domain_layer/entities/sub_entities/order_item_entity.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/order_item_widget.dart';
-import 'package:text_scroll/text_scroll.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
   final OrderEntity order;

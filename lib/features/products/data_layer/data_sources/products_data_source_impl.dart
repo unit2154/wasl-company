@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:hive/hive.dart';
 import 'package:wasl_company_app/core/constants/endpoints.dart';
-import 'package:wasl_company_app/core/dependencies/locator.dart';
 import 'package:wasl_company_app/core/error/failure.dart';
 import 'package:wasl_company_app/core/network/dio_api_consumer.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/entities/token_entity.dart';
+import 'package:wasl_company_app/features/auth/domain_layer/entities/user_entity.dart';
 import 'package:wasl_company_app/features/products/data_layer/data_sources/products_data_source.dart';
 import 'package:wasl_company_app/features/products/data_layer/models/product_model.dart';
 import 'package:wasl_company_app/features/products/data_layer/models/products_list_model.dart';
@@ -11,8 +12,13 @@ import 'package:wasl_company_app/features/products/domain_layer/entities/product
 
 class ProductsDataSourceImpl implements ProductsDataSource {
   final DioApiConsumer dio;
-  final TokenEntity token = getIt<TokenEntity>();
-  ProductsDataSourceImpl({required this.dio});
+  final Box<TokenEntity> tokenBox;
+  final Box<UserEntity> userBox;
+  ProductsDataSourceImpl({
+    required this.dio,
+    required this.tokenBox,
+    required this.userBox,
+  });
   @override
   Future<ProductsListModel> getProducts() async {
     try {
@@ -21,9 +27,13 @@ class ProductsDataSourceImpl implements ProductsDataSource {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${token.token}',
+          'Authorization': 'Bearer ${tokenBox.getAt(0)?.token}',
         },
-        data: {'page': 1, 'per_page': 100},
+        data: {
+          'page': 1,
+          'per_page': 100,
+          'customer_id': userBox.getAt(0)?.profile.id,
+        },
       );
       return ProductsListModel.fromJson(response.data);
     } on DioException catch (e) {
@@ -45,7 +55,7 @@ class ProductsDataSourceImpl implements ProductsDataSource {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${token.token}',
+          'Authorization': 'Bearer ${tokenBox.getAt(0)?.token}',
         },
       );
       return ProductModel.fromJson(response.data);
@@ -69,7 +79,7 @@ class ProductsDataSourceImpl implements ProductsDataSource {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${token.token}',
+          'Authorization': 'Bearer ${tokenBox.getAt(0)?.token}',
         },
       );
       return ProductModel.fromJson(response.data);
@@ -85,7 +95,7 @@ class ProductsDataSourceImpl implements ProductsDataSource {
         "${Endpoints.products}/$id",
         headers: {
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${token.token}',
+          'Authorization': 'Bearer ${tokenBox.getAt(0)?.token}',
         },
       );
     } on DioException catch (e) {
@@ -112,7 +122,7 @@ class ProductsDataSourceImpl implements ProductsDataSource {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${token.token}',
+          'Authorization': 'Bearer ${tokenBox.getAt(0)?.token}',
         },
       );
       return ProductModel.fromJson(response.data);

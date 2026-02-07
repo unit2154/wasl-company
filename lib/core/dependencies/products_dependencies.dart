@@ -16,7 +16,11 @@ Future<void> productsDependencies() async {
     () => ProductsRepoImpl(productsDataSource: getIt<ProductsDataSource>()),
   );
   getIt.registerLazySingleton<ProductsDataSource>(
-    () => ProductsDataSourceImpl(dio: getIt<DioApiConsumer>()),
+    () => ProductsDataSourceImpl(
+      dio: getIt<DioApiConsumer>(),
+      tokenBox: getIt<Box<TokenModel>>(),
+      userBox: getIt<Box<UserModel>>(),
+    ),
   );
   getIt.registerLazySingleton<DioApiConsumer>(
     () => DioApiConsumer(dio: getIt<Dio>()),

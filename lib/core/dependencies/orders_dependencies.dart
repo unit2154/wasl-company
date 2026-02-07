@@ -18,6 +18,9 @@ Future<void> ordersDependencies() async {
     () => OrdersRepoImpl(ordersDataSource: getIt<OrdersDataSource>()),
   );
   getIt.registerLazySingleton<OrdersDataSource>(
-    () => OrdersDataSourceImpl(apiConsumer: getIt<DioApiConsumer>()),
+    () => OrdersDataSourceImpl(
+      apiConsumer: getIt<DioApiConsumer>(),
+      tokenBox: getIt<Box<TokenModel>>(),
+    ),
   );
 }

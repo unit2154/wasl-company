@@ -17,7 +17,12 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('المنتجات')),
+      backgroundColor: AppColors.white,
+      appBar: AppBar(
+        title: const Text('المنتجات'),
+        backgroundColor: AppColors.white,
+        surfaceTintColor: AppColors.white,
+      ),
       drawer: SideMenu(),
       body: BlocProvider(
         create: (context) => getIt<ProductsListCubit>()..getProducts(),

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/features/ordres/domain_layer/entities/order_entity.dart';
-import 'package:wasl_company_app/features/ordres/presentation_layer/providers/cubit/orders_cubit.dart';
-import 'package:wasl_company_app/features/ordres/presentation_layer/screens/order_details_screen.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/order_dialog.dart';
 
 class NewMapOrderWidget extends StatelessWidget {
@@ -128,7 +125,7 @@ class NewMapOrderWidget extends StatelessWidget {
                   SizedBox(
                     width: width * 0.2,
                     child: TextScroll(
-                      order.endCustomer!.address!,
+                      order.endCustomer!.address,
                       mode: TextScrollMode.bouncing,
                       velocity: const Velocity(pixelsPerSecond: Offset(20, 0)),
                       pauseBetween: const Duration(milliseconds: 500),

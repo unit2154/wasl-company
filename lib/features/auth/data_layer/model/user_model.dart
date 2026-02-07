@@ -10,7 +10,6 @@ class UserModel extends UserEntity {
   final String emailVerifiedAt;
   final String createdAt;
   final String updatedAt;
-  final ProfileModel profile;
 
   UserModel({
     @HiveField(0) required super.id,
@@ -21,7 +20,7 @@ class UserModel extends UserEntity {
     @HiveField(5) required this.emailVerifiedAt,
     @HiveField(6) required this.createdAt,
     @HiveField(7) required this.updatedAt,
-    @HiveField(8) required this.profile,
+    @HiveField(8) required super.profile,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -44,7 +43,7 @@ class UserModel extends UserEntity {
       'phone': phone,
       'name': name,
       'email': email,
-      'customer': profile.toJson(),
+      'customer': (profile as ProfileModel).toJson(),
       'type': type,
       'email_verified_at': emailVerifiedAt,
       'created_at': createdAt,

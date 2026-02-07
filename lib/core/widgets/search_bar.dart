@@ -4,12 +4,14 @@ import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
 
 class SearchInput extends StatelessWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final double height;
+  final Function(String)? onChanged;
   const SearchInput({
     super.key,
     required this.height,
-    required this.controller,
+    this.controller,
+    this.onChanged,
   });
 
   @override
@@ -20,6 +22,7 @@ class SearchInput extends StatelessWidget {
         height: height,
         child: TextField(
           controller: controller,
+          onChanged: onChanged,
           maxLines: 1,
           decoration: InputDecoration(
             hintText: 'ابحث',

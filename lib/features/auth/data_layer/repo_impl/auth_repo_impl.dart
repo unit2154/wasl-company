@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:wasl_company_app/core/error/failure.dart';
 import 'package:wasl_company_app/core/message/message.dart';
 import 'package:wasl_company_app/features/auth/data_layer/data_sources/auth_data_source.dart';
-import 'package:wasl_company_app/features/auth/domain_layer/entities/sub_entities/profile_entity.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/entities/user_entity.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/repo/auth_repo.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/entities/token_entity.dart';
@@ -80,16 +79,6 @@ class AuthRepoImpl implements AuthRepo {
     try {
       await authDataSource.removeToken();
       return Right(null);
-    } catch (e) {
-      return Left(CacheFailure(message: e.toString()));
-    }
-  }
-
-  @override
-  Future<Either<Failure, ProfileEntity>> getProfile() async {
-    try {
-      ProfileEntity profile = await authDataSource.getProfile();
-      return Right(profile);
     } catch (e) {
       return Left(CacheFailure(message: e.toString()));
     }

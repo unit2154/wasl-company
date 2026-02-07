@@ -83,8 +83,11 @@ class MapWidget extends StatelessWidget {
     return FlutterMap(
       mapController: _mapController,
       options: MapOptions(
-        initialCenter: LatLng(33.3232, 44.41),
-        initialZoom: 11.0,
+        initialCenter: LatLng(33.3232, 44.38),
+        initialZoom: 10.5,
+        interactionOptions: InteractionOptions(
+          flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+        ),
       ),
       children: [
         TileLayer(

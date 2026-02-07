@@ -13,7 +13,10 @@ class AddProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.white,
       appBar: AppBar(
+        backgroundColor: AppColors.white,
+        surfaceTintColor: AppColors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [Text(product == null ? "اضافة منتج" : "تعديل منتج")],

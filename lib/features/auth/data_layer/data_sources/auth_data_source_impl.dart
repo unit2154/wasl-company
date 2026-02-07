@@ -5,9 +5,9 @@ import 'package:wasl_company_app/core/exceptions/exceptions.dart';
 import 'package:wasl_company_app/core/message/message.dart';
 import 'package:wasl_company_app/core/network/api_consumer.dart';
 import 'package:wasl_company_app/features/auth/data_layer/data_sources/auth_data_source.dart';
-import 'package:wasl_company_app/features/auth/data_layer/model/sub_model/profile_model.dart';
 import 'package:wasl_company_app/features/auth/data_layer/model/token_model.dart';
 import 'package:wasl_company_app/features/auth/data_layer/model/user_model.dart';
+import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 
 class AuthDataSourceImpl implements AuthDataSource {
@@ -29,8 +29,10 @@ class AuthDataSourceImpl implements AuthDataSource {
         data: {'phone': phone},
       );
       return Message(message: jsonEncode(res.data));
-    } on Exception catch (e) {
-      throw ServerException(message: e.toString());
+    } on DioException catch (e) {
+      throw ServerException(
+        message: e.response?.data['message'] ?? e.response?.data['error'],
+      );
     }
   }
 
@@ -65,6 +67,8 @@ class AuthDataSourceImpl implements AuthDataSource {
         Endpoints.baseUrl + Endpoints.logout,
         headers: {'Authorization': 'Bearer ${tokenModel.token}'},
       );
+      await removeUser();
+      await removeToken();
     } catch (e) {
       throw ServerException(message: e.toString());
     }
@@ -82,7 +86,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   @override
   Future<UserModel> getUser() {
     try {
-      UserModel? user = userBox.getAt(0);
+      UserModel? user = userBox.get(userBox.keys.last);
       if (user == null) {
         throw CacheException(message: "No user found");
       }
@@ -95,7 +99,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   @override
   Future<void> removeUser() async {
     try {
-      await userBox.deleteAt(0);
+      await userBox.deleteAll(userBox.keys);
     } catch (e) {
       throw CacheException(message: e.toString());
     }
@@ -113,7 +117,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   @override
   Future<TokenModel> getToken() {
     try {
-      TokenModel? token = tokenBox.getAt(0);
+      TokenModel? token = tokenBox.get(tokenBox.keys.last);
       if (token == null) {
         throw CacheException(message: "No token found");
       }
@@ -126,20 +130,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   @override
   Future<void> removeToken() async {
     try {
-      await tokenBox.deleteAt(0);
-    } catch (e) {
-      throw CacheException(message: e.toString());
-    }
-  }
-
-  @override
-  Future<ProfileModel> getProfile() {
-    try {
-      UserModel? user = userBox.get(1);
-      if (user == null) {
-        throw CacheException(message: "No profile found");
-      }
-      return Future.value(user.profile);
+      await tokenBox.deleteAll(tokenBox.keys);
     } catch (e) {
       throw CacheException(message: e.toString());
     }

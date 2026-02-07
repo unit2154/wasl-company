@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/features/ordres/domain_layer/entities/order_entity.dart';
-import 'package:wasl_company_app/features/ordres/presentation_layer/providers/cubit/orders_cubit.dart';
-import 'package:wasl_company_app/features/ordres/presentation_layer/screens/order_details_screen.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/order_dialog.dart';
 
 class OrderCard extends StatelessWidget {
@@ -14,7 +11,7 @@ class OrderCard extends StatelessWidget {
   final BoxConstraints constraints;
   final BuildContext cubitContext;
 
-  OrderCard({
+  const OrderCard({
     super.key,
     required this.order,
     required this.constraints,
@@ -23,33 +20,42 @@ class OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var color, bcolor, btext;
+    String btext;
+    Color color, bcolor;
     order.status == "pending"
         ? color = AppColors.orderStateNew
         : order.status == "cancelled"
         ? color = AppColors.orderStateRejected
-        : order.status == "delivered"
+        : order.status == "delivered" || order.status == "shipped"
+        ? color = AppColors.orderStateCompleted
+        : order.status == "processing" ||
+              order.status == "reviewing" ||
+              order.status == "awaiting_confirmation"
         ? color = AppColors.orderStatePending
-        : order.status == "processing"
-        ? color = AppColors.orderStateNew
-        : color = AppColors.orderStateCompleted;
+        : color = AppColors.orderStateNew;
     order.status == "pending"
         ? bcolor = AppColors.orderStateNewBackground
         : order.status == "cancelled"
         ? bcolor = AppColors.orderStateRejectedBackground
-        : order.status == "delivered"
+        : order.status == "delivered" || order.status == "shipped"
+        ? bcolor = AppColors.orderStateCompletedBackground
+        : order.status == "processing" ||
+              order.status == "reviewing" ||
+              order.status == "awaiting_confirmation"
         ? bcolor = AppColors.orderStatePendingBackground
-        : order.status == "processing"
-        ? bcolor = AppColors.orderStateNewBackground
-        : bcolor = AppColors.orderStateCompletedBackground;
+        : bcolor = AppColors.orderStateNewBackground;
     order.status == "pending"
         ? btext = "جديد"
         : order.status == "cancelled"
         ? btext = "مرفوض"
-        : order.status == "delivered"
+        : order.status == "delivered" || order.status == "shipped"
         ? btext = "تم التسليم"
         : order.status == "processing"
         ? btext = "قيد المعالجة"
+        : order.status == "awaiting_confirmation"
+        ? btext = "انتظار التاكيد"
+        : order.status == "reviewing"
+        ? btext = "قيد المراجعة"
         : btext = "تم";
 
     final double width = constraints.maxWidth;
@@ -189,7 +195,6 @@ class OrderCard extends StatelessWidget {
                                 pixelsPerSecond: Offset(20, 0),
                               ),
                               pauseBetween: Duration(microseconds: 50),
-                              numberOfReps: 5,
                               textDirection: TextDirection.rtl,
                               style: TextStyle(
                                 color: AppColors.textPrimary,
@@ -200,10 +205,14 @@ class OrderCard extends StatelessWidget {
                           ),
                           SizedBox(
                             width: width * .275,
-                            child: Text(
+                            child: TextScroll(
                               "رقم الطلب : ${order.orderNumber.split("-")[2]}",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                              mode: TextScrollMode.bouncing,
+                              velocity: Velocity(
+                                pixelsPerSecond: Offset(20, 0),
+                              ),
+                              pauseBetween: Duration(microseconds: 50),
+                              textDirection: TextDirection.rtl,
                               style: TextStyle(
                                 color: AppColors.textPrimary,
                                 fontSize: 14 * (height / 844),
@@ -217,7 +226,13 @@ class OrderCard extends StatelessWidget {
                     // Shipping Address
                     Row(
                       children: [
-                        SvgPicture.asset(AppIcons.location),
+                        SvgPicture.asset(
+                          AppIcons.location,
+                          colorFilter: ColorFilter.mode(
+                            AppColors.primary,
+                            BlendMode.srcIn,
+                          ),
+                        ),
                         SizedBox(width: width * 0.01),
                         Text(
                           order.shippingAddress,
@@ -262,7 +277,14 @@ class OrderCard extends StatelessWidget {
                     // Commission
                     Row(
                       children: [
-                        Icon(Icons.money),
+                        SvgPicture.asset(
+                          AppIcons.commission,
+                          width: width * 0.05,
+                          colorFilter: ColorFilter.mode(
+                            AppColors.primary,
+                            BlendMode.srcIn,
+                          ),
+                        ),
                         SizedBox(width: width * 0.01),
                         Text(
                           "العمولة",

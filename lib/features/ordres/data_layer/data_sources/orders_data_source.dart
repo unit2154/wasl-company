@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:hive/hive.dart';
 import 'package:wasl_company_app/core/constants/endpoints.dart';
-import 'package:wasl_company_app/core/dependencies/locator.dart';
 import 'package:wasl_company_app/core/exceptions/exceptions.dart';
 import 'package:wasl_company_app/core/network/dio_api_consumer.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/entities/token_entity.dart';
@@ -15,7 +15,8 @@ abstract class OrdersDataSource {
 
 class OrdersDataSourceImpl implements OrdersDataSource {
   final DioApiConsumer apiConsumer;
-  OrdersDataSourceImpl({required this.apiConsumer});
+  final Box<TokenEntity> tokenBox;
+  OrdersDataSourceImpl({required this.apiConsumer, required this.tokenBox});
 
   @override
   Future<OrdersListModel> getOrders() async {
@@ -25,7 +26,7 @@ class OrdersDataSourceImpl implements OrdersDataSource {
         headers: <String, String>{
           "Accept": "application/json",
           "Content-Type": "application/json",
-          "Authorization": "Bearer ${getIt<TokenEntity>().token}",
+          "Authorization": "Bearer ${tokenBox.getAt(0)?.token}",
         },
       );
       return OrdersListModel.fromJson(response.data);
@@ -42,18 +43,16 @@ class OrdersDataSourceImpl implements OrdersDataSource {
   @override
   Future<void> updateOrderState(String orderId, String status) async {
     try {
-      final response = await apiConsumer.put(
+      await apiConsumer.put(
         "${Endpoints.orders}/$orderId",
         headers: <String, String>{
           "Accept": "application/json",
           "Content-Type": "application/json",
-          "Authorization": "Bearer ${getIt<TokenEntity>().token}",
+          "Authorization": "Bearer ${tokenBox.getAt(0)?.token}",
         },
         data: {"status": status, "notes": "", "tracking_number": ""},
       );
-      print("Success: " + response.data);
     } on DioException catch (e) {
-      print("Error: " + e.response?.data);
       throw ServerException(
         message:
             e.response?.data['message'] ??

@@ -9,6 +9,7 @@ Future<void> authDependencies() async {
       verify_otp: getIt<VerifyOtp>(),
       log_out: getIt<Logout>(),
       get_token: getIt<GetToken>(),
+      get_user: getIt<GetUser>(),
     ),
   );
   getIt.registerLazySingleton<SendOtp>(
@@ -23,14 +24,17 @@ Future<void> authDependencies() async {
   getIt.registerLazySingleton<GetToken>(
     () => GetToken(authRepo: getIt<AuthRepo>()),
   );
+  getIt.registerLazySingleton<GetUser>(
+    () => GetUser(authRepo: getIt<AuthRepo>()),
+  );
   getIt.registerLazySingleton<AuthRepo>(
     () => AuthRepoImpl(authDataSource: getIt<AuthDataSource>()),
   );
   getIt.registerLazySingleton<AuthDataSource>(
     () => AuthDataSourceImpl(
       apiConsumer: getIt<ApiConsumer>(),
-      userBox: Hive.box<UserModel>(AppConstants.userBox),
-      tokenBox: Hive.box<TokenModel>(AppConstants.tokenBox),
+      userBox: getIt<Box<UserModel>>(),
+      tokenBox: getIt<Box<TokenModel>>(),
     ),
   );
   getIt.registerLazySingleton<ApiConsumer>(

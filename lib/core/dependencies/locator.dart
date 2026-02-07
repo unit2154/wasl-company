@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:wasl_company_app/core/network/dio_api_consumer.dart';
+import 'package:wasl_company_app/features/auth/domain_layer/entities/token_entity.dart';
+import 'package:wasl_company_app/features/auth/domain_layer/entities/user_entity.dart';
+import 'package:wasl_company_app/features/auth/domain_layer/use_cases/get_user.dart';
 import 'package:wasl_company_app/features/ordres/data_layer/data_sources/orders_data_source.dart';
 import 'package:wasl_company_app/features/ordres/data_layer/repository/orders_repo_impl.dart';
 import 'package:wasl_company_app/features/ordres/domain_layer/repository/orders_repo.dart';
@@ -30,14 +33,15 @@ import 'package:wasl_company_app/features/auth/domain_layer/use_cases/logout.dar
 import 'package:wasl_company_app/features/auth/domain_layer/use_cases/send_otp.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/use_cases/verify_otp.dart';
 import 'package:wasl_company_app/features/auth/presentation_layer/providers/cubit/auth_cubit.dart';
-
 part 'auth_dependencies.dart';
 part 'products_dependencies.dart';
 part 'orders_dependencies.dart';
+part 'db_dependencies.dart';
 
 GetIt getIt = GetIt.instance;
 
 Future<void> setup() async {
+  await dbDependencies();
   await authDependencies();
   await productsDependencies();
   await ordersDependencies();
