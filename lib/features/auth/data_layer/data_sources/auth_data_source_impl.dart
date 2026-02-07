@@ -69,8 +69,13 @@ class AuthDataSourceImpl implements AuthDataSource {
       );
       await removeUser();
       await removeToken();
-    } catch (e) {
-      throw ServerException(message: e.toString());
+    } on DioException catch (e) {
+      throw ServerException(
+        message:
+            e.response?.data['message'] ??
+            e.response?.data['error'] ??
+            "خطأ في تسجيل الخروج",
+      );
     }
   }
 

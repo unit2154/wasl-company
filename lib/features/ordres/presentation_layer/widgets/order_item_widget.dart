@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:text_scroll/text_scroll.dart';
+
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/features/ordres/domain_layer/entities/sub_entities/order_item_entity.dart';
 
@@ -29,12 +29,10 @@ class OrderItemWidget extends StatelessWidget {
           width: width * .13,
           height: height * .13,
         ),
-        title: TextScroll(
+        title: Text(
           order.item!.name,
-          mode: TextScrollMode.bouncing,
-          velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
-          pauseBetween: Duration(microseconds: 50),
-          numberOfReps: 5,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           textDirection: TextDirection.rtl,
           style: TextStyle(
             color: AppColors.textPrimary,

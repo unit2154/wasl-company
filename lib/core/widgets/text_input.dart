@@ -8,6 +8,8 @@ class TextInput extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextEditingController controller;
   final BoxConstraints constraints;
+  final Function(String)? onChanged;
+  final Function()? onSubmitted;
   const TextInput({
     super.key,
     this.label,
@@ -15,12 +17,19 @@ class TextInput extends StatelessWidget {
     this.keyboardType,
     required this.controller,
     required this.constraints,
+    this.onChanged,
+    this.onSubmitted,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      onSubmitted: (value) {
+        controller.text = value;
+        onSubmitted!();
+      },
+      onChanged: onChanged,
       keyboardType: keyboardType,
       decoration: InputDecoration(
         border: OutlineInputBorder(

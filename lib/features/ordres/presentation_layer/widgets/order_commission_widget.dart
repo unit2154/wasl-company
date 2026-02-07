@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:text_scroll/text_scroll.dart';
+
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/features/ordres/domain_layer/entities/order_entity.dart';
@@ -52,11 +52,10 @@ class OrderCommissionWidget extends StatelessWidget {
                   mainAxisAlignment: .spaceBetween,
                   crossAxisAlignment: .start,
                   children: [
-                    TextScroll(
+                    Text(
                       order.endCustomer!.name,
-                      mode: TextScrollMode.bouncing,
-                      velocity: Velocity(pixelsPerSecond: Offset(50, 0)),
-                      pauseBetween: Duration(seconds: 1),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: constraints.maxWidth * .04,
                         fontWeight: FontWeight.bold,

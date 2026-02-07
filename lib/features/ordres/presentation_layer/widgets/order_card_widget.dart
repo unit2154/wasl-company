@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:text_scroll/text_scroll.dart';
+
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/features/ordres/domain_layer/entities/order_entity.dart';
@@ -22,41 +22,29 @@ class OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     String btext;
     Color color, bcolor;
-    order.status == "pending"
-        ? color = AppColors.orderStateNew
-        : order.status == "cancelled"
-        ? color = AppColors.orderStateRejected
-        : order.status == "delivered" || order.status == "shipped"
-        ? color = AppColors.orderStateCompleted
-        : order.status == "processing" ||
-              order.status == "reviewing" ||
-              order.status == "awaiting_confirmation"
-        ? color = AppColors.orderStatePending
-        : color = AppColors.orderStateNew;
-    order.status == "pending"
-        ? bcolor = AppColors.orderStateNewBackground
-        : order.status == "cancelled"
-        ? bcolor = AppColors.orderStateRejectedBackground
-        : order.status == "delivered" || order.status == "shipped"
-        ? bcolor = AppColors.orderStateCompletedBackground
-        : order.status == "processing" ||
-              order.status == "reviewing" ||
-              order.status == "awaiting_confirmation"
-        ? bcolor = AppColors.orderStatePendingBackground
-        : bcolor = AppColors.orderStateNewBackground;
-    order.status == "pending"
-        ? btext = "جديد"
-        : order.status == "cancelled"
-        ? btext = "مرفوض"
-        : order.status == "delivered" || order.status == "shipped"
-        ? btext = "تم التسليم"
-        : order.status == "processing"
-        ? btext = "قيد المعالجة"
-        : order.status == "awaiting_confirmation"
-        ? btext = "انتظار التاكيد"
-        : order.status == "reviewing"
-        ? btext = "قيد المراجعة"
-        : btext = "تم";
+    if (order.status == "pending") {
+      color = AppColors.orderStateNew;
+      bcolor = AppColors.orderStateNewBackground;
+      btext = "جديد";
+    } else if (order.status == "cancelled") {
+      color = AppColors.orderStateRejected;
+      bcolor = AppColors.orderStateRejectedBackground;
+      btext = "مرفوض";
+    } else if (order.status == "delivered" || order.status == "shipped") {
+      color = AppColors.orderStateCompleted;
+      bcolor = AppColors.orderStateCompletedBackground;
+      btext = "تم التسليم";
+    } else if (order.status == "processing" ||
+        order.status == "reviewing" ||
+        order.status == "awaiting_confirmation") {
+      color = AppColors.orderStatePending;
+      bcolor = AppColors.orderStatePendingBackground;
+      btext = "قيد المعالجة";
+    } else {
+      color = AppColors.orderStateNew;
+      bcolor = AppColors.orderStateNewBackground;
+      btext = "تم";
+    }
 
     final double width = constraints.maxWidth;
     final double height = constraints.maxHeight;
@@ -188,13 +176,10 @@ class OrderCard extends StatelessWidget {
                         children: [
                           SizedBox(
                             width: width * .5,
-                            child: TextScroll(
+                            child: Text(
                               order.endCustomer!.name,
-                              mode: TextScrollMode.bouncing,
-                              velocity: Velocity(
-                                pixelsPerSecond: Offset(20, 0),
-                              ),
-                              pauseBetween: Duration(microseconds: 50),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               textDirection: TextDirection.rtl,
                               style: TextStyle(
                                 color: AppColors.textPrimary,
@@ -205,13 +190,10 @@ class OrderCard extends StatelessWidget {
                           ),
                           SizedBox(
                             width: width * .275,
-                            child: TextScroll(
+                            child: Text(
                               "رقم الطلب : ${order.orderNumber.split("-")[2]}",
-                              mode: TextScrollMode.bouncing,
-                              velocity: Velocity(
-                                pixelsPerSecond: Offset(20, 0),
-                              ),
-                              pauseBetween: Duration(microseconds: 50),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               textDirection: TextDirection.rtl,
                               style: TextStyle(
                                 color: AppColors.textPrimary,

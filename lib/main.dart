@@ -63,6 +63,11 @@ class MyApp extends StatelessWidget {
               default:
             }
           },
+          buildWhen: (previous, current) {
+            return current is! LogoutError ||
+                current is! VerifyOtpError ||
+                current is! SendOtpError;
+          },
           builder: (context, state) {
             return state is SendOtpSuccess || state is VerifyOtpError
                 ? VerifyOtpScreen()

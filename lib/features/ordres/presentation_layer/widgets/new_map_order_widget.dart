@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:text_scroll/text_scroll.dart';
+
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/features/ordres/domain_layer/entities/order_entity.dart';
@@ -80,12 +80,10 @@ class NewMapOrderWidget extends StatelessWidget {
                   SizedBox(width: width * 0.02),
                   SizedBox(
                     width: width * 0.8,
-                    child: TextScroll(
+                    child: Text(
                       order.endCustomer!.name,
-                      mode: TextScrollMode.bouncing,
-                      velocity: const Velocity(pixelsPerSecond: Offset(20, 0)),
-                      numberOfReps: 5,
-                      pauseBetween: const Duration(milliseconds: 500),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       textDirection: TextDirection.rtl,
                       style: TextStyle(
                         color: AppColors.textPrimary,
@@ -124,11 +122,10 @@ class NewMapOrderWidget extends StatelessWidget {
                   SvgPicture.asset(AppIcons.location),
                   SizedBox(
                     width: width * 0.2,
-                    child: TextScroll(
+                    child: Text(
                       order.endCustomer!.address,
-                      mode: TextScrollMode.bouncing,
-                      velocity: const Velocity(pixelsPerSecond: Offset(20, 0)),
-                      pauseBetween: const Duration(milliseconds: 500),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       textDirection: TextDirection.rtl,
                       style: TextStyle(
                         color: AppColors.textPrimary,

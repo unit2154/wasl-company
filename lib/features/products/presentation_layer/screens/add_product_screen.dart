@@ -12,6 +12,7 @@ class AddProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var updatedProduct = product;
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -61,6 +62,16 @@ class AddProductScreen extends StatelessWidget {
                             context.read<ProductsListCubit>().nameController
                               ..text = product?.name.toString() ?? "",
                         constraints: constraints,
+                        onChanged: (value) {
+                          product == null ? null : updatedProduct!.name = value;
+                        },
+                        onSubmitted: product != null
+                            ? () {
+                                context.read<ProductsListCubit>().updateProduct(
+                                  updatedProduct!,
+                                );
+                              }
+                            : null,
                       ),
                       const SizedBox(height: 10),
                       const Text("وصف المنتج"),
@@ -71,6 +82,18 @@ class AddProductScreen extends StatelessWidget {
                                 .descriptionController
                               ..text = product?.description.toString() ?? "",
                         constraints: constraints,
+                        onChanged: (value) {
+                          product == null
+                              ? null
+                              : updatedProduct!.description = value;
+                        },
+                        onSubmitted: product != null
+                            ? () {
+                                context.read<ProductsListCubit>().updateProduct(
+                                  updatedProduct!,
+                                );
+                              }
+                            : null,
                       ),
                       const SizedBox(height: 10),
                       const Text("السعر"),
@@ -79,6 +102,18 @@ class AddProductScreen extends StatelessWidget {
                             context.read<ProductsListCubit>().priceController
                               ..text = product?.price.toString() ?? "",
                         constraints: constraints,
+                        onChanged: (value) {
+                          product == null
+                              ? null
+                              : updatedProduct!.price = value;
+                        },
+                        onSubmitted: product != null
+                            ? () {
+                                context.read<ProductsListCubit>().updateProduct(
+                                  updatedProduct!,
+                                );
+                              }
+                            : null,
                       ),
                       const SizedBox(height: 10),
                       const Text("الكمية"),
@@ -88,6 +123,20 @@ class AddProductScreen extends StatelessWidget {
                               ..text = product?.stockQuantity.toString() ?? "",
                         keyboardType: TextInputType.number,
                         constraints: constraints,
+                        onChanged: (value) {
+                          product == null
+                              ? null
+                              : updatedProduct!.stockQuantity = int.parse(
+                                  value,
+                                );
+                        },
+                        onSubmitted: product != null
+                            ? () {
+                                context.read<ProductsListCubit>().updateProduct(
+                                  updatedProduct!,
+                                );
+                              }
+                            : null,
                       ),
                       const SizedBox(height: 10),
                       const Text("الوحدة"),
@@ -96,6 +145,16 @@ class AddProductScreen extends StatelessWidget {
                             context.read<ProductsListCubit>().unitController
                               ..text = product?.unit.toString() ?? "",
                         constraints: constraints,
+                        onChanged: (value) {
+                          product == null ? null : updatedProduct!.unit = value;
+                        },
+                        onSubmitted: product != null
+                            ? () {
+                                context.read<ProductsListCubit>().updateProduct(
+                                  updatedProduct!,
+                                );
+                              }
+                            : null,
                       ),
                       const SizedBox(height: 10),
                       const Text("الحد الادنى للطلب"),
@@ -107,6 +166,18 @@ class AddProductScreen extends StatelessWidget {
                               ..text =
                                   product?.minOrderQuantity.toString() ?? "",
                         constraints: constraints,
+                        onChanged: (value) {
+                          product == null
+                              ? null
+                              : updatedProduct!.minOrderQuantity = value;
+                        },
+                        onSubmitted: product != null
+                            ? () {
+                                context.read<ProductsListCubit>().updateProduct(
+                                  updatedProduct!,
+                                );
+                              }
+                            : null,
                       ),
                       const SizedBox(height: 10),
                       const Text("الحالة"),
@@ -115,6 +186,18 @@ class AddProductScreen extends StatelessWidget {
                             context.read<ProductsListCubit>().isActiveController
                               ..text = product?.isActive.toString() ?? "",
                         constraints: constraints,
+                        onChanged: (value) {
+                          product == null
+                              ? null
+                              : updatedProduct!.isActive = (value == "1");
+                        },
+                        onSubmitted: product != null
+                            ? () {
+                                context.read<ProductsListCubit>().updateProduct(
+                                  updatedProduct!,
+                                );
+                              }
+                            : null,
                       ),
                       const SizedBox(height: 10),
                       BlocConsumer<ProductsListCubit, ProductsListState>(
@@ -129,7 +212,7 @@ class AddProductScreen extends StatelessWidget {
                             );
                             if (product != null) {
                               context.read<ProductsListCubit>().updateUI(
-                                product!,
+                                updatedProduct!,
                               );
                             }
                             Navigator.pop(context, true);
@@ -148,7 +231,7 @@ class AddProductScreen extends StatelessWidget {
                                 context.read<ProductsListCubit>().addProduct();
                               } else {
                                 context.read<ProductsListCubit>().updateProduct(
-                                  product!,
+                                  updatedProduct!,
                                 );
                               }
                             },

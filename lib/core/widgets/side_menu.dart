@@ -7,6 +7,7 @@ import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/core/dependencies/locator.dart';
 import 'package:wasl_company_app/features/auth/data_layer/model/user_model.dart';
 import 'package:wasl_company_app/features/auth/presentation_layer/providers/cubit/auth_cubit.dart';
+import 'package:wasl_company_app/features/auth/presentation_layer/screens/user_profile.dart';
 import 'package:wasl_company_app/features/dashboard/presentation_layer/providers/cubit/dashboard_cubit.dart';
 
 class SideMenu extends StatelessWidget {
@@ -41,7 +42,12 @@ class SideMenu extends StatelessWidget {
               ],
             ),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const UserProfileScreen(),
+                ),
+              );
             },
           ),
           ListTile(

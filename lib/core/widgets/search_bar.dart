@@ -6,12 +6,16 @@ import 'package:wasl_company_app/core/constants/images.dart';
 class SearchInput extends StatelessWidget {
   final TextEditingController? controller;
   final double height;
+  final String? hintText;
   final Function(String)? onChanged;
+  final Function(String)? onSubmitted;
   const SearchInput({
     super.key,
     required this.height,
     this.controller,
     this.onChanged,
+    this.hintText,
+    this.onSubmitted,
   });
 
   @override
@@ -23,9 +27,10 @@ class SearchInput extends StatelessWidget {
         child: TextField(
           controller: controller,
           onChanged: onChanged,
+          onSubmitted: onSubmitted,
           maxLines: 1,
           decoration: InputDecoration(
-            hintText: 'ابحث',
+            hintText: hintText ?? ' ابحث عن عميل او منتج او رقم طلب',
             prefixIcon: Padding(
               padding: const EdgeInsets.all(12.0),
               child: SvgPicture.asset(

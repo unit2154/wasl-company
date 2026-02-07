@@ -62,26 +62,33 @@ class ProductsScreen extends StatelessWidget {
                       SizedBox(
                         height: constraints.maxHeight * 0.9,
                         child: state.productsList.isNotEmpty
-                            ? GridView.builder(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 10,
-                                ),
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      childAspectRatio: 0.8,
-                                      crossAxisSpacing: 10,
-                                      mainAxisSpacing: 10,
-                                    ),
-                                itemCount: state.productsList.length,
-                                itemBuilder: (_, index) {
-                                  return Product(
-                                    product: state.productsList[index],
-                                    constraints: constraints,
-                                    cubitContext: context,
-                                  );
+                            ? RefreshIndicator(
+                                onRefresh: () {
+                                  return context
+                                      .read<ProductsListCubit>()
+                                      .getProducts();
                                 },
+                                child: GridView.builder(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 10,
+                                  ),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 0.8,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10,
+                                      ),
+                                  itemCount: state.productsList.length,
+                                  itemBuilder: (_, index) {
+                                    return Product(
+                                      product: state.productsList[index],
+                                      constraints: constraints,
+                                      cubitContext: context,
+                                    );
+                                  },
+                                ),
                               )
                             : const Center(
                                 child: Text(
@@ -123,7 +130,48 @@ class ProductsScreen extends StatelessWidget {
                 },
               );
             } else if (state is ProductsListError) {
-              return Center(child: Text(state.error));
+              return Center(
+                child: Column(
+                  mainAxisSize: .min,
+                  children: [
+                    Text(
+                      "حدث خطأ",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<ProductsListCubit>().getProducts();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: .min,
+                        children: [
+                          Icon(Icons.refresh, color: AppColors.white),
+                          SizedBox(width: 10),
+                          Text(
+                            "إعادة المحاولة",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
             } else if (state is ProductsListUpdate) {
               return Center(child: const Text("تم تحديث المنتجات"));
             } else {

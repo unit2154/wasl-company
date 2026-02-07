@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:text_scroll/text_scroll.dart';
+
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/features/ordres/domain_layer/entities/order_entity.dart';
@@ -112,15 +112,12 @@ class OrderDetailsScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                TextScroll(
+                                Text(
                                   DateTime.parse(
                                     order.createdAt,
                                   ).toLocal().toString(),
-                                  mode: TextScrollMode.bouncing,
-                                  velocity: Velocity(
-                                    pixelsPerSecond: Offset(150, 0),
-                                  ),
-                                  numberOfReps: 1,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                   textDirection: TextDirection.ltr,
                                   style: TextStyle(
                                     color: const Color(0xFF646464),
@@ -161,14 +158,10 @@ class OrderDetailsScreen extends StatelessWidget {
                                 children: [
                                   SizedBox(
                                     width: width * .5,
-                                    child: TextScroll(
+                                    child: Text(
                                       order.endCustomer!.name,
-                                      mode: TextScrollMode.bouncing,
-                                      velocity: Velocity(
-                                        pixelsPerSecond: Offset(20, 0),
-                                      ),
-                                      pauseBetween: Duration(microseconds: 50),
-                                      numberOfReps: 5,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       textDirection: TextDirection.rtl,
                                       style: TextStyle(
                                         color: AppColors.textPrimary,
@@ -179,14 +172,10 @@ class OrderDetailsScreen extends StatelessWidget {
                                   ),
                                   SizedBox(
                                     width: width * .275,
-                                    child: TextScroll(
+                                    child: Text(
                                       "رقم الطلب : ${order.orderNumber.split("-")[2]}",
-                                      mode: TextScrollMode.bouncing,
-                                      velocity: Velocity(
-                                        pixelsPerSecond: Offset(20, 0),
-                                      ),
-                                      pauseBetween: Duration(microseconds: 50),
-                                      numberOfReps: 5,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       textDirection: TextDirection.rtl,
                                       style: TextStyle(
                                         color: AppColors.textPrimary,
@@ -206,14 +195,10 @@ class OrderDetailsScreen extends StatelessWidget {
                                 SizedBox(
                                   width: width * .75,
                                   height: height * .03,
-                                  child: TextScroll(
+                                  child: Text(
                                     order.shippingAddress,
-                                    mode: TextScrollMode.bouncing,
-                                    velocity: Velocity(
-                                      pixelsPerSecond: Offset(20, 0),
-                                    ),
-                                    pauseBetween: Duration(microseconds: 50),
-                                    numberOfReps: 5,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     textDirection: TextDirection.rtl,
                                     style: TextStyle(
                                       color: AppColors.textSecondary,

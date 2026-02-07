@@ -29,12 +29,7 @@ class OrdersMapScreen extends StatelessWidget {
       body: Center(
         child: BlocConsumer<OrdersCubit, OrdersState>(
           listener: (context, state) {
-            if (state is OrdersError) {
-              showDialog<Widget>(
-                context: context,
-                builder: (context) => const Center(child: Text("حدث خطأ")),
-              );
-            } else if (state is OrderUpdated) {
+            if (state is OrderUpdated) {
               context.read<OrdersCubit>().getOrders();
               ScaffoldMessenger.of(
                 context,
@@ -55,6 +50,9 @@ class OrdersMapScreen extends StatelessWidget {
                     onChanged: (value) {
                       context.read<OrdersCubit>().searchOrders(value);
                     },
+                    onSubmitted: (value) {
+                      context.read<OrdersCubit>().searchOrdersByItem(value);
+                    },
                     height: constraints.maxHeight * 0.065,
                   ),
                   ClipRRect(
@@ -74,24 +72,112 @@ class OrdersMapScreen extends StatelessWidget {
                   SizedBox(
                     height: constraints.maxHeight * 0.43,
                     width: constraints.maxWidth * 0.95,
-                    child: ListView.builder(
-                      itemCount: orders.length,
-                      itemBuilder: (context, index) {
-                        return NewMapOrderWidget(
-                          width: constraints.maxWidth,
-                          height: constraints.maxHeight,
-                          order: orders[index],
-                          cubitContext: context,
-                        );
+                    child: RefreshIndicator(
+                      displacement: 20,
+                      color: AppColors.primary,
+                      onRefresh: () async {
+                        context.read<OrdersCubit>().getOrders();
                       },
+                      child: ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: orders.length,
+                        itemBuilder: (context, index) {
+                          return NewMapOrderWidget(
+                            width: constraints.maxWidth,
+                            height: constraints.maxHeight,
+                            order: orders[index],
+                            cubitContext: context,
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ],
               );
             } else if (state is OrdersError) {
-              return const Center(child: Text("حدث خطأ"));
+              return Center(
+                child: Column(
+                  mainAxisSize: .min,
+                  children: [
+                    Text(
+                      "حدث خطأ",
+                      style: TextStyle(
+                        fontSize: constraints.maxHeight * 0.02,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    SizedBox(height: constraints.maxHeight * 0.02),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<OrdersCubit>().getOrders();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.refresh, color: AppColors.white),
+                          SizedBox(width: constraints.maxWidth * 0.02),
+                          Text(
+                            "إعادة المحاولة",
+                            style: TextStyle(
+                              fontSize: constraints.maxHeight * 0.02,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
             } else {
-              return const Center(child: Text("حدث خطأ"));
+              return Center(
+                child: Column(
+                  children: [
+                    Text(
+                      "حدث خطأ",
+                      style: TextStyle(
+                        fontSize: constraints.maxHeight * 0.02,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    SizedBox(height: constraints.maxHeight * 0.02),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<OrdersCubit>().getOrders();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.refresh, color: AppColors.white),
+                          SizedBox(width: constraints.maxWidth * 0.02),
+                          Text(
+                            "إعادة المحاولة",
+                            style: TextStyle(
+                              fontSize: constraints.maxHeight * 0.02,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }
           },
         ),

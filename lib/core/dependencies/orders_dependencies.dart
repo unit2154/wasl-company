@@ -6,6 +6,7 @@ Future<void> ordersDependencies() async {
     () => OrdersCubit(
       getOrdersUseCase: getIt<GetOrdersUseCase>(),
       updateOrderStatusUseCase: getIt<UpdateOrderStatusUseCase>(),
+      findOrderByItemUseCase: getIt<FindOrderByItemUseCase>(),
     ),
   );
   getIt.registerLazySingleton<GetOrdersUseCase>(
@@ -13,6 +14,9 @@ Future<void> ordersDependencies() async {
   );
   getIt.registerLazySingleton<UpdateOrderStatusUseCase>(
     () => UpdateOrderStatusUseCase(repository: getIt<OrdersRepo>()),
+  );
+  getIt.registerLazySingleton<FindOrderByItemUseCase>(
+    () => FindOrderByItemUseCase(),
   );
   getIt.registerLazySingleton<OrdersRepo>(
     () => OrdersRepoImpl(ordersDataSource: getIt<OrdersDataSource>()),

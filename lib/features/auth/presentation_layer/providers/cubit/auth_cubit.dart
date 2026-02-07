@@ -73,7 +73,6 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<bool> logout() async {
-    emit(Loading());
     Either<Failure, void> result = await log_out();
     result.fold(
       (failure) {
