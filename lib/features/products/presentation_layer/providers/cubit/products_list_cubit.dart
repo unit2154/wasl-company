@@ -66,13 +66,6 @@ class ProductsListCubit extends Cubit<ProductsListState> {
 
   Future<void> updateProduct(ProductEntity product) async {
     emit(AddProductLoading());
-    product.name = nameController.text.toString();
-    product.price = priceController.text;
-    product.description = descriptionController.text;
-    product.stockQuantity = int.parse(stockController.text);
-    product.unit = unitController.text;
-    product.minOrderQuantity = minOrderQuantityController.text;
-
     final result = await updateProductUseCase(product);
     result.fold((l) => emit(AddProductError(l.message)), (r) {
       emit(AddProductSuccess());
