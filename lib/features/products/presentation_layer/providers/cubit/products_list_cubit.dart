@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
@@ -45,7 +47,7 @@ class ProductsListCubit extends Cubit<ProductsListState> {
   Future<void> addProduct() async {
     emit(AddProductLoading());
     final product = ProductEntity(
-      id: 1,
+      id: Random().nextInt(1000000),
       images: [],
       name: nameController.text.toString(),
       sku: String.fromEnvironment("skuController.text"),

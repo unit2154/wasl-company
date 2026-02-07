@@ -98,6 +98,7 @@ class AddProductScreen extends StatelessWidget {
                       const SizedBox(height: 10),
                       const Text("السعر"),
                       TextInput(
+                        keyboardType: TextInputType.number,
                         controller:
                             context.read<ProductsListCubit>().priceController
                               ..text = product?.price.toString() ?? "",
@@ -159,6 +160,7 @@ class AddProductScreen extends StatelessWidget {
                       const SizedBox(height: 10),
                       const Text("الحد الادنى للطلب"),
                       TextInput(
+                        keyboardType: TextInputType.number,
                         controller:
                             context
                                 .read<ProductsListCubit>()
