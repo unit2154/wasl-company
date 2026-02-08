@@ -9,7 +9,7 @@ class OrderEntity {
   final int mainCustomerId;
   final String status;
   final String subtotal;
-  final String totalAmount;
+  String totalAmount;
   final String commissionAmount;
   final String? trackingNumber;
   final String shippingAddress;
@@ -20,7 +20,7 @@ class OrderEntity {
   final String createdAt;
   final String? updatedAt;
   final CustomerEntity? endCustomer;
-  final List<OrderItemEntity>? orderItems;
+  List<OrderItemEntity>? orderItems;
   final CommissionEntity? commission;
 
   OrderEntity({

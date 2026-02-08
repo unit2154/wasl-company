@@ -147,7 +147,7 @@ class OrderCommissionWidget extends StatelessWidget {
                 Icon(Icons.check_circle, color: AppColors.orderStateCompleted),
                 SizedBox(width: constraints.maxWidth * .02),
                 Text(
-                  'تم التسليم في  ${DateTime.parse(order.shippedAt!).toLocal()}',
+                  'تم التسليم في  ${DateTime.parse(order.deliveredAt!).toLocal()}',
                   style: TextStyle(
                     fontSize: constraints.maxWidth * .04,
                     fontWeight: FontWeight.bold,

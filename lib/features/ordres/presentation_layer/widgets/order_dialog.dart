@@ -39,7 +39,10 @@ class OrderDialog extends StatelessWidget {
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => OrderDetailsScreen(order: order),
+              builder: (_) => BlocProvider.value(
+                value: cubitContext.read<OrdersCubit>(),
+                child: OrderDetailsScreen(order: order),
+              ),
             ),
           ),
           child: Text(

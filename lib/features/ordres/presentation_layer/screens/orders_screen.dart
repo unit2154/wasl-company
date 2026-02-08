@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
+import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/core/widgets/side_menu.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/providers/cubit/orders_cubit.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/order_tab_widget.dart';
@@ -113,10 +115,10 @@ class OrdersScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     title: Center(
-                      child: Icon(
-                        Icons.receipt_long,
-                        color: AppColors.primary,
-                        size: constraints.maxHeight * 0.05,
+                      child: SvgPicture.asset(
+                        AppIcons.order,
+                        width: constraints.maxWidth * 0.05,
+                        height: constraints.maxHeight * 0.05,
                       ),
                     ),
                     content: Text(

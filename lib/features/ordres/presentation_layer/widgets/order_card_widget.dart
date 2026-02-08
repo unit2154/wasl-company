@@ -34,12 +34,18 @@ class OrderCard extends StatelessWidget {
       color = AppColors.orderStateCompleted;
       bcolor = AppColors.orderStateCompletedBackground;
       btext = "تم التسليم";
-    } else if (order.status == "processing" ||
-        order.status == "reviewing" ||
-        order.status == "awaiting_confirmation") {
+    } else if (order.status == "reviewing") {
+      color = AppColors.orderStatePending;
+      bcolor = AppColors.orderStatePendingBackground;
+      btext = "قيد المراجعة";
+    } else if (order.status == "processing") {
       color = AppColors.orderStatePending;
       bcolor = AppColors.orderStatePendingBackground;
       btext = "قيد المعالجة";
+    } else if (order.status == "awaiting_confirmation") {
+      color = AppColors.orderStatePending;
+      bcolor = AppColors.orderStatePendingBackground;
+      btext = "انتضار التاكيد";
     } else {
       color = AppColors.orderStateNew;
       bcolor = AppColors.orderStateNewBackground;
@@ -146,20 +152,10 @@ class OrderCard extends StatelessWidget {
                       ],
                     ),
                     // Divider
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: height * 0.008),
-                      child: Container(
-                        width: width * .89,
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                              width: 1,
-                              strokeAlign: BorderSide.strokeAlignCenter,
-                              color: AppColors.cardBorder,
-                            ),
-                          ),
-                        ),
-                      ),
+                    Divider(
+                      color: AppColors.cardBorder,
+                      thickness: 2,
+                      height: height * .01,
                     ),
                     // Customer Name and Order Number
                     Container(

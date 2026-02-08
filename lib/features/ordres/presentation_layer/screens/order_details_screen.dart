@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/features/ordres/domain_layer/entities/order_entity.dart';
+import 'package:wasl_company_app/features/ordres/presentation_layer/providers/cubit/orders_cubit.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/order_item_widget.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
@@ -128,17 +130,10 @@ class OrderDetailsScreen extends StatelessWidget {
                               ],
                             ),
                             // Separator
-                            Container(
-                              width: width * .89,
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    width: 1,
-                                    strokeAlign: BorderSide.strokeAlignCenter,
-                                    color: AppColors.cardBorder,
-                                  ),
-                                ),
-                              ),
+                            Divider(
+                              color: AppColors.cardBorder,
+                              thickness: 2,
+                              height: height * .001,
                             ),
                             // market name and order number
                             Container(
@@ -218,70 +213,95 @@ class OrderDetailsScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            SizedBox(
-                              height: height * .55,
-                              child: ListView.builder(
-                                itemCount: order.orderItems!.length,
-                                itemBuilder: (context, index) {
-                                  if (order.orderItems![index].item == null) {
-                                    return const SizedBox.shrink();
+                            //? list of items and total amount
+                            BlocBuilder<OrdersCubit, OrdersState>(
+                              builder: (context, state) {
+                                double totalAmount = 0;
+                                for (var element in order.orderItems!) {
+                                  if (element.item == null) {
+                                    continue;
                                   }
-                                  return OrderItemWidget(
-                                    height: height,
-                                    width: width,
-                                    order: order.orderItems![index],
-                                  );
-                                },
-                              ),
-                            ),
-                            SizedBox(height: height * 0.05),
-                            Container(
-                              width: width * .89,
-                              height: height * .06,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: width * .02,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  color: AppColors.orderTotalBorder,
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        AppImages.coins,
-                                        width: width * 0.05,
+                                  totalAmount +=
+                                      double.parse(element.item!.price) *
+                                      element.orderedQuantity;
+                                }
+                                return Column(
+                                  children: [
+                                    SizedBox(
+                                      height: height * .55,
+                                      child: ListView.builder(
+                                        itemCount: order.orderItems!.length,
+                                        itemBuilder: (context, index) {
+                                          if (order.orderItems![index].item ==
+                                              null) {
+                                            return const SizedBox.shrink();
+                                          }
+                                          return OrderItemWidget(
+                                            cubitContext: context,
+                                            height: height,
+                                            width: width,
+                                            order: order.orderItems![index],
+                                            isEdit:
+                                                order.status == "pending" ||
+                                                order.status == "processing",
+                                          );
+                                        },
                                       ),
-                                      SizedBox(width: width * 0.01),
-                                      Text(
-                                        "مجموع الطلب",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
+                                    ),
+                                    SizedBox(height: height * 0.05),
+                                    //? total amount
+                                    Container(
+                                      width: width * .89,
+                                      height: height * .06,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: width * .02,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
                                           color: AppColors.orderTotalBorder,
-                                          fontSize: 16 * (height / 844),
-                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  Text(
-                                    "${order.totalAmount} دينار",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: AppColors.orderTotalBorder,
-                                      fontSize: 16 * (height / 844),
-                                      fontWeight: FontWeight.w700,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Image.asset(
+                                                AppImages.coins,
+                                                width: width * 0.05,
+                                              ),
+                                              SizedBox(width: width * 0.01),
+                                              Text(
+                                                "مجموع الطلب",
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  color: AppColors
+                                                      .orderTotalBorder,
+                                                  fontSize: 16 * (height / 844),
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Text(
+                                            "$totalAmount دينار",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: AppColors.orderTotalBorder,
+                                              fontSize: 16 * (height / 844),
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                );
+                              },
                             ),
                           ],
                         ),

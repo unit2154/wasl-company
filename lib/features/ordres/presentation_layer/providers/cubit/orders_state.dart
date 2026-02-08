@@ -20,3 +20,5 @@ final class OrdersError extends OrdersState {
 
   OrdersError({required this.message});
 }
+
+final class OrderItemUpdated extends OrdersState {}

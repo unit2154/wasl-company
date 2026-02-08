@@ -27,16 +27,7 @@ class OrdersMapScreen extends StatelessWidget {
       ),
       drawer: SideMenu(),
       body: Center(
-        child: BlocConsumer<OrdersCubit, OrdersState>(
-          listener: (context, state) {
-            if (state is OrderUpdated) {
-              context.read<OrdersCubit>().getOrders();
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(const SnackBar(content: Text("تم تحديث الطلب")));
-            }
-          },
-
+        child: BlocBuilder<OrdersCubit, OrdersState>(
           builder: (context, state) {
             if (state is OrdersLoading) {
               return const Center(child: CircularProgressIndicator());

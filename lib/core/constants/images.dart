@@ -21,4 +21,5 @@ class AppIcons {
   static const String location = 'assets/icons/Location.svg';
   static const String commission = 'assets/icons/Commission.svg';
   static const String calendar = 'assets/icons/Calendar.svg';
+  static const String order = 'assets/icons/Order.svg';
 }

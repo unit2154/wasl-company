@@ -73,4 +73,8 @@ class OrdersCubit extends Cubit<OrdersState> {
     );
     emit(OrdersLoaded(orderList: filteredOrdersList));
   }
+
+  void updateOrderItem() {
+    emit(OrderItemUpdated());
+  }
 }

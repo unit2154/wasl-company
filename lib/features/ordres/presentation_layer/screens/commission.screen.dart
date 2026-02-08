@@ -44,6 +44,7 @@ class CommissionScreen extends StatelessWidget {
                     constraints: constraints,
                     total: total.toStringAsFixed(2),
                   ),
+                  SizedBox(height: constraints.maxHeight * .02),
                   SizedBox(
                     height: constraints.maxHeight * 0.72,
                     width: constraints.maxWidth * .9,
