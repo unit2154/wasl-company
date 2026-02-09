@@ -23,7 +23,7 @@ import 'package:wasl_company_app/core/constants/app_constants.dart';
 import 'package:wasl_company_app/core/network/api_consumer.dart';
 import 'package:wasl_company_app/features/auth/data_layer/data_sources/auth_data_source.dart';
 import 'package:wasl_company_app/features/auth/data_layer/data_sources/auth_data_source_impl.dart';
-import 'package:wasl_company_app/features/auth/data_layer/model/token_model.dart';
+import 'package:wasl_company_app/features/auth/data_layer/model/sub_model/token_model.dart';
 import 'package:wasl_company_app/features/auth/data_layer/model/user_model.dart';
 import 'package:wasl_company_app/features/auth/data_layer/repo_impl/auth_repo_impl.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/repo/auth_repo.dart';

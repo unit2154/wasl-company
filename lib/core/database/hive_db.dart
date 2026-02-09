@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wasl_company_app/core/constants/app_constants.dart';
 import 'package:wasl_company_app/features/auth/data_layer/model/sub_model/profile_model.dart';
-import 'package:wasl_company_app/features/auth/data_layer/model/token_model.dart';
+import 'package:wasl_company_app/features/auth/data_layer/model/sub_model/token_model.dart';
 import 'package:wasl_company_app/features/auth/data_layer/model/user_model.dart';
 
 Future<void> initHive() async {

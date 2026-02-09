@@ -4,7 +4,7 @@ import 'package:wasl_company_app/core/message/message.dart';
 import 'package:wasl_company_app/features/auth/data_layer/data_sources/auth_data_source.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/entities/user_entity.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/repo/auth_repo.dart';
-import 'package:wasl_company_app/features/auth/domain_layer/entities/token_entity.dart';
+import 'package:wasl_company_app/features/auth/domain_layer/entities/sub_entities/token_entity.dart';
 
 class AuthRepoImpl implements AuthRepo {
   final AuthDataSource authDataSource;
@@ -22,13 +22,13 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  Future<Either<Failure, TokenEntity>> verifyOtp(
+  Future<Either<Failure, UserEntity>> verifyOtp(
     String phone,
     String otp,
   ) async {
     try {
-      TokenEntity token = await authDataSource.verifyOtp(phone, otp);
-      return Right(token);
+      UserEntity user = await authDataSource.verifyOtp(phone, otp);
+      return Right(user);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }

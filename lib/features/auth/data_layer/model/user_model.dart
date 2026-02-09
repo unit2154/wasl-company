@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:wasl_company_app/features/auth/data_layer/model/sub_model/token_model.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/entities/user_entity.dart';
 import 'package:wasl_company_app/features/auth/data_layer/model/sub_model/profile_model.dart';
 
@@ -21,33 +22,38 @@ class UserModel extends UserEntity {
     @HiveField(6) required this.createdAt,
     @HiveField(7) required this.updatedAt,
     @HiveField(8) required super.profile,
+    @HiveField(9) required super.token,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'].toString(),
-      phone: json['phone'],
-      name: json['name'],
-      email: json['email'],
-      profile: ProfileModel.fromJson(json['customer']),
-      type: json['type'],
-      emailVerifiedAt: json['email_verified_at'].toString(),
-      createdAt: json['created_at'].toString(),
-      updatedAt: json['updated_at'].toString(),
+      id: json['user']['id'].toString(),
+      phone: json['user']['phone'],
+      name: json['user']['name'],
+      email: json['user']['email'],
+      profile: ProfileModel.fromJson(json['user']['customer']),
+      type: json['user']['type'],
+      emailVerifiedAt: json['user']['email_verified_at'].toString(),
+      createdAt: json['user']['created_at'].toString(),
+      updatedAt: json['user']['updated_at'].toString(),
+      token: TokenModel.fromJson(json['token']),
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, Map<String, dynamic>> toJson() {
     return {
-      'id': id,
-      'phone': phone,
-      'name': name,
-      'email': email,
-      'customer': (profile as ProfileModel).toJson(),
-      'type': type,
-      'email_verified_at': emailVerifiedAt,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
+      'user': {
+        'id': id,
+        'phone': phone,
+        'name': name,
+        'email': email,
+        'customer': (profile as ProfileModel).toJson(),
+        'type': type,
+        'email_verified_at': emailVerifiedAt,
+        'created_at': createdAt,
+        'updated_at': updatedAt,
+      },
+      'token': (token as TokenModel).toJson(),
     };
   }
 }

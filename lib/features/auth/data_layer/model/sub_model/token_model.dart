@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
-import 'package:wasl_company_app/features/auth/domain_layer/entities/token_entity.dart';
+import 'package:wasl_company_app/features/auth/domain_layer/entities/sub_entities/token_entity.dart';
 
-part "../../../../core/database/token_model.g.dart";
+part "../../../../../core/database/token_model.g.dart";
 
 @HiveType(typeId: 1)
 class TokenModel extends TokenEntity {

@@ -5,7 +5,7 @@ import 'package:wasl_company_app/core/exceptions/exceptions.dart';
 import 'package:wasl_company_app/core/message/message.dart';
 import 'package:wasl_company_app/core/network/api_consumer.dart';
 import 'package:wasl_company_app/features/auth/data_layer/data_sources/auth_data_source.dart';
-import 'package:wasl_company_app/features/auth/data_layer/model/token_model.dart';
+import 'package:wasl_company_app/features/auth/data_layer/model/sub_model/token_model.dart';
 import 'package:wasl_company_app/features/auth/data_layer/model/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
@@ -37,25 +37,31 @@ class AuthDataSourceImpl implements AuthDataSource {
   }
 
   @override
-  Future<TokenModel> verifyOtp(String phone, String otp) async {
+  Future<UserModel> verifyOtp(String phone, String otp) async {
     try {
       var res = await apiConsumer.post(
         Endpoints.baseUrl + Endpoints.verifyOtp,
         data: {'phone': phone, 'otp': otp},
       );
       try {
-        UserModel userModel = UserModel.fromJson(res.data['user']);
-        TokenModel tokenModel = TokenModel.fromJson(res.data['token']);
+        print("response in verify otp ${res.data}");
+        UserModel userModel = UserModel.fromJson(res.data);
+        TokenModel tokenModel = userModel.token as TokenModel;
         await saveUser(userModel);
         await saveToken(tokenModel);
       } catch (e) {
         print("error in save user and token $e");
         throw CacheException(message: "خطأ في حفظ البيانات");
       }
-      return TokenModel.fromJson(res.data);
-    } on Exception catch (e) {
+      return UserModel.fromJson(res.data);
+    } on DioException catch (e) {
       print("error in verify otp $e");
-      throw ServerException(message: "$e");
+      throw ServerException(
+        message:
+            e.response?.data['message'] ??
+            e.response?.data['error'] ??
+            "خطأ في التحقق من الرمز",
+      );
     }
   }
 

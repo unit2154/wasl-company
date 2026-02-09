@@ -1,4 +1,4 @@
-part of "../../features/auth/data_layer/model/token_model.dart";
+part of "../../features/auth/data_layer/model/sub_model/token_model.dart";
 
 class TokenModelAdapter extends TypeAdapter<TokenModel> {
   @override

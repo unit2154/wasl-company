@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:wasl_company_app/core/constants/endpoints.dart';
 import 'package:wasl_company_app/core/exceptions/exceptions.dart';
 import 'package:wasl_company_app/core/network/dio_api_consumer.dart';
-import 'package:wasl_company_app/features/auth/domain_layer/entities/token_entity.dart';
+import 'package:wasl_company_app/features/auth/domain_layer/entities/sub_entities/token_entity.dart';
 import 'package:wasl_company_app/features/ordres/data_layer/models/order_list_model.dart';
 import 'package:wasl_company_app/features/ordres/data_layer/models/order_model.dart';
 

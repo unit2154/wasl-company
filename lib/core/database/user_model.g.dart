@@ -16,6 +16,7 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       emailVerifiedAt: reader.read(),
       createdAt: reader.read(),
       updatedAt: reader.read(),
+      token: reader.read(),
     );
   }
 
@@ -30,5 +31,6 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
     writer.write(obj.emailVerifiedAt);
     writer.write(obj.createdAt);
     writer.write(obj.updatedAt);
+    writer.write(obj.token);
   }
 }

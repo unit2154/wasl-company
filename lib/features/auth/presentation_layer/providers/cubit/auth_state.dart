@@ -20,8 +20,8 @@ final class SendOtpError extends AuthState {
 }
 
 final class VerifyOtpSuccess extends AuthState {
-  final String token;
-  VerifyOtpSuccess({required this.token});
+  final UserEntity user;
+  VerifyOtpSuccess({required this.user});
 }
 
 final class VerifyOtpError extends AuthState {

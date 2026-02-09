@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:wasl_company_app/core/message/message.dart';
 import 'package:wasl_company_app/features/auth/data_layer/model/sub_model/profile_model.dart';
-import 'package:wasl_company_app/features/auth/data_layer/model/token_model.dart';
-import 'package:wasl_company_app/features/auth/domain_layer/entities/token_entity.dart';
+import 'package:wasl_company_app/features/auth/data_layer/model/sub_model/token_model.dart';
+import 'package:wasl_company_app/features/auth/domain_layer/entities/sub_entities/token_entity.dart';
 import 'package:wasl_company_app/core/error/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/entities/user_entity.dart';
@@ -32,13 +32,13 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> checkLogin() async {
     emit(CheckAuth());
-    Either<Failure, TokenEntity> result = await get_token();
+    Either<Failure, UserEntity> result = await get_user();
     result.fold(
       (failure) {
         emit(AuthInitial());
       },
-      (token) async {
-        emit(VerifyOtpSuccess(token: token.token));
+      (user) async {
+        emit(VerifyOtpSuccess(user: user));
       },
     );
   }
@@ -58,7 +58,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> verifyOtp() async {
     emit(Loading());
-    Either<Failure, TokenEntity> result = await verify_otp(
+    Either<Failure, UserEntity> result = await verify_otp(
       phoneController.text,
       otpController.text,
     );
@@ -66,8 +66,8 @@ class AuthCubit extends Cubit<AuthState> {
       (failure) {
         emit(VerifyOtpError(message: failure.message));
       },
-      (token) {
-        emit(VerifyOtpSuccess(token: token.token));
+      (user) {
+        emit(VerifyOtpSuccess(user: user));
       },
     );
   }
