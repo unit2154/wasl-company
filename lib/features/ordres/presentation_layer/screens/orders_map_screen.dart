@@ -33,17 +33,8 @@ class OrdersMapScreen extends StatelessWidget {
           children: [
             CircleAvatar(child: Image.asset(AppImages.logo)),
             SizedBox(width: constraints.maxWidth * 0.02),
-            FutureBuilder<Either<Failure, UserEntity>>(
-              future: context.read<AuthCubit>().get_user(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Text(
-                    snapshot.data!.fold((l) => 'الرئيسية', (r) => r.name),
-                  );
-                } else {
-                  return Text('الرئيسية');
-                }
-              },
+            Text(
+              (context.read<AuthCubit>().state as VerifyOtpSuccess).user.name,
             ),
           ],
         ),

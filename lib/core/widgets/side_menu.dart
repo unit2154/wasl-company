@@ -16,7 +16,6 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var user = getIt<Box<UserModel>>().getAt(0);
     return Drawer(
       child: ListView(
         children: [
@@ -28,7 +27,11 @@ class SideMenu extends StatelessWidget {
                   backgroundImage: AssetImage(AppImages.logo),
                 ),
                 const SizedBox(height: 10),
-                Text(user!.name),
+                Text(
+                  (context.read<AuthCubit>().state as VerifyOtpSuccess)
+                      .user
+                      .name,
+                ),
               ],
             ),
           ),
