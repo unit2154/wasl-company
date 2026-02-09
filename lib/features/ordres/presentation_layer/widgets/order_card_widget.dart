@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/features/ordres/domain_layer/entities/order_entity.dart';
+import 'package:wasl_company_app/features/ordres/presentation_layer/providers/cubit/orders_cubit.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/order_dialog.dart';
 
 class OrderCard extends StatelessWidget {
   final OrderEntity order;
   final BoxConstraints constraints;
-  final BuildContext cubitContext;
 
-  const OrderCard({
-    super.key,
-    required this.order,
-    required this.constraints,
-    required this.cubitContext,
-  });
+  const OrderCard({super.key, required this.order, required this.constraints});
 
   @override
   Widget build(BuildContext context) {
@@ -59,21 +55,19 @@ class OrderCard extends StatelessWidget {
       onTap: () {
         showDialog(
           context: context,
-          builder: (context) => Center(
-            child: Container(
-              width: width * 0.7,
-              decoration: ShapeDecoration(
-                color: AppColors.white,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: AppColors.cardBorder),
-                  borderRadius: BorderRadius.circular(16),
+          builder: (_) => BlocProvider.value(
+            value: context.read<OrdersCubit>(),
+            child: Center(
+              child: Container(
+                width: width * 0.7,
+                decoration: ShapeDecoration(
+                  color: AppColors.white,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: AppColors.cardBorder),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                 ),
-              ),
-              child: OrderDialog(
-                order: order,
-                height: height,
-                width: width,
-                cubitContext: cubitContext,
+                child: OrderDialog(order: order, height: height, width: width),
               ),
             ),
           ),

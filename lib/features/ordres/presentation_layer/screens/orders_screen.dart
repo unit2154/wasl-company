@@ -24,6 +24,17 @@ class OrdersScreen extends StatelessWidget {
           backgroundColor: AppColors.white,
           surfaceTintColor: AppColors.white,
           title: const Text('الطلبات'),
+          automaticallyImplyLeading: false,
+          actions: [
+            Builder(
+              builder: (context) => IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer(); // 👈 opens LEFT drawer
+                },
+              ),
+            ),
+          ],
           bottom: TabBar(
             tabAlignment: TabAlignment.start,
             indicatorColor: AppColors.primary,
@@ -133,6 +144,44 @@ class OrdersScreen extends StatelessWidget {
                   ),
                 );
                 break;
+              case OrderRejected():
+                Navigator.pop(context);
+                context.read<OrdersCubit>().getOrders();
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    backgroundColor: AppColors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    title: Center(
+                      child: CircleAvatar(
+                        radius: constraints.maxWidth * 0.07,
+                        backgroundColor: AppColors.orderStateNewBackground,
+                        child: CircleAvatar(
+                          radius: constraints.maxWidth * 0.04,
+                          backgroundColor: AppColors.orderStateNew,
+                          child: Icon(
+                            Icons.close_outlined,
+                            color: AppColors.white,
+                            size: constraints.maxWidth * 0.06,
+                          ),
+                        ),
+                      ),
+                    ),
+                    content: Text(
+                      "تم رفض الطلب",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: constraints.maxHeight * 0.02,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                  ),
+                );
+                break;
+
               default:
                 break;
             }

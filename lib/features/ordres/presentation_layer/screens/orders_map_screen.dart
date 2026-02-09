@@ -1,9 +1,14 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
+import 'package:wasl_company_app/core/constants/images.dart';
+import 'package:wasl_company_app/core/error/failure.dart';
 import 'package:wasl_company_app/core/widgets/map.dart';
 import 'package:wasl_company_app/core/widgets/search_bar.dart';
 import 'package:wasl_company_app/core/widgets/side_menu.dart';
+import 'package:wasl_company_app/features/auth/domain_layer/entities/user_entity.dart';
+import 'package:wasl_company_app/features/auth/presentation_layer/providers/cubit/auth_cubit.dart';
 import 'package:wasl_company_app/features/ordres/domain_layer/entities/order_entity.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/providers/cubit/orders_cubit.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/new_map_order_widget.dart';
@@ -21,9 +26,37 @@ class OrdersMapScreen extends StatelessWidget {
       backgroundColor: AppColors.white,
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: AppColors.white,
         surfaceTintColor: AppColors.white,
-        title: Text("الرئيسية"),
+        title: Row(
+          children: [
+            CircleAvatar(child: Image.asset(AppImages.logo)),
+            SizedBox(width: constraints.maxWidth * 0.02),
+            FutureBuilder<Either<Failure, UserEntity>>(
+              future: context.read<AuthCubit>().get_user(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    snapshot.data!.fold((l) => 'الرئيسية', (r) => r.name),
+                  );
+                } else {
+                  return Text('الرئيسية');
+                }
+              },
+            ),
+          ],
+        ),
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer(); // 👈 opens LEFT drawer
+              },
+            ),
+          ),
+        ],
       ),
       drawer: SideMenu(),
       body: Center(
@@ -77,7 +110,6 @@ class OrdersMapScreen extends StatelessWidget {
                             width: constraints.maxWidth,
                             height: constraints.maxHeight,
                             order: orders[index],
-                            cubitContext: context,
                           );
                         },
                       ),

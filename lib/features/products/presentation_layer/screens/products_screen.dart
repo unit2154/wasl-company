@@ -22,6 +22,17 @@ class ProductsScreen extends StatelessWidget {
         title: const Text('المنتجات'),
         backgroundColor: AppColors.white,
         surfaceTintColor: AppColors.white,
+        automaticallyImplyLeading: false,
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer(); // 👈 opens LEFT drawer
+              },
+            ),
+          ),
+        ],
       ),
       drawer: SideMenu(),
       body: BlocProvider(

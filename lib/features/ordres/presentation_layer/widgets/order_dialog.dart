@@ -11,13 +11,11 @@ class OrderDialog extends StatelessWidget {
     required this.order,
     required this.height,
     required this.width,
-    required this.cubitContext,
   });
 
   final OrderEntity order;
   final double height;
   final double width;
-  final BuildContext cubitContext;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +38,7 @@ class OrderDialog extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (_) => BlocProvider.value(
-                value: cubitContext.read<OrdersCubit>(),
+                value: context.read<OrdersCubit>(),
                 child: OrderDetailsScreen(order: order),
               ),
             ),
@@ -71,7 +69,7 @@ class OrderDialog extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      cubitContext.read<OrdersCubit>().updateOrderStatus(
+                      context.read<OrdersCubit>().updateOrderStatus(
                         order.id,
                         status,
                       );
@@ -106,48 +104,149 @@ class OrderDialog extends StatelessWidget {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (context) => Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: AlertDialog(
-                            backgroundColor: AppColors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(width * 0.03),
-                            ),
-                            title: Text(
-                              "تحذير",
-                              style: TextStyle(
-                                color: AppColors.orderStateRejected,
-                                fontWeight: FontWeight.bold,
+                        builder: (_) => BlocProvider.value(
+                          value: context.read<OrdersCubit>(),
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: AlertDialog(
+                              backgroundColor: AppColors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  width * 0.03,
+                                ),
                               ),
-                            ),
-                            content: Text("هل انت متاكد من رفض الطلب؟"),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text(
-                                  "لا",
-                                  style: TextStyle(
-                                    color: AppColors.primary,
-                                    fontWeight: FontWeight.bold,
+                              title: Center(
+                                child: CircleAvatar(
+                                  radius: width * 0.07,
+                                  backgroundColor:
+                                      AppColors.orderStateNewBackground,
+                                  child: CircleAvatar(
+                                    radius: width * 0.04,
+                                    backgroundColor: AppColors.orderStateNew,
+                                    child: Icon(
+                                      Icons.close_outlined,
+                                      color: AppColors.white,
+                                      size: width * 0.06,
+                                    ),
                                   ),
                                 ),
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  cubitContext
-                                      .read<OrdersCubit>()
-                                      .updateOrderStatus(order.id, "cancelled");
-                                },
-                                child: Text(
-                                  "نعم",
-                                  style: TextStyle(
-                                    color: AppColors.orderStateRejected,
-                                    fontWeight: FontWeight.bold,
+                              content: Column(
+                                mainAxisSize: .min,
+                                children: [
+                                  Text(
+                                    "يرجى توضيح سبب الرفض :",
+                                    style: TextStyle(
+                                      color: AppColors.textPrimary,
+                                      fontSize: height * 0.02,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
+                                  SizedBox(height: height * 0.02),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      context
+                                          .read<OrdersCubit>()
+                                          .updateOrderStatus(
+                                            order.id,
+                                            "cancelled",
+                                          );
+                                    },
+                                    child: Container(
+                                      width: width * 0.6,
+                                      height: height * 0.06,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          width * 0.03,
+                                        ),
+                                        border: Border.all(
+                                          color: AppColors.cardBorder,
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "ضغط طلبيات مرتفع",
+                                          style: TextStyle(
+                                            color: AppColors.textPrimary,
+                                            fontSize: height * 0.02,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: height * 0.02),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      context
+                                          .read<OrdersCubit>()
+                                          .updateOrderStatus(
+                                            order.id,
+                                            "cancelled",
+                                          );
+                                    },
+                                    child: Container(
+                                      width: width * 0.6,
+                                      height: height * 0.06,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          width * 0.03,
+                                        ),
+                                        border: Border.all(
+                                          color: AppColors.cardBorder,
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "الكميات المطلوبة غير متوفرة",
+                                          style: TextStyle(
+                                            color: AppColors.textPrimary,
+                                            fontSize: height * 0.02,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: height * 0.02),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      context
+                                          .read<OrdersCubit>()
+                                          .updateOrderStatus(
+                                            order.id,
+                                            "cancelled",
+                                          );
+                                    },
+                                    child: Container(
+                                      width: width * 0.6,
+                                      height: height * 0.06,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          width * 0.03,
+                                        ),
+                                        border: Border.all(
+                                          color: AppColors.cardBorder,
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "المتجر مديون",
+                                          style: TextStyle(
+                                            color: AppColors.textPrimary,
+                                            fontSize: height * 0.02,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       );

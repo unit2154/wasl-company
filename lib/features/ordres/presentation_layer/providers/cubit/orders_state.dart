@@ -15,6 +15,8 @@ final class OrdersLoaded extends OrdersState {
 
 final class OrderUpdated extends OrdersState {}
 
+final class OrderRejected extends OrdersState {}
+
 final class OrdersError extends OrdersState {
   final String message;
 

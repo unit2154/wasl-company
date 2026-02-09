@@ -34,10 +34,15 @@ class OrdersCubit extends Cubit<OrdersState> {
   Future<void> updateOrderStatus(int orderId, String status) async {
     emit(OrdersLoading());
     final result = await updateOrderStatusUseCase(orderId, status);
-    result.fold(
-      (failure) => emit(OrdersError(message: failure.message)),
-      (orderEntity) => emit(OrderUpdated()),
-    );
+    result.fold((failure) => emit(OrdersError(message: failure.message)), (
+      orderEntity,
+    ) {
+      if (status == "cancelled") {
+        emit(OrderRejected());
+      } else {
+        emit(OrderUpdated());
+      }
+    });
   }
 
   Future<void> searchOrders(String query) async {
@@ -76,5 +81,6 @@ class OrdersCubit extends Cubit<OrdersState> {
 
   void updateOrderItem() {
     emit(OrderItemUpdated());
+    emit(OrdersLoaded(orderList: ordersList));
   }
 }
