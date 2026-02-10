@@ -8,6 +8,7 @@ import 'package:wasl_company_app/features/ordres/presentation_layer/providers/cu
 import 'package:wasl_company_app/features/ordres/presentation_layer/screens/commission.screen.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/screens/orders_map_screen.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/screens/orders_screen.dart';
+import 'package:wasl_company_app/features/products/presentation_layer/providers/cubit/products_list_cubit.dart';
 import 'package:wasl_company_app/features/products/presentation_layer/screens/products_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -21,6 +22,9 @@ class DashboardScreen extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => DashboardCubit()..changeIndex(2)),
           BlocProvider(create: (context) => getIt<OrdersCubit>()..getOrders()),
+          BlocProvider(
+            create: (context) => getIt<ProductsListCubit>()..getProducts(),
+          ),
         ],
         child: BlocBuilder<DashboardCubit, DashboardInitial>(
           builder: (context, state) {

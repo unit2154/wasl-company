@@ -24,6 +24,30 @@ class ProductsScreen extends StatelessWidget {
         surfaceTintColor: AppColors.white,
         automaticallyImplyLeading: false,
         actions: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider.value(
+                    value: context.read<ProductsListCubit>(),
+                    child: const AddProductScreen(),
+                  ),
+                ),
+              );
+            },
+            child: const Text(
+              'إضافة منتج',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+          ),
           Builder(
             builder: (context) => IconButton(
               icon: const Icon(Icons.menu),
@@ -35,161 +59,128 @@ class ProductsScreen extends StatelessWidget {
         ],
       ),
       drawer: SideMenu(),
-      body: BlocProvider(
-        create: (context) => getIt<ProductsListCubit>()..getProducts(),
-        child: BlocConsumer<ProductsListCubit, ProductsListState>(
-          listenWhen: (previous, current) =>
-              current is DeleteProductLoading ||
-              previous is DeleteProductLoading,
-          listener: (context, state) {
-            if (state is DeleteProductLoading) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(const SnackBar(content: Text("جاري حذف المنتج")));
-            } else if (state is DeleteProductSuccess) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(const SnackBar(content: Text("تم حذف المنتج")));
-            } else if (state is DeleteProductError) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.error)));
-            }
-          },
-          buildWhen: (previous, current) =>
-              current is ProductsListLoading ||
-              previous is ProductsListLoading ||
-              previous is AddProductSuccess,
-          builder: (context, state) {
-            if (state is ProductsListInitial) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is ProductsListLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is ProductsListLoaded) {
-              return LayoutBuilder(
-                builder: (_, constraints) {
-                  return Column(
-                    children: [
-                      SizedBox(
-                        height: constraints.maxHeight * 0.81,
-                        child: state.productsList.isNotEmpty
-                            ? RefreshIndicator(
-                                onRefresh: () {
-                                  return context
-                                      .read<ProductsListCubit>()
-                                      .getProducts();
-                                },
-                                child: GridView.builder(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 10,
-                                  ),
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        childAspectRatio: 0.8,
-                                        crossAxisSpacing: 10,
-                                        mainAxisSpacing: 10,
-                                      ),
-                                  itemCount: state.productsList.length,
-                                  itemBuilder: (_, index) {
-                                    return Product(
-                                      product: state.productsList[index],
-                                      constraints: constraints,
-                                      cubitContext: context,
-                                    );
-                                  },
-                                ),
-                              )
-                            : const Center(
-                                child: Text(
-                                  "لا يوجد منتجات",
-                                  style: TextStyle(
-                                    color: AppColors.textSecondary,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                      ),
-                      const SizedBox(height: 10),
-                      SizedBox(
-                        height: constraints.maxHeight * 0.07,
-                        width: constraints.maxWidth * 0.85,
-                        child: SubmitButton(
-                          constraints: constraints,
-                          prefixIcon: Icon(
-                            Icons.add,
-                            size: 25,
-                            color: Colors.white,
-                          ),
-                          text: "اضافة منتج",
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => BlocProvider.value(
-                                  value: context.read<ProductsListCubit>(),
-                                  child: const AddProductScreen(),
-                                ),
-                              ),
-                            );
+      body: BlocConsumer<ProductsListCubit, ProductsListState>(
+        listenWhen: (previous, current) =>
+            current is DeleteProductLoading || previous is DeleteProductLoading,
+        listener: (context, state) {
+          if (state is DeleteProductLoading) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text("جاري حذف المنتج")));
+          } else if (state is DeleteProductSuccess) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text("تم حذف المنتج")));
+          } else if (state is DeleteProductError) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.error)));
+          }
+        },
+        buildWhen: (previous, current) =>
+            current is ProductsListLoading ||
+            previous is ProductsListLoading ||
+            previous is AddProductSuccess,
+        builder: (context, state) {
+          if (state is ProductsListInitial) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is ProductsListLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is ProductsListLoaded) {
+            return LayoutBuilder(
+              builder: (_, constraints) {
+                return SizedBox(
+                  height: constraints.maxHeight * 0.9,
+                  child: state.productsList.isNotEmpty
+                      ? RefreshIndicator(
+                          onRefresh: () {
+                            return context
+                                .read<ProductsListCubit>()
+                                .getProducts();
                           },
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              );
-            } else if (state is ProductsListError) {
-              return Center(
-                child: Column(
-                  mainAxisSize: .min,
-                  children: [
-                    Text(
-                      "حدث خطأ",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        context.read<ProductsListCubit>().getProducts();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: .min,
-                        children: [
-                          Icon(Icons.refresh, color: AppColors.white),
-                          SizedBox(width: 10),
-                          Text(
-                            "إعادة المحاولة",
+                          child: GridView.builder(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 10,
+                            ),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 0.8,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                ),
+                            itemCount: state.productsList.length,
+                            itemBuilder: (_, index) {
+                              return Product(
+                                product: state.productsList[index],
+                                constraints: constraints,
+                                cubitContext: context,
+                              );
+                            },
+                          ),
+                        )
+                      : const Center(
+                          child: Text(
+                            "لا يوجد منتجات",
                             style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.white,
+                              color: AppColors.textSecondary,
+                              fontSize: 20,
                             ),
                           ),
-                        ],
+                        ),
+                );
+              },
+            );
+          } else if (state is ProductsListError) {
+            return Center(
+              child: Column(
+                mainAxisSize: .min,
+                children: [
+                  Text(
+                    "حدث خطأ",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      context.read<ProductsListCubit>().getProducts();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                  ],
-                ),
-              );
-            } else if (state is ProductsListUpdate) {
-              return Center(child: const Text("تم تحديث المنتجات"));
-            } else {
-              return const SizedBox();
-            }
-          },
-        ),
+                    child: Row(
+                      mainAxisSize: .min,
+                      children: [
+                        Icon(Icons.refresh, color: AppColors.white),
+                        SizedBox(width: 10),
+                        Text(
+                          "إعادة المحاولة",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else if (state is ProductsListUpdate) {
+            return Center(child: const Text("تم تحديث المنتجات"));
+          } else {
+            return const SizedBox();
+          }
+        },
       ),
     );
   }
