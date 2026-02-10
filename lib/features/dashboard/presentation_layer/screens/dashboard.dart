@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/dependencies/locator.dart';
 import 'package:wasl_company_app/features/dashboard/presentation_layer/providers/cubit/dashboard_cubit.dart';
-import 'package:wasl_company_app/features/dashboard/presentation_layer/widgets/bottom_nav_bar.dart';
+import 'package:wasl_company_app/features/dashboard/presentation_layer/widgets/custom_bottom_nav_bar.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/providers/cubit/orders_cubit.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/screens/commission.screen.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/screens/orders_map_screen.dart';
@@ -28,20 +28,29 @@ class DashboardScreen extends StatelessWidget {
             return Scaffold(
               backgroundColor: AppColors.white,
               resizeToAvoidBottomInset: true,
-              bottomNavigationBar: BottomNavBar(
-                currentIndex: state.currentIndex,
-                onTap: (index) {
-                  context.read<DashboardCubit>().changeIndex(index);
-                },
-              ),
-              body: IndexedStack(
-                index: state.currentIndex,
+              body: Stack(
                 children: [
-                  const OrdersScreen(),
-                  const Center(child: Text('الرئيسية')),
-                  const OrdersMapScreen(),
-                  const ProductsScreen(),
-                  const CommissionScreen(),
+                  IndexedStack(
+                    index: state.currentIndex,
+                    children: [
+                      const OrdersScreen(),
+                      const Center(child: Text('الرئيسية')),
+                      const OrdersMapScreen(),
+                      const ProductsScreen(),
+                      const CommissionScreen(),
+                    ],
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: CustomBottomNavBar(
+                      currentIndex: state.currentIndex,
+                      changeIndex: (index) {
+                        context.read<DashboardCubit>().changeIndex(index);
+                      },
+                    ),
+                  ),
                 ],
               ),
             );

@@ -46,7 +46,6 @@ class NewMapOrderWidget extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: height * 0.008),
-        width: width * 0.95,
         decoration: ShapeDecoration(
           color: AppColors.cardBackground,
           shape: RoundedRectangleBorder(
@@ -76,6 +75,7 @@ class NewMapOrderWidget extends StatelessWidget {
               child: Row(
                 children: [
                   SizedBox(width: width * 0.02),
+                  // end market name
                   SizedBox(
                     width: width * 0.8,
                     child: Text(
@@ -94,7 +94,14 @@ class NewMapOrderWidget extends StatelessWidget {
                   Icon(
                     Icons.brightness_1,
                     size: height * 0.03,
-                    color: AppColors.primary,
+                    color: order.status == "pending"
+                        ? AppColors.orderStateNew
+                        : order.status == "delivered" ||
+                              order.status == "shipped"
+                        ? AppColors.orderStateCompleted
+                        : order.status == "cancelled"
+                        ? AppColors.orderStateRejected
+                        : AppColors.orderStatePending,
                   ),
                   SizedBox(width: width * 0.02),
                 ],

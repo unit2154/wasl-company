@@ -71,7 +71,7 @@ class ProductsScreen extends StatelessWidget {
                   return Column(
                     children: [
                       SizedBox(
-                        height: constraints.maxHeight * 0.9,
+                        height: constraints.maxHeight * 0.81,
                         child: state.productsList.isNotEmpty
                             ? RefreshIndicator(
                                 onRefresh: () {

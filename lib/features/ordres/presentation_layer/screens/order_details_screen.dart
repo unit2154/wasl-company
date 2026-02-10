@@ -18,30 +18,28 @@ class OrderDetailsScreen extends StatelessWidget {
     String btext;
     order.status == "pending"
         ? color = AppColors.orderStateNew
-        : order.status == "rejected"
+        : order.status == "rejected" || order.status == "cancelled"
         ? color = AppColors.orderStateRejected
-        : order.status == "delivered"
-        ? color = AppColors.orderStatePending
-        : order.status == "processing"
-        ? color = AppColors.orderStateNew
-        : color = AppColors.orderStateCompleted;
+        : order.status == "delivered" || order.status == "shipped"
+        ? color = AppColors.orderStateCompleted
+        : color = AppColors.orderStatePending;
     order.status == "pending"
         ? bcolor = AppColors.orderStateNewBackground
-        : order.status == "rejected"
+        : order.status == "rejected" || order.status == "cancelled"
         ? bcolor = AppColors.orderStateRejectedBackground
-        : order.status == "delivered"
-        ? bcolor = AppColors.orderStatePendingBackground
-        : order.status == "processing"
-        ? bcolor = AppColors.orderStateNewBackground
-        : bcolor = AppColors.orderStateCompletedBackground;
+        : order.status == "delivered" || order.status == "shipped"
+        ? bcolor = AppColors.orderStateCompletedBackground
+        : bcolor = AppColors.orderStatePendingBackground;
     order.status == "pending"
         ? btext = "جديد"
-        : order.status == "rejected"
+        : order.status == "rejected" || order.status == "cancelled"
         ? btext = "مرفوض"
-        : order.status == "delivered"
+        : order.status == "delivered" || order.status == "shipped"
         ? btext = "تم التسليم"
         : order.status == "processing"
         ? btext = "قيد المعالجة"
+        : order.status == "awaiting_confirmation"
+        ? btext = "بانتظار التأكيد"
         : btext = "تم";
 
     final height = MediaQuery.of(context).size.height * 0.89;

@@ -26,7 +26,11 @@ class OrdersCubit extends Cubit<OrdersState> {
     result.fold((failure) => emit(OrdersError(message: failure.message)), (
       ordersListEntity,
     ) {
+      //sort orders by date
       ordersList = ordersListEntity.orders ?? [];
+      ordersList != []
+          ? ordersList.sort((a, b) => b.createdAt.compareTo(a.createdAt))
+          : null;
       emit(OrdersLoaded(orderList: ordersList));
     });
   }
