@@ -19,8 +19,8 @@ class CustomBottomNavBar extends StatelessWidget {
         margin: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width * 0.08,
         ),
-        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-        height: MediaQuery.of(context).size.height * 0.06,
+        padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.02),
+        height: MediaQuery.of(context).size.height * 0.07,
         decoration: BoxDecoration(
           color: AppColors.orderStateNew,
           borderRadius: BorderRadius.circular(16),
@@ -33,7 +33,7 @@ class CustomBottomNavBar extends StatelessWidget {
           ],
         ),
         child: Row(
-          mainAxisAlignment: .spaceBetween,
+          mainAxisAlignment: .spaceAround,
           children: [
             GestureDetector(
               onTap: () => changeIndex(0),
@@ -42,19 +42,31 @@ class CustomBottomNavBar extends StatelessWidget {
                   SvgPicture.asset(
                     AppIcons.orders,
                     colorFilter: currentIndex == 0
-                        ? ColorFilter.mode(AppColors.white, BlendMode.srcIn)
-                        : null,
+                        ? ColorFilter.mode(AppColors.white, BlendMode.srcATop)
+                        : ColorFilter.mode(AppColors.white, BlendMode.dstIn),
                     width: MediaQuery.of(context).size.width * 0.025,
                     height: MediaQuery.of(context).size.height * 0.025,
                   ),
                   Text(
                     'الطلبات',
                     style: TextStyle(
-                      fontSize: 9 * (MediaQuery.of(context).size.height / 800),
+                      fontSize: 11 * (MediaQuery.of(context).size.height / 800),
                       fontWeight: FontWeight.w700,
-                      color: AppColors.white,
+                      color: currentIndex == 0
+                          ? AppColors.white
+                          : AppColors.textSecondary,
                     ),
                   ),
+                  currentIndex == 0
+                      ? Container(
+                          margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.width * 0.01,
+                          ),
+                          height: 2,
+                          width: MediaQuery.of(context).size.width * 0.11,
+                          color: AppColors.white,
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),
@@ -65,19 +77,31 @@ class CustomBottomNavBar extends StatelessWidget {
                   SvgPicture.asset(
                     AppIcons.offers,
                     colorFilter: currentIndex == 1
-                        ? ColorFilter.mode(AppColors.white, BlendMode.srcIn)
-                        : null,
+                        ? ColorFilter.mode(AppColors.white, BlendMode.srcATop)
+                        : ColorFilter.mode(AppColors.white, BlendMode.dstIn),
                     width: MediaQuery.of(context).size.width * 0.025,
                     height: MediaQuery.of(context).size.height * 0.025,
                   ),
                   Text(
                     'العروض',
                     style: TextStyle(
-                      fontSize: 9 * (MediaQuery.of(context).size.height / 800),
+                      fontSize: 11 * (MediaQuery.of(context).size.height / 800),
                       fontWeight: FontWeight.w700,
-                      color: AppColors.white,
+                      color: currentIndex == 1
+                          ? AppColors.white
+                          : AppColors.textSecondary,
                     ),
                   ),
+                  currentIndex == 1
+                      ? Container(
+                          margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.width * 0.01,
+                          ),
+                          height: 2,
+                          width: MediaQuery.of(context).size.width * 0.11,
+                          color: AppColors.white,
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),
@@ -88,19 +112,31 @@ class CustomBottomNavBar extends StatelessWidget {
                   SvgPicture.asset(
                     AppIcons.home,
                     colorFilter: currentIndex == 2
-                        ? ColorFilter.mode(AppColors.white, BlendMode.srcIn)
-                        : null,
+                        ? ColorFilter.mode(AppColors.white, BlendMode.srcATop)
+                        : ColorFilter.mode(AppColors.white, BlendMode.dstIn),
                     width: MediaQuery.of(context).size.width * 0.025,
                     height: MediaQuery.of(context).size.height * 0.025,
                   ),
                   Text(
                     'الرئيسية',
                     style: TextStyle(
-                      fontSize: 9 * (MediaQuery.of(context).size.height / 800),
+                      fontSize: 11 * (MediaQuery.of(context).size.height / 800),
                       fontWeight: FontWeight.w700,
-                      color: AppColors.white,
+                      color: currentIndex == 2
+                          ? AppColors.white
+                          : AppColors.textSecondary,
                     ),
                   ),
+                  currentIndex == 2
+                      ? Container(
+                          margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.width * 0.01,
+                          ),
+                          height: 2,
+                          width: MediaQuery.of(context).size.width * 0.11,
+                          color: AppColors.white,
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),
@@ -111,19 +147,33 @@ class CustomBottomNavBar extends StatelessWidget {
                   SvgPicture.asset(
                     AppIcons.inventory,
                     colorFilter: currentIndex == 3
-                        ? ColorFilter.mode(AppColors.white, BlendMode.srcIn)
-                        : null,
+                        ? ColorFilter.mode(AppColors.white, BlendMode.srcATop)
+                        : ColorFilter.mode(AppColors.white, BlendMode.dstIn),
                     width: MediaQuery.of(context).size.width * 0.025,
                     height: MediaQuery.of(context).size.height * 0.025,
                   ),
                   Text(
                     'المنتجات',
                     style: TextStyle(
-                      fontSize: 9 * (MediaQuery.of(context).size.height / 800),
+                      fontSize: 11 * (MediaQuery.of(context).size.height / 800),
                       fontWeight: FontWeight.w700,
-                      color: AppColors.white,
+                      color: currentIndex == 3
+                          ? AppColors.white
+                          : AppColors.textSecondary,
                     ),
                   ),
+                  currentIndex == 3
+                      ? Container(
+                          margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.width * 0.01,
+                          ),
+                          height: 2,
+                          width: MediaQuery.of(context).size.width * 0.11,
+                          color: currentIndex == 3
+                              ? AppColors.white
+                              : AppColors.textSecondary,
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),
@@ -134,19 +184,31 @@ class CustomBottomNavBar extends StatelessWidget {
                   SvgPicture.asset(
                     AppIcons.deals,
                     colorFilter: currentIndex == 4
-                        ? ColorFilter.mode(AppColors.white, BlendMode.srcIn)
-                        : null,
+                        ? ColorFilter.mode(AppColors.white, BlendMode.srcATop)
+                        : ColorFilter.mode(AppColors.white, BlendMode.dstIn),
                     width: MediaQuery.of(context).size.width * 0.025,
                     height: MediaQuery.of(context).size.height * 0.025,
                   ),
                   Text(
                     'التعاملات',
                     style: TextStyle(
-                      fontSize: 9 * (MediaQuery.of(context).size.height / 800),
+                      fontSize: 11 * (MediaQuery.of(context).size.height / 800),
                       fontWeight: FontWeight.w700,
-                      color: AppColors.white,
+                      color: currentIndex == 4
+                          ? AppColors.white
+                          : AppColors.textSecondary,
                     ),
                   ),
+                  currentIndex == 4
+                      ? Container(
+                          margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.width * 0.01,
+                          ),
+                          height: 2,
+                          width: MediaQuery.of(context).size.width * 0.11,
+                          color: AppColors.white,
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),

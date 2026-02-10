@@ -45,10 +45,9 @@ class CommissionScreen extends StatelessWidget {
                     total: total.toStringAsFixed(2),
                   ),
                   SizedBox(height: constraints.maxHeight * .02),
-                  SizedBox(
-                    height: constraints.maxHeight * 0.72,
-                    width: constraints.maxWidth * .9,
+                  Expanded(
                     child: ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 100),
                       itemCount: shippedOrders.length,
                       itemBuilder: (context, index) {
                         return OrderCommissionWidget(

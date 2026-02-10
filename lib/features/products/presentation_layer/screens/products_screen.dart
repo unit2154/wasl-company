@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
-import 'package:wasl_company_app/core/dependencies/locator.dart';
-import 'package:wasl_company_app/core/widgets/submit_button.dart';
 import 'package:wasl_company_app/core/widgets/side_menu.dart';
 import 'package:wasl_company_app/features/products/domain_layer/entities/product_entity.dart';
 import 'package:wasl_company_app/features/products/presentation_layer/providers/cubit/products_list_cubit.dart';
@@ -89,47 +87,46 @@ class ProductsScreen extends StatelessWidget {
           } else if (state is ProductsListLoaded) {
             return LayoutBuilder(
               builder: (_, constraints) {
-                return SizedBox(
-                  height: constraints.maxHeight * 0.9,
-                  child: state.productsList.isNotEmpty
-                      ? RefreshIndicator(
-                          onRefresh: () {
-                            return context
-                                .read<ProductsListCubit>()
-                                .getProducts();
-                          },
-                          child: GridView.builder(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 10,
-                            ),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 0.8,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
-                                ),
-                            itemCount: state.productsList.length,
-                            itemBuilder: (_, index) {
-                              return Product(
-                                product: state.productsList[index],
-                                constraints: constraints,
-                                cubitContext: context,
-                              );
-                            },
+                return state.productsList.isNotEmpty
+                    ? RefreshIndicator(
+                        onRefresh: () {
+                          return context
+                              .read<ProductsListCubit>()
+                              .getProducts();
+                        },
+                        child: GridView.builder(
+                          padding: const EdgeInsets.only(
+                            left: 20,
+                            right: 20,
+                            top: 10,
+                            bottom: 100,
                           ),
-                        )
-                      : const Center(
-                          child: Text(
-                            "لا يوجد منتجات",
-                            style: TextStyle(
-                              color: AppColors.textSecondary,
-                              fontSize: 20,
-                            ),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 0.8,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                              ),
+                          itemCount: state.productsList.length,
+                          itemBuilder: (_, index) {
+                            return Product(
+                              product: state.productsList[index],
+                              constraints: constraints,
+                              cubitContext: context,
+                            );
+                          },
+                        ),
+                      )
+                    : const Center(
+                        child: Text(
+                          "لا يوجد منتجات",
+                          style: TextStyle(
+                            color: AppColors.textSecondary,
+                            fontSize: 20,
                           ),
                         ),
-                );
+                      );
               },
             );
           } else if (state is ProductsListError) {

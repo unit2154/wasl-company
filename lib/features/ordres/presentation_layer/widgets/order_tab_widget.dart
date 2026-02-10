@@ -38,6 +38,7 @@ class OrderTabWidget extends StatelessWidget {
               },
               child: ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.only(bottom: 100),
                 itemCount: orders.length,
                 itemBuilder: (context, index) =>
                     OrderCard(order: orders[index], constraints: constraints),
