@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
-import 'package:wasl_company_app/core/widgets/side_menu.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/providers/cubit/orders_cubit.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/commission_card.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/order_commission_widget.dart';
@@ -17,12 +16,6 @@ class CommissionScreen extends StatelessWidget {
     );
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        surfaceTintColor: AppColors.white,
-        title: Text('التعاملات'),
-      ),
-      drawer: const SideMenu(),
       body: Center(
         child: BlocBuilder<OrdersCubit, OrdersState>(
           builder: (context, state) {
@@ -47,7 +40,11 @@ class CommissionScreen extends StatelessWidget {
                   SizedBox(height: constraints.maxHeight * .02),
                   Expanded(
                     child: ListView.builder(
-                      padding: const EdgeInsets.only(bottom: 100),
+                      padding: const EdgeInsets.only(
+                        bottom: 100,
+                        left: 20,
+                        right: 20,
+                      ),
                       itemCount: shippedOrders.length,
                       itemBuilder: (context, index) {
                         return OrderCommissionWidget(

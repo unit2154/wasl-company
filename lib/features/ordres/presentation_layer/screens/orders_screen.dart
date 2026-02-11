@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
 import 'package:wasl_company_app/core/constants/images.dart';
-import 'package:wasl_company_app/core/widgets/side_menu.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/providers/cubit/orders_cubit.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/order_tab_widget.dart';
 
@@ -20,99 +19,6 @@ class OrdersScreen extends StatelessWidget {
       length: 6, // number of tabs
       child: Scaffold(
         backgroundColor: AppColors.white,
-        appBar: AppBar(
-          backgroundColor: AppColors.white,
-          surfaceTintColor: AppColors.white,
-          title: const Text('الطلبات'),
-          automaticallyImplyLeading: false,
-          actions: [
-            Builder(
-              builder: (context) => IconButton(
-                icon: const Icon(Icons.menu),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer(); // 👈 opens LEFT drawer
-                },
-              ),
-            ),
-          ],
-          bottom: TabBar(
-            tabAlignment: TabAlignment.start,
-            indicatorColor: AppColors.primary,
-            isScrollable: true,
-            labelColor: AppColors.primary,
-            unselectedLabelColor: AppColors.textSecondary,
-            dividerColor: Colors.transparent,
-            tabs: [
-              Tab(text: 'الكل'),
-              Tab(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.brightness_1,
-                      color: AppColors.primary,
-                      size: constraints.maxHeight * 0.015,
-                    ),
-                    SizedBox(width: constraints.maxWidth * 0.01),
-                    Text("جديدة"),
-                  ],
-                ),
-              ),
-              Tab(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.brightness_1,
-                      color: AppColors.orderStatePending,
-                      size: constraints.maxHeight * 0.015,
-                    ),
-                    SizedBox(width: constraints.maxWidth * 0.01),
-                    Text("قيد المراجعة"),
-                  ],
-                ),
-              ),
-              Tab(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.brightness_1,
-                      color: AppColors.orderStatePending,
-                      size: constraints.maxHeight * 0.015,
-                    ),
-                    SizedBox(width: constraints.maxWidth * 0.01),
-                    Text("قيد المعالجة"),
-                  ],
-                ),
-              ),
-              Tab(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.brightness_1,
-                      color: AppColors.orderStatePending,
-                      size: constraints.maxHeight * 0.015,
-                    ),
-                    SizedBox(width: constraints.maxWidth * 0.01),
-                    Text("بانتضار التاكيد"),
-                  ],
-                ),
-              ),
-              Tab(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.brightness_1,
-                      color: AppColors.orderStateRejected,
-                      size: constraints.maxHeight * 0.015,
-                    ),
-                    SizedBox(width: constraints.maxWidth * 0.01),
-                    Text("مرفوضة"),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        drawer: SideMenu(),
         body: BlocConsumer<OrdersCubit, OrdersState>(
           listener: (context, state) {
             switch (state) {

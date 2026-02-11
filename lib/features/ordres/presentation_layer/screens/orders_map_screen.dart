@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
-import 'package:wasl_company_app/core/constants/images.dart';
 import 'package:wasl_company_app/core/widgets/map.dart';
 import 'package:wasl_company_app/core/widgets/search_bar.dart';
-import 'package:wasl_company_app/core/widgets/side_menu.dart';
-import 'package:wasl_company_app/features/auth/presentation_layer/providers/cubit/auth_cubit.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/providers/cubit/orders_cubit.dart';
 import 'package:wasl_company_app/features/ordres/presentation_layer/widgets/new_map_order_widget.dart';
 
@@ -21,31 +18,6 @@ class OrdersMapScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.white,
-        surfaceTintColor: AppColors.white,
-        title: Row(
-          children: [
-            CircleAvatar(child: Image.asset(AppImages.logo)),
-            SizedBox(width: constraints.maxWidth * 0.02),
-            Text(
-              (context.read<AuthCubit>().state as VerifyOtpSuccess).user.name,
-            ),
-          ],
-        ),
-        actions: [
-          Builder(
-            builder: (context) => IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            ),
-          ),
-        ],
-      ),
-      drawer: SideMenu(),
       body: Center(
         child: BlocBuilder<OrdersCubit, OrdersState>(
           builder: (context, state) {

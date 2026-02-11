@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasl_company_app/core/constants/colors.dart';
-import 'package:wasl_company_app/core/widgets/side_menu.dart';
 import 'package:wasl_company_app/features/products/domain_layer/entities/product_entity.dart';
 import 'package:wasl_company_app/features/products/presentation_layer/providers/cubit/products_list_cubit.dart';
 import 'package:wasl_company_app/features/products/presentation_layer/screens/add_product_screen.dart';
@@ -16,47 +15,6 @@ class ProductsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: AppBar(
-        title: const Text('المنتجات'),
-        backgroundColor: AppColors.white,
-        surfaceTintColor: AppColors.white,
-        automaticallyImplyLeading: false,
-        actions: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: AppColors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => BlocProvider.value(
-                    value: context.read<ProductsListCubit>(),
-                    child: const AddProductScreen(),
-                  ),
-                ),
-              );
-            },
-            child: const Text(
-              'إضافة منتج',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Builder(
-            builder: (context) => IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer(); // 👈 opens LEFT drawer
-              },
-            ),
-          ),
-        ],
-      ),
-      drawer: SideMenu(),
       body: BlocConsumer<ProductsListCubit, ProductsListState>(
         listenWhen: (previous, current) =>
             current is DeleteProductLoading || previous is DeleteProductLoading,
