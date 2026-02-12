@@ -80,6 +80,7 @@ class OrdersCubit extends Cubit<OrdersState> {
       orders: ordersList,
       itemName: itemName,
     );
+    print(filteredOrdersList.length);
     emit(OrdersLoaded(orderList: filteredOrdersList));
   }
 

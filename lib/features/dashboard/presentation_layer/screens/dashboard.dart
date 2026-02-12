@@ -36,6 +36,7 @@ class DashboardScreen extends StatelessWidget {
             return Scaffold(
               backgroundColor: AppColors.white,
               resizeToAvoidBottomInset: true,
+              extendBody: true,
               bottomNavigationBar: CustomBottomNavBar(
                 currentIndex: state.currentIndex,
                 changeIndex: (index) {
