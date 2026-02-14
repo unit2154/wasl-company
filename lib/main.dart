@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasl_company_app/core/database/hive_db.dart';
 import 'package:wasl_company_app/core/dependencies/locator.dart';
+import 'package:wasl_company_app/core/notifications_service/firebase_notifications_init.dart';
 import 'package:wasl_company_app/features/auth/presentation_layer/providers/cubit/auth_cubit.dart';
 import 'package:wasl_company_app/features/auth/presentation_layer/screens/send_otp.dart';
 import 'package:wasl_company_app/features/auth/presentation_layer/screens/verify_otp.dart';
@@ -12,6 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initHive();
   await setup();
+  await notificationsInit();
   runApp(const MyApp());
 }
 

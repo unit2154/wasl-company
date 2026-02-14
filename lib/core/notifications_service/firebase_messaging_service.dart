@@ -1,12 +1,13 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:messaging/services/local_notifications_service.dart';
+import 'package:wasl_company_app/core/notifications_service/local_notifications_service.dart';
 
 class FirebaseMessagingService {
   // Private constructor for singleton pattern
   FirebaseMessagingService._internal();
 
   // Singleton instance
-  static final FirebaseMessagingService _instance = FirebaseMessagingService._internal();
+  static final FirebaseMessagingService _instance =
+      FirebaseMessagingService._internal();
 
   // Factory constructor to provide singleton instance
   factory FirebaseMessagingService.instance() => _instance;
@@ -15,7 +16,9 @@ class FirebaseMessagingService {
   LocalNotificationsService? _localNotificationsService;
 
   /// Initialize Firebase Messaging and sets up all message listeners
-  Future<void> init({required LocalNotificationsService localNotificationsService}) async {
+  Future<void> init({
+    required LocalNotificationsService localNotificationsService,
+  }) async {
     // Init local notifications service
     _localNotificationsService = localNotificationsService;
 
@@ -48,13 +51,15 @@ class FirebaseMessagingService {
     print('Push notifications token: $token');
 
     // Listen for token refresh events
-    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-      print('FCM token refreshed: $fcmToken');
-      // TODO: optionally send token to your server for targeting this device
-    }).onError((error) {
-      // Handle errors during token refresh
-      print('Error refreshing FCM token: $error');
-    });
+    FirebaseMessaging.instance.onTokenRefresh
+        .listen((fcmToken) {
+          print('FCM token refreshed: $fcmToken');
+          // TODO: optionally send token to your server for targeting this device
+        })
+        .onError((error) {
+          // Handle errors during token refresh
+          print('Error refreshing FCM token: $error');
+        });
   }
 
   /// Requests notification permission from the user
@@ -77,7 +82,10 @@ class FirebaseMessagingService {
     if (notificationData != null) {
       // Display a local notification using the service
       _localNotificationsService?.showNotification(
-          notificationData.title, notificationData.body, message.data.toString());
+        notificationData.title,
+        notificationData.body,
+        message.data.toString(),
+      );
     }
   }
 
