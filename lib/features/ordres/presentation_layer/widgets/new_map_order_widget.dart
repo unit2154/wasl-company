@@ -62,6 +62,93 @@ class NewMapOrderWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: .min,
           children: [
+            // Order Status
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0, right: 10, top: 8),
+              child: Row(
+                mainAxisAlignment: .spaceBetween,
+                children: [
+                  Container(
+                    width: width * 0.24,
+                    height: height * 0.038,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: ShapeDecoration(
+                      color: order.status == "pending"
+                          ? AppColors.orderStateNewBackground
+                          : order.status == "delivered" ||
+                                order.status == "shipped"
+                          ? AppColors.orderStateCompletedBackground
+                          : order.status == "cancelled"
+                          ? AppColors.orderStateRejectedBackground
+                          : AppColors.orderStatePendingBackground,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    child: Center(
+                      child: Row(
+                        spacing: 5,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.brightness_1,
+                            color: order.status == "pending"
+                                ? AppColors.orderStateNew
+                                : order.status == "delivered" ||
+                                      order.status == "shipped"
+                                ? AppColors.orderStateCompleted
+                                : order.status == "cancelled"
+                                ? AppColors.orderStateRejected
+                                : AppColors.orderStatePending,
+                            size: width * .02,
+                          ),
+                          Text(
+                            order.status == "pending"
+                                ? "جديد"
+                                : order.status == "delivered" ||
+                                      order.status == "shipped"
+                                ? "تم التسليم"
+                                : order.status == "cancelled"
+                                ? "مرفوض"
+                                : order.status == "awaiting_confirmation"
+                                ? "بانتظار التأكيد"
+                                : order.status == "processing"
+                                ? "قيد المعالجة"
+                                : "قيد المراجعة",
+                            style: TextStyle(
+                              color: order.status == "pending"
+                                  ? AppColors.orderStateNew
+                                  : order.status == "delivered" ||
+                                        order.status == "shipped"
+                                  ? AppColors.orderStateCompleted
+                                  : order.status == "cancelled"
+                                  ? AppColors.orderStateRejected
+                                  : AppColors.orderStatePending,
+                              fontSize:
+                                  12 *
+                                  (MediaQuery.of(context).size.height / 844),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Text(
+                    DateTime.parse(
+                      order.createdAt,
+                    ).toLocal().toString().substring(0, 10),
+                    textDirection: TextDirection.ltr,
+                    style: TextStyle(
+                      color: const Color(0xFF646464),
+                      fontSize: 14 * (height / 800),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Market Name
             Container(
               margin: EdgeInsets.symmetric(vertical: height * 0.01),
               height: height * 0.06,
@@ -107,6 +194,7 @@ class NewMapOrderWidget extends StatelessWidget {
                 ],
               ),
             ),
+            // Order Price and Location
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: width * 0.02,

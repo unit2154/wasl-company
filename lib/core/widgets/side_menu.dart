@@ -147,9 +147,53 @@ class SideMenu extends StatelessWidget {
                 Icon(Icons.arrow_forward_ios),
               ],
             ),
-            onTap: () async {
-              await context.read<AuthCubit>().logout();
-            },
+            onTap: () => showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                backgroundColor: AppColors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                title: const Text('هل تريد تسجيل الخروج؟'),
+                content: Column(
+                  mainAxisSize: .min,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        await context.read<AuthCubit>().logout();
+                      },
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(200, 40),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        side: const BorderSide(color: AppColors.cardBorder),
+                      ),
+                      child: Text(
+                        'نعم',
+                        style: TextStyle(color: AppColors.primary),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(200, 40),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        side: const BorderSide(color: AppColors.cardBorder),
+                      ),
+                      child: Text(
+                        'لا',
+                        style: TextStyle(color: AppColors.primary),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ],
       ),
