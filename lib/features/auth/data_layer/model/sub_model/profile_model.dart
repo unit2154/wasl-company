@@ -1,9 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/entities/sub_entities/profile_entity.dart';
+import 'package:wasl_company_app/core/database/db_type_id.dart';
 
 part '../../../../../core/database/profile_model.g.dart';
 
-@HiveType(typeId: 2)
+@HiveType(typeId: DbTypeId.profile)
 class ProfileModel extends ProfileEntity {
   final String commissionSettlementType;
   final String commissionRate;

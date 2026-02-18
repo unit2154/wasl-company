@@ -2,10 +2,11 @@ import 'package:hive/hive.dart';
 import 'package:wasl_company_app/features/auth/data_layer/model/sub_model/token_model.dart';
 import 'package:wasl_company_app/features/auth/domain_layer/entities/user_entity.dart';
 import 'package:wasl_company_app/features/auth/data_layer/model/sub_model/profile_model.dart';
+import 'package:wasl_company_app/core/database/db_type_id.dart';
 
 part '../../../../core/database/user_model.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: DbTypeId.user)
 class UserModel extends UserEntity {
   final String type;
   final String emailVerifiedAt;
