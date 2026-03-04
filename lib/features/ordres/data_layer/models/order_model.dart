@@ -26,11 +26,12 @@ class OrderModel extends OrderEntity {
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
+    json.forEach((key, value) => print(value));
     return OrderModel(
       id: json['id'],
       orderNumber: json['order_number'],
-      endCustomerId: json['end_customer_id'],
-      mainCustomerId: json['main_customer_id'],
+      endCustomerId: json['company_id'],
+      mainCustomerId: json['customer_id'],
       status: json['status'],
       subtotal: json['subtotal'],
       totalAmount: json['total_amount'],
@@ -43,8 +44,8 @@ class OrderModel extends OrderEntity {
       deliveredAt: json['delivered_at'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
-      endCustomer: json['end_customer'] != null
-          ? CustomerModel.fromJson(json['end_customer'])
+      endCustomer: json['customer'] != null
+          ? CustomerModel.fromJson(json['customer'])
           : null,
       orderItems: (json['order_items'] as List)
           .map((e) => OrderItemModel.fromJson(e))

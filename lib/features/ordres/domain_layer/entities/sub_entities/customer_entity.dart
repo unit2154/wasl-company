@@ -1,12 +1,12 @@
 class CustomerEntity {
   final int id;
-  final String description;
+  final String? description;
   final String name;
   final String email;
   final String phone;
-  final String address;
-  final String city;
-  final String country;
+  final String? address;
+  final String? city;
+  final String? country;
   final String commissionSettlementType;
   final String commissionRate;
   final bool isActive;

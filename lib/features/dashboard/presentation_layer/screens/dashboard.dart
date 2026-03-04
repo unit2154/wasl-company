@@ -34,7 +34,7 @@ class DashboardScreen extends StatelessWidget {
           builder: (context, state) {
             context.read<OrdersCubit>().refreshOrders();
             return DefaultTabController(
-              length: state.currentIndex == 0 ? 6 : 0,
+              length: state.currentIndex == 0 ? 6 : 6,
               child: Scaffold(
                 backgroundColor: AppColors.white,
                 resizeToAvoidBottomInset: true,

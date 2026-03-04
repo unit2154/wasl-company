@@ -25,7 +25,7 @@ class OrderItemModel extends OrderItemEntity {
       confirmedQuantity: json['confirmed_quantity'],
       unitPrice: json['unit_price'],
       subtotal: json['subtotal'],
-      notes: json['notes'],
+      notes: json['notes'] ?? "",
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
       item: json['item'] != null ? ProductModel.fromJson(json['item']) : null,

@@ -36,13 +36,13 @@ class ProductModel extends ProductEntity {
       images: json['images'] ?? [],
       unit: json['unit'],
       minOrderQuantity: json['min_order_quantity'],
-      isActive: json['is_active'],
+      isActive: json['is_active'] ?? true,
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
       deletedAt: json['deleted_at'],
-      profile: json['customer'] != null
-          ? ProfileModel.fromJson(json['customer'])
-          : null,
+      profile: json['customer'] == null
+          ? null
+          : ProfileModel.fromJson(json['customer']),
     );
   }
 

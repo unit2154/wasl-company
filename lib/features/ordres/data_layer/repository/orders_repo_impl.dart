@@ -15,6 +15,7 @@ class OrdersRepoImpl implements OrdersRepo {
       final ordersListModel = await ordersDataSource.getOrders();
       return Right(ordersListModel);
     } catch (e) {
+      print(e);
       return Left(ServerFailure(message: e.toString()));
     }
   }

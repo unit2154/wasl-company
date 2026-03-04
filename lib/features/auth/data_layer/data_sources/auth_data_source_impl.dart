@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:wasl_company_app/core/constants/endpoints.dart';
 import 'package:wasl_company_app/core/exceptions/exceptions.dart';
 import 'package:wasl_company_app/core/message/message.dart';
@@ -28,8 +29,10 @@ class AuthDataSourceImpl implements AuthDataSource {
         Endpoints.baseUrl + Endpoints.sendOtp,
         data: {'phone': phone},
       );
+      debugPrint("response in send otp ${res.data}");
       return Message(message: jsonEncode(res.data));
     } on DioException catch (e) {
+      debugPrint("error in send otp ${e.response?.statusCode}");
       throw ServerException(
         message: e.response?.data['message'] ?? e.response?.data['error'],
       );

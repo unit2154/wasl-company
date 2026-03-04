@@ -216,7 +216,7 @@ class NewMapOrderWidget extends StatelessWidget {
                   SizedBox(
                     width: width * 0.2,
                     child: Text(
-                      order.endCustomer!.address,
+                      order.shippingAddress,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       textDirection: TextDirection.rtl,
